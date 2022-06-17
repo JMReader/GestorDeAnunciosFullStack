@@ -14,5 +14,10 @@ app.use('/pasaje', require('./routes/pasaje.route'));*/
 app.set('port', process.env.PORT || 3000);
 //starting the server, incia el server
 app.listen(app.get('port'), () => {
+
+
+
+
+    
 console.log(`Server iniciado en puerto: `, app.get('port'));
 });
