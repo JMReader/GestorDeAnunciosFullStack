@@ -1,9 +1,11 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { CrearanuncioComponent } from './components/crearanuncio/crearanuncio.component';
 
 const routes: Routes = [
-/*
-{ path: 'anuncios/crear', component:  },
+  { path: 'anuncios/crear', component: CrearanuncioComponent },
+  /*
+
 { path: 'anuncios/ver', component:  },
 { path: 'anuncios/buscar', component:  },
 { path: 'anuncios/autorizar', component:  },
