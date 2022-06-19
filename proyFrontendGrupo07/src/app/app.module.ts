@@ -5,6 +5,9 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './components/header/header.component';
 import { FooterComponent } from './components/footer/footer.component';
+import {HttpClientModule} from '@angular/common/http';
+import { LoginComponent } from './components/login/login.component';
+import { FormsModule } from '@angular/forms';
 import { ListaranunciosComponent } from './components/listaranuncios/listaranuncios.component';
 
 @NgModule({
@@ -12,11 +15,14 @@ import { ListaranunciosComponent } from './components/listaranuncios/listaranunc
     AppComponent,
     HeaderComponent,
     FooterComponent,
+    LoginComponent,
     ListaranunciosComponent
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    HttpClientModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
