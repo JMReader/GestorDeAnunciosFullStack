@@ -1,0 +1,35 @@
+<body>
+    <br>
+    <div class=" container-fluid row">
+        <div class="container-fluid col-md-8">
+            <div class="row">
+                <div class="card col-md-3 offset-md-1 col-sm-5 offset-sm-1 col-12" *ngFor="let anuncio of anuncios">
+                     <!--<img [src]="anuncio.img" alt="">-->
+                    <h3>{{anuncio.texto}}</h3>
+                    <h5>{{anuncio.tipo}}</h5>
+                    <h5>{{anuncio.medio}}</h5>
+                    <!--Texto anuncio.
+2. Tipo contenido (texto plano, imagen, html, video, etc).
+3. Medios de publicación: Ej. Facebook, twiter, TV, Email, etc.
+4. Fecha de Entrada en vigencia y salida (Valido para publicación en TV.
+5. Estado: edición, confeccionado, autorizado, cancelado
+6. Destinatarios: uno o más de los role a los que está dirigido el anuncio.
+7. Recursos: los anuncios pueden tener asociado información complementaria como ser: pdf, imagen, etc.
+que amplié la información del anuncio.
+8. Tiempo lectura: corto, medio, largo (es el tiempo que estará en pantalla un anuncio).
+9. Redactor: persona que confecciona el anuncio-->
+                </div>
+                <div class="d-block">
+                    <br>
+                </div>
+            </div>
+        </div>
+
+        <aside class="d-none d-md-block d-lg-block d-xl-block col-md-4 row">
+            <div class="offset-md-1 col-md-12 d-none d-md-block d-lg-block d-xl-block">
+                <img class="img-fluid"src="../../../assets/img/ad.jpg" alt="">
+            </div>
+        </aside>
+        
+    </div>
+</body>
