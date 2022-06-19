@@ -6,8 +6,8 @@ var app = express();
 app.use(express.json());
 app.use(cors({origin: 'http://localhost:4200'}));
 //Cargamos el modulo de direccionamiento de rutas (actualizar a nuestras nuevas rutas :p)
-/*app.use('/libros', require('./routes/libro.route.js'));
-app.use('/transacciones', require('./routes/transaccion.route'));
+app.use('/anuncio', require('./routes/anuncio.route.js'));
+/*app.use('/transacciones', require('./routes/transaccion.route'));
 app.use('/persona', require('./routes/persona.route'));
 app.use('/pasaje', require('./routes/pasaje.route'));*/
 //setting (decimos el puerto que va a usar el servidor)
