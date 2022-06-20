@@ -11,7 +11,7 @@ const AnuncioSchema = new Schema({
    destinatarios: {type: String, required: 'debe asignar una contraseña al empleado para darlo de alta'},
    recurso: {type:String, required: true},
    tiempoLectura: {type:Number, required:'debe indiciar si este usuario es encargado de su area'},
-   redactor: {type: Schema.Types.ObjectId, ref: "Usuario", required: true},
+   redactor: {type: Schema.Types.ObjectId, ref: "Empleado", required: true},
 });
 
 
