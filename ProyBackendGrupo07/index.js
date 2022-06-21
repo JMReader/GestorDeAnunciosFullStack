@@ -6,7 +6,10 @@ var app = express();
 app.use(express.json());
 app.use(cors({origin: 'http://localhost:4200'}));
 //Cargamos el modulo de direccionamiento de rutas (actualizar a nuestras nuevas rutas :p)
-app.use('/anuncio', require('./routes/anuncio.route.js'));
+app.use('/anuncio', require('./routes/anuncio.routes'));
+app.use('/empleado', require('./routes/empleado.routes'));
+app.use('/area', require('./routes/area.routes'));
+app.use('/rol', require('./routes/rol.routes'));
 /*app.use('/transacciones', require('./routes/transaccion.route'));
 app.use('/persona', require('./routes/persona.route'));
 app.use('/pasaje', require('./routes/pasaje.route'));*/
