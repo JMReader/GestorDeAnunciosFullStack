@@ -6,7 +6,13 @@
             <li class="nav-item"><a class="nav-link" [routerLink]="['anuncios/crear']">Crear anuncio</a></li>
             <li class="nav-item"><a class="nav-link" [routerLink]="['anuncios/buscar']">Buscar Anuncio</a></li>
             <li class="nav-item"><a class="nav-link" [routerLink]="['anuncios/autorizar']">Autorizar Anuncio</a></li>
-            <li class="nav-item"><a class="nav-link" [routerLink]="['anuncios/programa']">Calendario</a></li> 
+            <li class="nav-item"><a class="nav-link" [routerLink]="['anuncios/programa']">Calendario</a></li>
+            <div>
+                <a *ngIf="!loginService.userLoggedIn()" [routerLink]="['login']">(Login)</a>
+                <a *ngIf="loginService.userLoggedIn()" [routerLink]="['login']" (click)="logout()">
+                    {{loginService.userLogged()}} (logout)
+                </a>
+            </div>
         </ul>
     </nav>
 </div>
