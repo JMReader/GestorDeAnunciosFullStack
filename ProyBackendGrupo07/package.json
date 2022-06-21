@@ -4,7 +4,8 @@
   "description": "Backend para Trabajo final de la materia Programacion y servicion Web",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon index.js"
   },
   "author": "",
   "license": "ISC",
@@ -12,5 +13,8 @@
     "cors": "^2.8.5",
     "express": "^4.18.1",
     "mongoose": "^6.3.6"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.16"
   }
 }
