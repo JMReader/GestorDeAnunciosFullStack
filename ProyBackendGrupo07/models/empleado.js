@@ -6,7 +6,7 @@ const EmpleadoSchema = new Schema({
     nombre: {type: String, required: false},
     apellido: {type: String, required: false},
     email: {type: String, required: false},
-    roles: {type: Object, required: 'debe asignar uno o mas roles'},
+    roles: {type: [Schema.Types.ObjectId], required: 'debe asignar uno o mas roles'},
     area: {type: Schema.Types.ObjectId, ref: "area", required: true},
     dni: {type: String, required: 'debe asignar un usuario al empleado para darlo de alta'},
     username: { type: String, required: true },
