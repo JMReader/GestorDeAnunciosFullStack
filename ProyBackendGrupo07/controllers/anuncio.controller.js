@@ -36,6 +36,28 @@ AnuncioController.editarAnuncio = async (req, res) => {
 }
 
 
+AnuncioController.getAnuncios= async (req, res) => {
+    try {
+        var Anuncios = await anuncio.find();
+        res.json(Anuncios);
+    } catch (error) {
+        console.log(error)
+        res.status(400).json({
+            status: 0,
+            msg: "Error al obtener los Anuncios"
+        })
+    }
+}
+
+AnuncioController.filtrarDestinatario = async (req, res) => {
+    
+}
+
+
+
+
+
+
 // eliminar
 AnuncioController.Borrar = async (req, res) => {
     try {
