@@ -4,20 +4,17 @@
   "description": "Backend para Trabajo final de la materia Programacion y servicion Web",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon index.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "cors": "^2.8.5",
     "express": "^4.18.1",
-<<<<<<< Updated upstream
     "mongoose": "^6.3.6"
-=======
-    "mongoose": "^6.4.0"
   },
   "devDependencies": {
-    "nodemon": "^2.0.18"
->>>>>>> Stashed changes
+    "nodemon": "^2.0.16"
   }
 }
