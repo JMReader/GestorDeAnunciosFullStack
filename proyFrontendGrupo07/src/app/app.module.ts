@@ -11,7 +11,6 @@ import { CrearanuncioComponent } from './components/crearanuncio/crearanuncio.co
 
 import {HttpClientModule} from '@angular/common/http';
 import { LoginComponent } from './components/login/login.component';
-import { FormsModule } from '@angular/forms';
 import { ListaranunciosComponent } from './components/listaranuncios/listaranuncios.component';
 
 
@@ -20,9 +19,7 @@ import { ListaranunciosComponent } from './components/listaranuncios/listaranunc
     AppComponent,
     HeaderComponent,
     FooterComponent,
-
-    CrearanuncioComponent
-
+    CrearanuncioComponent,
     LoginComponent,
     ListaranunciosComponent
 
@@ -31,6 +28,7 @@ import { ListaranunciosComponent } from './components/listaranuncios/listaranunc
     BrowserModule,
     AppRoutingModule,
     FormsModule,
+    HttpClientModule,
     ReactiveFormsModule
 
   ],
