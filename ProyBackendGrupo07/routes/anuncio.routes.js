@@ -6,5 +6,6 @@ const router = express.Router();
 //definimos rutas 
 router.delete('/borrar/:id', AnuncioController.Borrar);
 router.post('/crear', AnuncioController.crearAnuncio);
-router.put('/actualizar', AnuncioController.editarAnuncio);
+router.get('/obtener', AnuncioController.getAnuncios);
+router.put('/actualizar/:id', AnuncioController.editarAnuncio);
 module.exports = router;

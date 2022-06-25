@@ -22,7 +22,7 @@ AnuncioController.crearAnuncio = async (req, res) => {
 AnuncioController.editarAnuncio = async (req, res) => {
     const nuevoAnuncio = new Anuncio(req.body);
     try {
-        await anuncio.updateOne({_id: req.body._id}, nuevoAnuncio);
+        await anuncio.updateOne({_id: req.params.id}, nuevoAnuncio);
         res.json({
             'status': '1',
             'msg': 'Anuncio actualizado correctamente'
@@ -34,6 +34,28 @@ AnuncioController.editarAnuncio = async (req, res) => {
             })
     }
 }
+
+
+AnuncioController.getAnuncios= async (req, res) => {
+    try {
+        var Anuncios = await anuncio.find();
+        res.json(Anuncios);
+    } catch (error) {
+        console.log(error)
+        res.status(400).json({
+            status: 0,
+            msg: "Error al obtener los Anuncios"
+        })
+    }
+}
+
+AnuncioController.filtrarDestinatario = async (req, res) => {
+    
+}
+
+
+
+
 
 
 // eliminar
