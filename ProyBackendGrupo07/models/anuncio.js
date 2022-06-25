@@ -4,7 +4,7 @@ const {Schema} = mongoose;
 const AnuncioSchema = new Schema({
    texto: {type: String, required: true},
    tipo: {type: String, required: true},
-   medio: {type: String, required: true},
+   medio: {type: [String], required: true},
    fechaEntrada: {type: String, required: false},
    fechaSalida: {type: String, required: false},
    estado: {type: String, required: false},

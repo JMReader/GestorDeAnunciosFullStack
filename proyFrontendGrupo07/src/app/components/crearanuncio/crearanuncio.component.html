@@ -1,10 +1,11 @@
-<div class ="container-fluid">
-    <h1 class="text-center">Puto el que lee</h1>
+<div class="container-fluid">
+    <h1 class="text-center">Formulario de Anuncio</h1>
     <form class="forms" [formGroup]="anunciosForm">
 
         <div class="form-group">
             <label for="textoAnuncio" class="form-label">Ingrese el texto del Anuncio</label>
-            <textarea name="textoAnuncio" id="textoAnuncio" class="form-control" placeholder="Mucho texto..." rows="5" formControlName="textoAnuncio"></textarea>
+            <textarea name="textoAnuncio" id="textoAnuncio" class="form-control" placeholder="Mucho texto..." rows="5"
+                formControlName="textoAnuncio"></textarea>
         </div>
 
         <div class="form-group">
@@ -14,14 +15,20 @@
             </select>
         </div>
 
-        <div class="form-group">
-            <label for="medioAnuncio" class="form-label">Medios de Publicacion</label>
-            <input type="text" class="form-control" placeholder="Ingrese el Medio de Publicacion" name="medioAnuncio" formControlName="medioAnuncio" id="medioAnuncio">
+        <br>
+        <p>Medios de Publicacion:</p>
+        <div *ngFor="let medios of mediosDisponibles; let i=index" class="form-check" required>
+            <label required>
+                <input class="form-check-input" type="checkbox" [value]="medios" (change)="onCheckChange($event)">
+                {{medios}}
+            </label>
         </div>
+        <br>
 
         <div class="form-group">
             <label for="vigenciaAnuncio" class="form-label">Fecha de Vigencia</label>
-            <input type="date" class="form-control" placeholder="Fecha Vigencia" name="vigenciaAnuncio" formControlName="vigenciaAnuncio" id="vigenciaAnuncio">
+            <input type="date" class="form-control" placeholder="Fecha Vigencia" name="vigenciaAnuncio"
+                formControlName="vigenciaAnuncio" id="vigenciaAnuncio">
         </div>
 
         <div class="form-group">
@@ -35,9 +42,16 @@
         </div>
 
         <div class="form-group">
-            <label for="recursosAnuncio">Recursos del Anuncio:</label>
-            <input type="file" accept="image/x-png,image/gif,image/jpeg" (onFileChanged)="onFileChanges($event)" class="form-control" id="recursosAnuncio"
-                placeholder="Ingrese Archivos del Anuncio" name="recursosAnuncio" required>
+            <label for="destinatariosAnuncio" class="form-label">Destinatarios</label>
+            <input type="text" class="form-control" name="destinatariosAnuncio" formControlName="destinatariosAnuncio"
+                id="destinatariosAnuncio">
+        </div>
+
+        <div class="form-group">
+            <label for="recursosAnuncio">Recursos del Anuncio</label>
+            <input type="file" accept="image/x-png,image/gif,image/jpeg" (onFileChanged)="onFileChanges($event)"
+                class="form-control" id="recursosAnuncio" placeholder="Ingrese Archivos del Anuncio"
+                name="recursosAnuncio" required>
         </div>
 
         <div class="form-group">
@@ -47,6 +61,17 @@
                 <option value="Medio">Medio</option>
                 <option value="Largo">Largo</option>
             </select>
+        </div>
+
+        <div class="form-group">
+            <label for="redactorAnuncio">Redactor del Anuncio</label>
+            <input type="text" class="form-control" id="redactorAnuncio" formControlName="redactorAnuncio"
+                name="redactorAnuncio" required>
+        </div>
+
+        <div>
+            <button [disabled]="!anunciosForm.valid" type="submit" class="formulario btn btn-primary"
+                (click)="crearAnuncio();anunciosForm.reset()">Registrar</button>
         </div>
 
     </form>

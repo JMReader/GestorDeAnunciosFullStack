@@ -48,4 +48,15 @@ export class AnunciosService {
     console.log(body);
     return this._http.put(this.url, body,httpOptions);
   }
+
+
+  public getAnuncios():Observable<any>{
+    const httpOptions = {
+      headers: new HttpHeaders({'access-control-allow-origin': "http://localhost:4200/", 'Content-Type': 'application/json'}),
+      params: new HttpParams({
+      })
+    };
+    return this._http.get(this.url, httpOptions);
+  }
+
 }

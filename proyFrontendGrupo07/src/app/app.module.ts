@@ -7,7 +7,9 @@ import { HeaderComponent } from './components/header/header.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { CrearanuncioComponent } from './components/crearanuncio/crearanuncio.component';
 import { LoginComponent } from './components/login/login.component';
+
 import {HttpClientModule} from '@angular/common/http';
+
 import { ListaranunciosComponent } from './components/listaranuncios/listaranuncios.component';
 
 
@@ -25,7 +27,11 @@ import { ListaranunciosComponent } from './components/listaranuncios/listaranunc
     BrowserModule,
     AppRoutingModule,
     FormsModule,
-    ReactiveFormsModule, HttpClientModule
+
+    HttpClientModule,
+    ReactiveFormsModule
+
+
   ],
   providers: [],
   bootstrap: [AppComponent]
