@@ -43,10 +43,8 @@ export class AnunciosService {
       })
     };
     let body = JSON.stringify(anuncio);
-    //??????????? no es mas facil meter el id en la url? xd
-    body = body+ "'_id': id";
     console.log(body);
-    return this._http.put(this.url, body,httpOptions);
+    return this._http.put(this.url + id, body,httpOptions);
   }
 
 

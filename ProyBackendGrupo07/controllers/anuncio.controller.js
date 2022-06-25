@@ -22,7 +22,7 @@ AnuncioController.crearAnuncio = async (req, res) => {
 AnuncioController.editarAnuncio = async (req, res) => {
     const nuevoAnuncio = new Anuncio(req.body);
     try {
-        await anuncio.updateOne({_id: req.body._id}, nuevoAnuncio);
+        await anuncio.updateOne({_id: req.params.id}, nuevoAnuncio);
         res.json({
             'status': '1',
             'msg': 'Anuncio actualizado correctamente'

@@ -7,5 +7,5 @@ const router = express.Router();
 router.delete('/borrar/:id', AnuncioController.Borrar);
 router.post('/crear', AnuncioController.crearAnuncio);
 router.get('/obtener', AnuncioController.getAnuncios);
-router.put('/actualizar', AnuncioController.editarAnuncio);
+router.put('/actualizar/:id', AnuncioController.editarAnuncio);
 module.exports = router;
