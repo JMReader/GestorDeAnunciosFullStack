@@ -6,7 +6,7 @@
                 <div class="card col-md-3 offset-md-1 col-sm-5 offset-sm-1 col-12" *ngFor="let anuncio of anuncios">
                      <img [src]="anuncio.recurso" alt="">
                     <h5>{{anuncio.tiempoLectura}}</h5>
-                    <h5>{anuncio.redactor.nombre}}</h5>
+                    <h5>{{anuncio.redactor.nombre}}</h5>
                     <h3>{{anuncio.texto}}</h3>
                     <h5>{{anuncio.tipo}}</h5>
                     <h5>{{anuncio.medio}}</h5>
