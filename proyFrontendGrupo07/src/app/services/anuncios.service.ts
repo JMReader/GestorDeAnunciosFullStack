@@ -31,7 +31,7 @@ export class AnunciosService {
     };let body = JSON.stringify(myJSON);*/
     let body = JSON.stringify(anuncio);
     this.url = this.url + "/crear";
-    console.log(body);
+    
     return this._http.post(this.url, body, httpOptions);
   }
 

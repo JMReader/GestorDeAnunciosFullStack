@@ -11,6 +11,7 @@ import { LoginComponent } from './components/login/login.component';
 import {HttpClientModule} from '@angular/common/http';
 
 import { ListaranunciosComponent } from './components/listaranuncios/listaranuncios.component';
+import { AlifeFileToBase64Module } from 'alife-file-to-base64';
 
 
 @NgModule({
@@ -27,7 +28,7 @@ import { ListaranunciosComponent } from './components/listaranuncios/listaranunc
     BrowserModule,
     AppRoutingModule,
     FormsModule,
-
+    AlifeFileToBase64Module,
     HttpClientModule,
     ReactiveFormsModule
 

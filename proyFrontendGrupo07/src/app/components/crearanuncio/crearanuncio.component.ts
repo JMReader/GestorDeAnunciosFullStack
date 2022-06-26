@@ -37,34 +37,39 @@ export class CrearanuncioComponent implements OnInit {
   }
 
   crearAnuncio() {
-
+    
     this.anuncio.texto = this.anunciosForm.get('textoAnuncio')?.value;
     this.anuncio.tipo = this.anunciosForm.get('tipoAnuncio')?.value;
     this.anuncio.medio = this.anunciosForm.get('medioAnuncio')?.value;
     this.anuncio.fechaEntrada = this.anunciosForm.get('vigenciaAnuncio')?.value;
     this.anuncio.estado = this.anunciosForm.get('estadoAnuncio')?.value;
     this.anuncio.destinatarios.push(this.anunciosForm.get('destinatariosAnuncio')?.value);
-    this.anuncio.recurso = "algo"; //this.recursos;
+    //this.anuncio.recursos ya se carga en el metodo "onfilechanges" con los archivos base64
     this.anuncio.tiempoLectura = this.anunciosForm.get('lecturaAnuncio')?.value;
     this.anuncio.redactor = this.anunciosForm.get('redactorAnuncio')?.value;
-
+    //console.log(this.anuncio);
     this.anuncioService.postAnuncio(this.anuncio).subscribe(
       (result) => {
-        console.log(result);
+        //console.log(result);
         alert("Anuncio guardado.");
+        this.anuncio = new Anuncio();
       },
       (errors) => {
         console.log(errors);
       }
     );
-
-    //console.log(this.anuncio);
+    
+    
   }
 
-  //Chequear si se debe transformar a base64 o no
+  
   onFileChanges(files: any) {
+    this.anuncio.recursos = new Array<string>();
     console.log("File has changed:", files);
-    this.recursos = files[0];
+    files.forEach((file: any) => {
+      this.anuncio.recursos.push(file.base64);
+    });
+    console.log(this.anuncio.recursos);
   }
 
   onCheckChange(event: any) {
