@@ -11,6 +11,10 @@ export class Anuncio {
     recurso!: string;
     tiempoLectura!: string;
     redactor!: Empleado;
+
+    constructor(){
+        this.destinatarios = new Array<string>();
+    }
 }
 
 /*Texto anuncio.
