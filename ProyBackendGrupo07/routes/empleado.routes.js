@@ -5,6 +5,6 @@ const router = express.Router();
 
 router.get('/obtener', empCtrl.getEmpleados);
 router.post('/crear', empCtrl.createEmpleado);
-//router.post('/login', usuarioCtrl.loginUsuario);
+router.post('/login', empCtrl.loginUsuario);
 
 module.exports = router;

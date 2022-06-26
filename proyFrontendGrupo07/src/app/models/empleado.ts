@@ -3,9 +3,10 @@ import { Persona } from "./persona";
 import { Rol } from "./rol";
 
 export class Empleado extends Persona{
-
-    usuario!: string;
-    contraseña!: string;
+    
+    _id!: string;
+    username!: string;
+    password!: string;
     legajo!: string;
     esEncargado!: boolean;
     roles!: Array<Rol>;
