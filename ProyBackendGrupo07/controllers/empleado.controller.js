@@ -32,37 +32,37 @@ empCtrl.createEmpleado = async (req, res) => {
     }
 }
 
-// usuarioCtrl.loginUsuario = async (req, res) => {
+empCtrl.loginUsuario = async (req, res) => {
 
-//     const criteria = {
-//         username: req.body.username,
-//         password: req.body.password
-//     }
+    const criteria = {
+        username: req.body.username,
+        password: req.body.password
+    }
 
-//     Usuario.findOne(criteria, function (err, user) {
-//         if (err) {
-//             res.json({
-//                 status: 0,
-//                 msg: 'Error procesando operacion.'
-//             })
-//         };
+    Empleado.findOne(criteria, function (err, user) {
+        if (err) {
+            res.json({
+                status: 0,
+                msg: 'Error procesando operacion.'
+            })
+        };
 
-//         if (!user) {
-//             res.json({
-//                 status: 0,
-//                 msg: "Usuario no encontrado"
-//             })
-//         } else {
-//             res.json({
-//                 status: 1,
-//                 msg: "Usuario encontrado",
-//                 username: user.username,
-//                 perfil: user.perfil, 
-//                 userid: user._id
-//             })
-//         }
-//     }
-//     )
-// }
+        if (!user) {
+            res.json({
+                status: 0,
+                msg: "Usuario no encontrado"
+            })
+        } else {
+            res.json({
+                status: 1,
+                msg: "Usuario encontrado",
+                username: user.username,
+                roles: user.roles, 
+                id: user._id
+            })
+        }
+    }
+    )
+}
 
 module.exports = empCtrl;
