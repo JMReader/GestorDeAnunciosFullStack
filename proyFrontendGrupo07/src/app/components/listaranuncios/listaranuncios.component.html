@@ -4,14 +4,14 @@
         <div class="container-fluid col-md-8">
             <div class="row">
                 <div class="card col-md-3 offset-md-1 col-sm-5 offset-sm-1 col-12" *ngFor="let anuncio of anuncios">
-                     <img [src]="anuncio.recurso" alt="">
+                     <img [src]="anuncio.recursos" alt="">
                     <h5>{{anuncio.tiempoLectura}}</h5>
                     <h5>{{anuncio.redactor.nombre}}</h5>
                     <h3>{{anuncio.texto}}</h3>
                     <h5>{{anuncio.tipo}}</h5>
                     <h5>{{anuncio.medio}}</h5>
                     <h5>{{anuncio.fechaSalida}}</h5>
-                    <h5>{{anuncio.recurso}}</h5>
+                    <h5>{{anuncio.recursos}}</h5>
                     
                 </div>
                 <div class="d-block">

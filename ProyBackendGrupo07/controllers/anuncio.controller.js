@@ -1,42 +1,42 @@
 const anuncio = require("../models/anuncio");
+const AnuncioController = {};
 
-const AnuncioController ={};
-
-//crear
 AnuncioController.crearAnuncio = async (req, res) => {
     var Anuncio = new anuncio(req.body);
     try {
-    await Anuncio.save();
-    res.json({
-    'status': '1',
-    'msg': 'Anuncio correctamente guardado :))'})
+        await Anuncio.save();
+        res.json({
+            'status': '1',
+            'msg': 'Anuncio correctamente guardado :))'
+        })
     } catch (error) {
-    res.status(400).json({
-    'status': '0',
-    'msg': 'Error procesando operacion de guardado.'})
+        res.status(400).json({
+            'status': '0',
+            'msg': error.message
+        })
     }
-    }
-    
+}
+
 
 //editar
 AnuncioController.editarAnuncio = async (req, res) => {
     const nuevoAnuncio = new Anuncio(req.body);
     try {
-        await anuncio.updateOne({_id: req.params.id}, nuevoAnuncio);
+        await anuncio.updateOne({ _id: req.params.id }, nuevoAnuncio);
         res.json({
             'status': '1',
             'msg': 'Anuncio actualizado correctamente'
-            })
+        })
     } catch (error) {
         res.json({
             'status': '0',
             'msg': 'Error al actualizar el auncio'
-            })
+        })
     }
 }
 
 
-AnuncioController.getAnuncios= async (req, res) => {
+AnuncioController.getAnuncios = async (req, res) => {
     try {
         var Anuncios = await anuncio.find();
         res.json(Anuncios);
@@ -50,7 +50,7 @@ AnuncioController.getAnuncios= async (req, res) => {
 }
 
 AnuncioController.filtrarDestinatario = async (req, res) => {
-    
+
 }
 
 
@@ -61,7 +61,7 @@ AnuncioController.filtrarDestinatario = async (req, res) => {
 // eliminar
 AnuncioController.Borrar = async (req, res) => {
     try {
-        await Anuncio.findByIdAndDelete({_id: req.params.id})
+        await Anuncio.findByIdAndDelete({ _id: req.params.id })
         res.json({
             status: '1',
             message: "Anuncio eliminado correctamente"
