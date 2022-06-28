@@ -11,7 +11,6 @@ export class ListaranunciosComponent implements OnInit {
   anuncios: Array<Anuncio> = [];
   anuncio: Anuncio = new Anuncio(); 
 
-
   constructor() { }
 
   ngOnInit(): void {
