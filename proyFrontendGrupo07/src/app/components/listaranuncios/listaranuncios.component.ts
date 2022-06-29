@@ -12,9 +12,6 @@ export class ListaranunciosComponent implements OnInit {
   anuncios: Array<Anuncio> = [];
   anuncio: Anuncio = new Anuncio(); 
 
-<<<<<<< Updated upstream
-  constructor() { }
-=======
   constructor(private as :AnunciosService) {
     this.obtenerAnuncios();
    }
@@ -35,7 +32,7 @@ export class ListaranunciosComponent implements OnInit {
     console.log(this.anuncios);
     
   }
->>>>>>> Stashed changes
+
 
   ngOnInit(): void {
   }
