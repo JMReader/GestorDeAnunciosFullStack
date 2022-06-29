@@ -7,11 +7,11 @@ import { HeaderComponent } from './components/header/header.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { CrearanuncioComponent } from './components/crearanuncio/crearanuncio.component';
 import { LoginComponent } from './components/login/login.component';
-
-import {HttpClientModule} from '@angular/common/http';
-
+import { HttpClientModule} from '@angular/common/http';
 import { ListaranunciosComponent } from './components/listaranuncios/listaranuncios.component';
 import { AlifeFileToBase64Module } from 'alife-file-to-base64';
+import { CrearempleadoComponent } from './components/crearempleado/crearempleado.component';
+import { NgMultiSelectDropDownModule, } from 'ng-multiselect-dropdown';
 
 
 @NgModule({
@@ -21,7 +21,8 @@ import { AlifeFileToBase64Module } from 'alife-file-to-base64';
     FooterComponent,
     CrearanuncioComponent,
     LoginComponent,
-    ListaranunciosComponent
+    ListaranunciosComponent,
+    CrearempleadoComponent
 
   ],
   imports: [
@@ -30,9 +31,8 @@ import { AlifeFileToBase64Module } from 'alife-file-to-base64';
     FormsModule,
     AlifeFileToBase64Module,
     HttpClientModule,
-    ReactiveFormsModule
-
-
+    ReactiveFormsModule,
+    NgMultiSelectDropDownModule.forRoot()
   ],
   providers: [],
   bootstrap: [AppComponent]

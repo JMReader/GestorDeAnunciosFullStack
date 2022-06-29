@@ -1,0 +1,65 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-9 offset-1">
+            <form class="forms" [formGroup]="empleadoForm">
+                <div class="form-group">
+                    <label for="apellido" class="form-label">Apellido</label>
+                    <input type="text" class="form-control" placeholder="Ingrese el apellido" name="apellido"
+                        formControlName="apellido">
+                </div>
+                <br>
+                <div class="form-group">
+                    <label for="nombre" class="form-label">Nombre:</label>
+                    <input type="text" class="form-control" placeholder="Ingrese el nombre" name="nombre"
+                        formControlName="nombre">
+                </div>
+                <br>
+                <div class="form-group">
+                    <label for="dni" class="form-label">DNI:</label>
+                    <input type="text" class="form-control" placeholder="Ingrese el DNI" name="dni"
+                        formControlName="dni">
+                </div>
+                <br>
+                <div class="form-group">
+                    <label for="email" class="form-label">E-Mail:</label>
+                    <input type="text" class="form-control" placeholder="Ingrese el E-Mail" name="email"
+                        formControlName="email">
+                </div>
+                <br>
+                <div class="form-group">
+                    <label for="username" class="form-label">Username:</label>
+                    <input type="text" class="form-control" placeholder="Ingrese el Username" name="username"
+                        formControlName="username">
+                </div>
+                <br>
+                <div class="form-group">
+                    <label for="password" class="form-label">Contraseña:</label>
+                    <input type="text" class="form-control" placeholder="Ingrese la Contraseña" name="password"
+                        formControlName="password">
+                </div>
+                <br>
+                <div class="form-group">
+                    <label for="legajo" class="form-label">Legajo:</label>
+                    <input type="text" class="form-control" placeholder="Ingrese el Legajo" name="legajo"
+                        formControlName="legajo">
+                </div>
+                <br>
+                <div class="form-group">
+                    <label for="area" class="form-label">Area:</label>
+                    <select name="area" class="form-select" formControlName="area" (change)="obtenerRolesSegunArea()">
+                        <option value="" selected disabled>Seleccione un area...</option>
+                        <option *ngFor="let area of areas" value="{{area.nombreArea}}">{{area.nombreArea}}</option>
+                    </select>
+                </div>
+                <br>
+                <div class="form-group" *ngIf="areaElegida==true">
+                    <label for="roles" class="form-label">Roles:</label>
+                    <ng-multiselect-dropdown [placeholder]="'Elige uno o varios Roles ...'"
+                        [settings]="dropdownSettings" [data]="dropdownList" name="roles" formControlName="roles">
+                    </ng-multiselect-dropdown>
+                </div>
+                <button class="btn btn-primary" (click)="enviarEmpleado()">Registrar</button>
+            </form>
+        </div>
+    </div>
+</div>

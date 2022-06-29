@@ -66,7 +66,8 @@ export class AnunciosService {
       params: new HttpParams({
       })
     };
-    return this._http.get(this.url, httpOptions);
+    var url = this.url + "/obtener";
+    return this._http.get(url, httpOptions);
   }
 
 }

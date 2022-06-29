@@ -30,8 +30,10 @@ export class AreaService {
       headers: new HttpHeaders({'access-control-allow-origin': "http://localhost:4200/", 'Content-Type': 'application/json'}),
       params: new HttpParams({})
     }
-    return this._http.post(this.url,httpOptions);
+    return this._http.get(this.url,httpOptions);
   }
+
+
   public actualizarArea(id: string, ar: Area): Observable<any>{
     this.url= this.url + "/actualizar/" + id ;
     const httpOptions = {
@@ -39,6 +41,6 @@ export class AreaService {
       params: new HttpParams({})
     }
     let body = JSON.stringify(ar);
-    return this._http.post(this.url,body,httpOptions);
+    return this._http.put(this.url,body,httpOptions);
   }
 }
