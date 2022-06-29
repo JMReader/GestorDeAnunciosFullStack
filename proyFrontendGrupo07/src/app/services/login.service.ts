@@ -1,6 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { Empleado } from '../models/empleado';
 
 @Injectable({
   providedIn: 'root'
@@ -9,7 +10,7 @@ export class LoginService {
 
   hostBase: string;
   constructor(private _http: HttpClient) {
-    this.hostBase = "http://localhost:3000/api/usuario/";
+    this.hostBase = "http://localhost:3000/empleado/";
   }
 
   public login(username: string, password: string): Observable<any> {
@@ -23,10 +24,11 @@ export class LoginService {
     return this._http.post(this.hostBase + 'login', body, httpOption);
   }
 
+
   public logout() {
     //borro el vble almacenado mediante el storage
     sessionStorage.removeItem("user");
-    sessionStorage.removeItem("perfil");
+    //sessionStorage.removeItem("roles");
     sessionStorage.removeItem("userid");
   }
 
@@ -48,5 +50,10 @@ export class LoginService {
     var id = sessionStorage.getItem("userid");
     return id;
   }
+
+  // public userRoles(){
+  //   var roles = sessionStorage.getItem("roles");
+  //   return roles;
+  // }
 
 }

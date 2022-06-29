@@ -7,16 +7,11 @@ import { HeaderComponent } from './components/header/header.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { CrearanuncioComponent } from './components/crearanuncio/crearanuncio.component';
 import { LoginComponent } from './components/login/login.component';
-<<<<<<< Updated upstream
-import {HttpClientModule} from '@angular/common/http';
-import { ListaranunciosComponent } from './components/listaranuncios/listaranuncios.component';
-=======
 import { HttpClientModule} from '@angular/common/http';
 import { ListaranunciosComponent } from './components/listaranuncios/listaranuncios.component';
 import { AlifeFileToBase64Module } from 'alife-file-to-base64';
 import { CrearempleadoComponent } from './components/crearempleado/crearempleado.component';
 import { NgMultiSelectDropDownModule, } from 'ng-multiselect-dropdown';
->>>>>>> Stashed changes
 
 
 @NgModule({
@@ -34,16 +29,10 @@ import { NgMultiSelectDropDownModule, } from 'ng-multiselect-dropdown';
     BrowserModule,
     AppRoutingModule,
     FormsModule,
-<<<<<<< Updated upstream
-    ReactiveFormsModule, HttpClientModule
-=======
     AlifeFileToBase64Module,
     HttpClientModule,
     ReactiveFormsModule,
     NgMultiSelectDropDownModule.forRoot()
-
-
->>>>>>> Stashed changes
   ],
   providers: [],
   bootstrap: [AppComponent]

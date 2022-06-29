@@ -4,17 +4,6 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="card col-md-3 offset-md-1 col-sm-5 offset-sm-1 col-12" *ngFor="let anuncio of anuncios">
-<<<<<<< Updated upstream
-                     <img [src]="anuncio.recurso" alt="">
-                    <h5>{{anuncio.tiempoLectura}}</h5>
-                    <h5>{{anuncio.redactor.nombre}}</h5>
-                    <h3>{{anuncio.texto}}</h3>
-                    <h5>{{anuncio.tipo}}</h5>
-                    <h5>{{anuncio.medio}}</h5>
-                    <h5>{{anuncio.fechaSalida}}</h5>
-                    <h5>{{anuncio.recurso}}</h5>
-                    
-=======
                      <img [src]="anuncio.recursos" alt="">
                     <p>Tipo: {{anuncio.tipo}}</p>
                     <p>Medio: {{anuncio.medio}}</p>
@@ -22,7 +11,6 @@
                     <p>Desde {{anuncio.fechaEntrada}} hasta {{anuncio.fechaSalida}}</p>
                     <p>Autor: {{anuncio.redactor.nombre}}</p>
                     <h5>{{anuncio.texto}}</h5> 
->>>>>>> Stashed changes
                 </div>
                 <div class="d-block">
                     <br>

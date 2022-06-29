@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormArray, FormControl, FormGroup, FormBuilder, AbstractControl, Validators } from '@angular/forms';
+import { Anuncio } from 'src/app/models/anuncio';
+import { AnunciosService } from 'src/app/services/anuncios.service';
+
 
 @Component({
   selector: 'app-crearanuncio',
@@ -8,30 +11,92 @@ import { FormControl, FormGroup } from '@angular/forms';
 })
 export class CrearanuncioComponent implements OnInit {
 
-  tipos!: Array<String>;
-  recursos!: String;
+  anuncio!: Anuncio;
+  tipos!: Array<string>;
+  mediosDisponibles!: Array<string>;
+  recursos!: string;
 
   anunciosForm = new FormGroup({
     textoAnuncio: new FormControl(),
     tipoAnuncio: new FormControl(),
-    medioAnuncio: new FormControl(),
+    medioAnuncio: new FormArray([], [Validators.required]),
     vigenciaAnuncio: new FormControl(),
     estadoAnuncio: new FormControl(),
-    lecturaAnuncio: new FormControl()
+    destinatariosAnuncio: new FormControl(),
+
+    lecturaAnuncio: new FormControl(),
+    redactorAnuncio: new FormControl()
   });
 
-  constructor() {
-    this.tipos = new Array<String>();
-    this.recursos = new String;
-    this.tipos = ["Texto","HTML","Imagen","Video","Otro"];
+  constructor(private anuncioService: AnunciosService) {
+    this.anuncio = new Anuncio();
+    this.tipos = new Array<string>();
+    this.mediosDisponibles = new Array<string>();
+    this.tipos = ["Texto", "HTML", "Imagen", "Video", "Otro"];
+    this.mediosDisponibles = ["Twitter", "Facebook", "Youtube", "TikTok"];
   }
 
-  onFileChanges(files:any){
+  crearAnuncio() {
+    
+    this.anuncio.texto = this.anunciosForm.get('textoAnuncio')?.value;
+    this.anuncio.tipo = this.anunciosForm.get('tipoAnuncio')?.value;
+    this.anuncio.medio = this.anunciosForm.get('medioAnuncio')?.value;
+    this.anuncio.fechaEntrada = this.anunciosForm.get('vigenciaAnuncio')?.value;
+    this.anuncio.estado = this.anunciosForm.get('estadoAnuncio')?.value;
+    this.anuncio.destinatarios.push(this.anunciosForm.get('destinatariosAnuncio')?.value);
+    //this.anuncio.recursos ya se carga en el metodo "onfilechanges" con los archivos base64
+    this.anuncio.tiempoLectura = this.anunciosForm.get('lecturaAnuncio')?.value;
+    this.anuncio.redactor = this.anunciosForm.get('redactorAnuncio')?.value;
+    //console.log(this.anuncio);
+    this.anuncioService.postAnuncio(this.anuncio).subscribe(
+      (result) => {
+        //console.log(result);
+        alert("Anuncio guardado.");
+        this.anuncio = new Anuncio();
+      },
+      (errors) => {
+        console.log(errors);
+      }
+    );
+    
+    
+  }
+
+  
+  onFileChanges(files: any) {
+    this.anuncio.recursos = new Array<string>();
     console.log("File has changed:", files);
-    this.recursos = files[0];
+    files.forEach((file: any) => {
+      this.anuncio.recursos.push(file.base64);
+    });
+    console.log(this.anuncio.recursos);
+  }
+
+  onCheckChange(event: any) {
+
+    const formArray: FormArray = this.anunciosForm.get('medioAnuncio') as FormArray;
+
+    if (event.target.checked) {
+      formArray.push(new FormControl(event.target.value));
+      console.log(formArray);
     }
 
+    else {
+      let i: number = 0;
+      formArray.controls.forEach((ctrl: AbstractControl) => {
+        if (ctrl.value == event.target.value) {
+          formArray.removeAt(i);
+          return;
+        }
+
+        i++;
+      });
+    }
+
+  }
+
   ngOnInit(): void {
+
   }
 
 }

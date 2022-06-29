@@ -33,6 +33,7 @@ export class AreaService {
     return this._http.get(this.url,httpOptions);
   }
 
+
   public actualizarArea(id: string, ar: Area): Observable<any>{
     this.url= this.url + "/actualizar/" + id ;
     const httpOptions = {

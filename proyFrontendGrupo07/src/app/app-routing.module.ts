@@ -4,9 +4,7 @@ import { CrearanuncioComponent } from './components/crearanuncio/crearanuncio.co
 import { CrearempleadoComponent } from './components/crearempleado/crearempleado.component';
 import { ListaranunciosComponent } from './components/listaranuncios/listaranuncios.component';
 import { LoginComponent } from './components/login/login.component';
-const routes: Routes = [
-  { path: 'anuncios/crear', component: CrearanuncioComponent },
-  {path: 'login', component: LoginComponent}
+
 
 const routes: Routes = [
 { path: 'login', component: LoginComponent}, 

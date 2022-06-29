@@ -8,9 +8,14 @@ export class Anuncio {
     fechaSalida!: string;
     estado!: string;
     destinatarios!: Array<string>;
-    recurso!: string;
+    recursos!: Array<string>;
     tiempoLectura!: string;
     redactor!: Empleado;
+
+    constructor(){
+        this.destinatarios = new Array<string>();
+        this.recursos = new Array<string>();
+    }
 }
 
 /*Texto anuncio.
