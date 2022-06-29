@@ -1,18 +1,16 @@
 <body>
     <br>
     <div class=" container-fluid row">
-        <div class="container-fluid col-md-8">
+        <div class="container-fluid">
             <div class="row">
                 <div class="card col-md-3 offset-md-1 col-sm-5 offset-sm-1 col-12" *ngFor="let anuncio of anuncios">
-                     <img [src]="anuncio.recurso" alt="">
-                    <h5>{{anuncio.tiempoLectura}}</h5>
-                    <h5>{{anuncio.redactor.nombre}}</h5>
-                    <h3>{{anuncio.texto}}</h3>
-                    <h5>{{anuncio.tipo}}</h5>
-                    <h5>{{anuncio.medio}}</h5>
-                    <h5>{{anuncio.fechaSalida}}</h5>
-                    <h5>{{anuncio.recurso}}</h5>
-                    
+                     <img [src]="anuncio.recursos" alt="">
+                    <p>Tipo: {{anuncio.tipo}}</p>
+                    <p>Medio: {{anuncio.medio}}</p>
+                    <p>Tiempo de Lectura:{{anuncio.tiempoLectura}}</p>
+                    <p>Desde {{anuncio.fechaEntrada}} hasta {{anuncio.fechaSalida}}</p>
+                    <p>Autor: {{anuncio.redactor.nombre}}</p>
+                    <h5>{{anuncio.texto}}</h5> 
                 </div>
                 <div class="d-block">
                     <br>
@@ -20,11 +18,11 @@
             </div>
         </div>
 
-        <aside class="d-none d-md-block d-lg-block d-xl-block col-md-4 row">
+        <!--<aside class="d-none d-md-block d-lg-block d-xl-block col-md-4 row">
             <div class="offset-md-1 col-md-12 d-none d-md-block d-lg-block d-xl-block">
                 <img class="img-fluid"src="../../../assets/img/ad.jpg" alt="">
             </div>
-        </aside>
+        </aside>-->
         
     </div>
 </body>

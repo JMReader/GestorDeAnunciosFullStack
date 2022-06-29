@@ -1,11 +1,14 @@
 import { Area } from "./area";
-import { Persona } from "./persona";
 import { Rol } from "./rol";
 
-export class Empleado extends Persona{
-
-    usuario!: string;
-    contraseña!: string;
+export class Empleado{
+    _id!: string;
+    apellido!: string;
+    nombre!: string;
+    dni!: string;
+    email!: string;
+    username!: string;
+    password!: string;
     legajo!: string;
     esEncargado!: boolean;
     roles!: Array<Rol>;
