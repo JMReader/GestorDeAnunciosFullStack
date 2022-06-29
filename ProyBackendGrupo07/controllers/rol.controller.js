@@ -2,7 +2,7 @@ const Rol = require('../models/rol');
 const rolCtrl  = {}
 
 rolCtrl.getRoles = async (req,res)=>{
-    var roles = await Rol.find();
+    var roles = await Rol.find().populate('areaAsignada');
     res.json(roles);
 }
 

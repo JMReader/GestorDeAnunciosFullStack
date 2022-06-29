@@ -48,4 +48,19 @@ export class AnunciosService {
     console.log(body);
     return this._http.put(this.url, body,httpOptions);
   }
+<<<<<<< Updated upstream
+=======
+
+
+  public getAnuncios(): Observable<any> {
+    const httpOptions = {
+      headers: new HttpHeaders({ 'access-control-allow-origin': "http://localhost:4200/", 'Content-Type': 'application/json' }),
+      params: new HttpParams({
+      })
+    };
+    this.url = this.url + "/obtener";
+    return this._http.get(this.url, httpOptions);
+  }
+
+>>>>>>> Stashed changes
 }
