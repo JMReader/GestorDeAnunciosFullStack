@@ -74,4 +74,20 @@ AnuncioController.Borrar = async (req, res) => {
         })
     }
 }
+
+AnuncioController.filtrarAnunciosPendientes = async (req, res) =>{
+    try {
+        const estado = req.params.estado;
+        
+        const anuncios = await anuncio.find({ estado: estado });
+        res.status(200).json(anuncios);
+    } catch (error) {
+        console.log(error)
+        res.status(400).json({
+            status: '0',
+            msg: 'Error al filtrar los anuncios'
+        })
+    }
+}
+
 module.exports = AnuncioController;

@@ -7,7 +7,7 @@ import { ApiMethod } from 'ngx-facebook/providers/facebook';
   providedIn: 'root'
 })
 export class FbService {
-//service realizado para postear unicamente llamar a la funcion "postearFB"
+//service realizado para postear unicamente llamar a la funcion "postearFB" e inicializar en el constructor "this.iniciarFb()"
 
   constructor(private fb: FacebookService, private _http: HttpClient) { }
 
@@ -38,6 +38,21 @@ export class FbService {
 
     )
   }
+
+  postearImgFb(url: string, descripcion:string) {
+ 
+    this.iniciarFb();
+    var apiMethod: ApiMethod = "post";
+    this.fb.api('/110966101664631/photos', apiMethod,
+      {
+        "name": descripcion, //puede ser opcional solo subir la imagen o agrgarle una descripcion
+        "url": url,
+        "access_token":"EAAGOAWeiyfIBAHI5UxVdpA9xH7BMcuhkGhR3DXOGm4XKPfZAezWd9CyEZAl6Q445Fu6rygxWbZCrMDZCyHVwhQNQpl1LinfUL5vOkloldijTX8nL7ZBYZA6yXZAYrX0oeJt6zPqbZCZBEGlAdJvsUZBoNduQxTIcB0tJ9WPhRvLfkBOXqzExZA7JLhAYaC2lslAW2ZAssBJ9zL91pLuqoOUAuV5g"
+      }
+
+    )
+  }
+
   loginWithFacebook(): void {
     this.fb.login()
       .then((response: LoginResponse) => {

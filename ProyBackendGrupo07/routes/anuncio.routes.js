@@ -8,4 +8,5 @@ router.delete('/borrar/:id', AnuncioController.Borrar);
 router.post('/crear', AnuncioController.crearAnuncio);
 router.get('/obtener', AnuncioController.getAnuncios);
 router.put('/actualizar/:id', AnuncioController.editarAnuncio);
+router.get('/filtro/:estado', AnuncioController.filtrarAnunciosPendientes);
 module.exports = router;
