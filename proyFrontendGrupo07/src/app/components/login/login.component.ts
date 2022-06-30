@@ -22,7 +22,8 @@ export class LoginComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private loginService: LoginService,
-    private fb: FacebookService) {
+   ) {
+     
   }
 
   ngOnInit() {
@@ -54,37 +55,8 @@ export class LoginComponent implements OnInit {
     );
   }
 
-  postFb() {
-    var apiMethod: ApiMethod = "post";
-    this.fb.api('/110966101664631/feed', apiMethod,
-      {
-        "message": this.mensaje,
-        "access_token": "EAAGOAWeiyfIBANY3O67WCVOgbCujtZC4w47RtzjSMeX7lkgm8BavBaiXLMpJwfbt8YZASMk0wzLDOCNpAKr0HxTiirtEbQbkcwjZCLP9ZAZBVRrDxuP8X5TV3ZCGJoQvaaEmvdtyuI0QUcZCVbK8SB2Pw90wgMwwA72GCQjvXrexAZDZD"
-      }
 
-    )
-  }
 
-  iniciarFb() {
-    let initParams: InitParams = {
-      appId: '437611661543922',
-      autoLogAppEvents: true,
-      xfbml: true,
-      version: 'v7.0'
-      // status: true,
-      // cookie: true,
-      // version: 'v2.4'
-    };
-    this.fb.init(initParams);
-  }
 
-  loginWithFacebook(): void {
-    this.fb.login()
-      .then((response: LoginResponse) => {
-        console.log('Logged in', response);
-
-      })
-      .catch((error: any) => console.error(error));
-  }
 
 }
