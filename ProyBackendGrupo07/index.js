@@ -16,11 +16,8 @@ app.use('/pasaje', require('./routes/pasaje.route'));*/
 //setting (decimos el puerto que va a usar el servidor)
 app.set('port', process.env.PORT || 3000);
 //starting the server, incia el server
-app.listen(app.get('port'), () => {
-
-
-
-
-    
+app.listen(app.get('port'), () => {   
 console.log(`Server iniciado en puerto: `, app.get('port'));
 });
+
+
