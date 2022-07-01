@@ -94,6 +94,7 @@ export class CrearempleadoComponent implements OnInit {
     var roles =this.empleadoForm.get('roles')?.value;
     this.es.guardarEmpleado(apellido,nombre,dni,email,username,password,legajo,area,roles);
     await new Promise(f => setTimeout(f, 80));
+    this.empleados = new Array();
     this.es.getEmpleado().subscribe(
       (result) => {
         console.log(result);

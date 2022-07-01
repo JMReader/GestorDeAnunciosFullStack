@@ -3,7 +3,7 @@ const empCtrl = {}
 
 empCtrl.getEmpleados = async (req, res) => {
     try {
-        var empleados = await Empleado.find();
+        var empleados = await Empleado.find().populate("area").populate("roles");
         res.json(empleados);
     } catch (error) {
         console.log(error)
