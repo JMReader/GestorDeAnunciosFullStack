@@ -27,14 +27,15 @@ export class LoginService {
 
   public logout() {
     //borro el vble almacenado mediante el storage
-    sessionStorage.removeItem("user");
-    //sessionStorage.removeItem("roles");
-    sessionStorage.removeItem("userid");
+    sessionStorage.removeItem("_id");
+    sessionStorage.removeItem("username");
+    sessionStorage.removeItem("roles");
+    sessionStorage.removeItem("area");
   }
 
   public userLoggedIn() {
     var resultado = false;
-    var usuario = sessionStorage.getItem("user");
+    var usuario = sessionStorage.getItem("username");
     if (usuario != null) {
       resultado = true;
     }
@@ -42,12 +43,12 @@ export class LoginService {
   }
 
   public userLogged() {
-    var usuario = sessionStorage.getItem("user");
+    var usuario = sessionStorage.getItem("username");
     return usuario;
   }
-  
+
   public idLogged() {
-    var id = sessionStorage.getItem("userid");
+    var id = sessionStorage.getItem("_id");
     return id;
   }
 
