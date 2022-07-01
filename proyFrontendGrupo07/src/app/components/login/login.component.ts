@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Empleado } from 'src/app/models/empleado';
 import { LoginService } from 'src/app/services/login.service';
-
+import { FacebookService, InitParams, LoginResponse} from 'ngx-facebook';
+import { ApiMethod } from 'ngx-facebook/providers/facebook';
 
 @Component({
   selector: 'app-login',
@@ -15,11 +16,14 @@ export class LoginComponent implements OnInit {
   userform: Empleado = new Empleado(); 
   returnUrl!: string;
   msglogin!: string; // mensaje que indica si no paso el loguin
+  mensaje: string = "";
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private loginService: LoginService) {
+    private loginService: LoginService,
+   ) {
+     
   }
 
   ngOnInit() {
@@ -50,5 +54,9 @@ export class LoginComponent implements OnInit {
       }
     );
   }
+
+
+
+
 
 }

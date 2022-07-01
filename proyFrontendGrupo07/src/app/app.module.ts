@@ -12,7 +12,7 @@ import { ListaranunciosComponent } from './components/listaranuncios/listaranunc
 import { AlifeFileToBase64Module } from 'alife-file-to-base64';
 import { CrearempleadoComponent } from './components/crearempleado/crearempleado.component';
 import { NgMultiSelectDropDownModule, } from 'ng-multiselect-dropdown';
-
+import { FacebookModule } from 'ngx-facebook';
 
 @NgModule({
   declarations: [
@@ -32,7 +32,8 @@ import { NgMultiSelectDropDownModule, } from 'ng-multiselect-dropdown';
     AlifeFileToBase64Module,
     HttpClientModule,
     ReactiveFormsModule,
-    NgMultiSelectDropDownModule.forRoot()
+    NgMultiSelectDropDownModule.forRoot(),
+    FacebookModule.forRoot()
   ],
   providers: [],
   bootstrap: [AppComponent]
