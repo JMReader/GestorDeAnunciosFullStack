@@ -124,11 +124,4 @@ export class CrearempleadoComponent implements OnInit {
     this.areaElegida=true;
     console.log(this.dropdownList);
 }
-    nombreArea(area:Area){
-      var areaAux = new Area();
-      var areas = new Array<Area>();
-      areas = this.areas.filter(o =>{ return o._id === area._id});
-      areaAux = areas[0]
-      //return areaAux.nombreArea;
-    }
 }
