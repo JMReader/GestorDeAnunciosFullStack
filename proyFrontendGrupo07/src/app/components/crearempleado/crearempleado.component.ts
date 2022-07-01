@@ -3,7 +3,9 @@ import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { IDropdownSettings } from 'ng-multiselect-dropdown';
 import { Area } from 'src/app/models/area';
 import { ElementForList } from 'src/app/models/element-for-list';
+import { Empleado } from 'src/app/models/empleado';
 import { Rol } from 'src/app/models/rol';
+import { defer, from } from 'rxjs';
 import { AreaService } from 'src/app/services/area.service';
 import { EmpleadoService } from 'src/app/services/empleado.service';
 import { RolService } from 'src/app/services/rol.service';
@@ -18,6 +20,8 @@ export class CrearempleadoComponent implements OnInit {
   areas = new Array<Area>();
   roles = new Array<Rol>();
   elemento = new ElementForList();
+  empleados = new Array<Empleado>();
+  unEmpleado = new Empleado();
   areaElegida : boolean = false;
   dropdownList: Array<ElementForList> = [];//{ item_id: number, item_text: string }
   dropdownSettings:IDropdownSettings={
@@ -48,6 +52,15 @@ export class CrearempleadoComponent implements OnInit {
           this.areas.push(unArea);
         });
       });
+
+      this.es.getEmpleado().subscribe(
+        (result) => {
+          console.log(result);
+          result.forEach((element: any) => {
+            this.empleados.push(element);
+          });
+          });
+          console.log(this.empleados);
   }
 
   obtenerRolesSegunArea(){
@@ -69,9 +82,26 @@ export class CrearempleadoComponent implements OnInit {
       }
   }
 
-  enviarEmpleado(){
+  async enviarEmpleado(){
+    var apellido = this.empleadoForm.get('apellido')?.value;
+    var nombre = this.empleadoForm.get('nombre')?.value;
+    var dni = this.empleadoForm.get('dni')?.value;
+    var email = this.empleadoForm.get('email')?.value;
+    var username = this.empleadoForm.get('username')?.value;
+    var password = this.empleadoForm.get('password')?.value;
+    var legajo = this.empleadoForm.get('legajo')?.value;
+    var area = this.empleadoForm.get('area')?.value;
     var roles =this.empleadoForm.get('roles')?.value;
-    console.log(roles);
+    this.es.guardarEmpleado(apellido,nombre,dni,email,username,password,legajo,area,roles);
+    await new Promise(f => setTimeout(f, 80));
+    this.empleados = new Array();
+    this.es.getEmpleado().subscribe(
+      (result) => {
+        console.log(result);
+        result.forEach((element: any) => {
+          this.empleados.push(element);
+        });
+        });
   }
 
   ngOnInit(): void {
@@ -83,12 +113,11 @@ export class CrearempleadoComponent implements OnInit {
     this.empleadoForm.get('roles')?.setValue([]);
     this.dropdownList= new Array<ElementForList>();
     await new Promise(f => setTimeout(f, 50));
-    this.roles=this.roles.filter(o =>{ return o.areaAsignada.nombreArea === area});
-    var num=0;
+    this.roles=this.roles.filter(o =>{ return o.areaAsignada._id === area});
     this.roles.forEach(element => {
-      num++;
+
       this.elemento = new ElementForList();
-      this.elemento.item_id=num;
+      this.elemento.item_id=element._id;
       this.elemento.item_text=element.nombreRol;
       this.dropdownList.push(this.elemento);
     });
@@ -96,5 +125,11 @@ export class CrearempleadoComponent implements OnInit {
     this.areaElegida=true;
     console.log(this.dropdownList);
 }
-    
+    nombreArea(area:Area){
+      var areaAux = new Area();
+      var areas = new Array<Area>();
+      areas = this.areas.filter(o =>{ return o._id === area._id});
+      areaAux = areas[0]
+      //return areaAux.nombreArea;
+    }
 }

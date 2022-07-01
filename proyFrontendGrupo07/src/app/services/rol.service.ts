@@ -19,4 +19,14 @@ export class RolService {
     }
     return this._http.get(url,httpOptions);
   }
+
+  buscarRol(id :string): Observable<any>{
+    var url= this.url + "/buscar/_id"+id;
+    const httpOptions = {
+      headers: new HttpHeaders({'access-control-allow-origin': "http://localhost:4200/", 'Content-Type': 'application/json'}),
+      params: new HttpParams({})
+    }
+
+    return this._http.get(url,httpOptions);
+  }
 }
