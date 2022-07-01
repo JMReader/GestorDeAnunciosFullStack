@@ -122,6 +122,7 @@ export class CrearempleadoComponent implements OnInit {
 
     this.areaElegida = true;
     console.log(this.dropdownList);
+
   }
   nombreArea(area: Area) {
     var areaAux = new Area();
@@ -130,4 +131,7 @@ export class CrearempleadoComponent implements OnInit {
     areaAux = areas[0]
     //return areaAux.nombreArea;
   }
+
+//}
+
 }

@@ -13,6 +13,8 @@ import { AlifeFileToBase64Module } from 'alife-file-to-base64';
 import { CrearempleadoComponent } from './components/crearempleado/crearempleado.component';
 import { NgMultiSelectDropDownModule, } from 'ng-multiselect-dropdown';
 import { FacebookModule } from 'ngx-facebook';
+import { CrearareaComponent } from './components/creararea/creararea.component';
+import { CrearrolComponent } from './components/crearrol/crearrol.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +24,9 @@ import { FacebookModule } from 'ngx-facebook';
     CrearanuncioComponent,
     LoginComponent,
     ListaranunciosComponent,
-    CrearempleadoComponent
+    CrearempleadoComponent,
+    CrearareaComponent,
+    CrearrolComponent
 
   ],
   imports: [
