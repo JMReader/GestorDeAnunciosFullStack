@@ -5,7 +5,10 @@ import { Anuncio } from 'src/app/models/anuncio';
 import { Rol } from 'src/app/models/rol';
 import { AnunciosService } from 'src/app/services/anuncios.service';
 import { LoginService } from 'src/app/services/login.service';
-
+import { IDropdownSettings } from 'ng-multiselect-dropdown';
+import { ElementForList } from 'src/app/models/element-for-list';
+import { AreaService } from 'src/app/services/area.service';
+import { RolService } from 'src/app/services/rol.service';
 
 @Component({
   selector: 'app-crearanuncio',
@@ -18,6 +21,14 @@ export class CrearanuncioComponent implements OnInit {
   tipos!: Array<string>;
   mediosDisponibles!: Array<string>;
   recursos!: string;
+  redactor!:string;
+
+  //DROPDOWN
+  dataDestinatario: Array<ElementForList> = new Array<ElementForList>();//{ item_id: number, item_text: string }
+  settingsDestinatario: IDropdownSettings = {
+    idField: 'item_id',
+    textField: 'item_text'
+  };
 
   anunciosForm = new FormGroup({
     textoAnuncio: new FormControl(),
@@ -25,13 +36,13 @@ export class CrearanuncioComponent implements OnInit {
     medioAnuncio: new FormArray([], [Validators.required]),
     vigenciaAnuncio: new FormControl(),
     estadoAnuncio: new FormControl(),
-    destinatariosAnuncio: new FormControl(),
+    destinatariosAnuncio: new FormControl([],Validators.required),
 
     lecturaAnuncio: new FormControl(),
-    redactorAnuncio: new FormControl()
+    //redactorAnuncio: new FormControl()
   });
 
-  constructor(private anuncioService: AnunciosService, public loginService: LoginService, private router: Router,) {
+  constructor(private anuncioService: AnunciosService, public loginService: LoginService, private router: Router, private areaService: AreaService, private rolService: RolService) {
     if (this.loginService.userLoggedIn()) {
       this.cargarDestinatarios();
       this.anuncio = new Anuncio();
@@ -45,15 +56,39 @@ export class CrearanuncioComponent implements OnInit {
     }
   }
 
-  cargarDestinatarios() { //obtengo el string con el array de roles, lo transformo en JSON, luego lo recorro y lo guardo destinatarios
-    var roles = JSON.parse(sessionStorage.getItem("roles")!);
-    roles.forEach((item: any) => {
-      var rol = new Rol();
-      Object.assign(rol,item);
-      this.destinatarios.push(rol);
-    });
-    console.log(this.destinatarios);
+  async cargarDestinatarios() { //obtengo el string con el array de roles, lo transformo en JSON, luego lo recorro y lo guardo destinatarios
+    //buscar area del logeado
+    var area = JSON.parse(sessionStorage.getItem("area")!);
 
+    //cargardestinatarios con todos los roles
+    this.destinatarios = new Array<Rol>();
+    this.rolService.getRoles().subscribe(
+      (result) => {
+        result.forEach((element: any) => {
+          var unRol = new Rol();
+          Object.assign(unRol, element);
+          this.destinatarios.push(unRol);
+        });
+      });
+    //filtrar aquellos que solo coincidan con el id de area
+    await new Promise(f => setTimeout(f, 50));
+    this.destinatarios = this.destinatarios.filter(o => { return o.areaAsignada._id === area._id }).slice();
+    //console.log(this.destinatarios);
+    
+    //cargar dropdown de destinatarios
+    this.anunciosForm.get('destinatariosAnuncio')?.setValue([]);
+    this.dataDestinatario = new Array<ElementForList>();
+    
+    for(let element of this.destinatarios){
+      var elemento = new ElementForList();
+      elemento.item_id = element._id;
+      elemento.item_text = element.nombreRol;
+      this.dataDestinatario.push(elemento);
+    }
+    console.log(this.dataDestinatario);
+    /*this.destinatarios.forEach((element:any) => {
+    });*/
+    //console.log(this.dataDestinatario);
   }
 
   crearAnuncio() {
@@ -66,9 +101,9 @@ export class CrearanuncioComponent implements OnInit {
     this.anuncio.destinatarios.push(this.anunciosForm.get('destinatariosAnuncio')?.value);
     //this.anuncio.recursos ya se carga en el metodo "onfilechanges" con los archivos base64
     this.anuncio.tiempoLectura = this.anunciosForm.get('lecturaAnuncio')?.value;
-    this.anuncio.redactor = this.anunciosForm.get('redactorAnuncio')?.value;
+    this.redactor = sessionStorage.getItem("_id")!;
     //console.log(this.anuncio);
-    this.anuncioService.postAnuncio(this.anuncio).subscribe(
+    this.anuncioService.postAnuncio(this.anuncio,this.redactor).subscribe(
       (result) => {
         //console.log(result);
         alert("Anuncio guardado.");

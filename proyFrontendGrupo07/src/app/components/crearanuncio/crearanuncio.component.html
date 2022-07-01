@@ -7,7 +7,7 @@
             <textarea name="textoAnuncio" id="textoAnuncio" class="form-control" placeholder="Mucho texto..." rows="5"
                 formControlName="textoAnuncio"></textarea>
         </div>
-        
+
         <div class="form-group">
             <label for="tipoAnuncio" class="form-label">Tipo Contenido</label>
             <select name="tipoAnuncio" id="tipoAnuncio" class="form-select" formControlName="tipoAnuncio">
@@ -35,23 +35,32 @@
             <label for="estadoAnuncio" class="form-label">Estado Anuncio</label>
             <select name="estadoAnuncio" id="estadoAnuncio" class="form-select" formControlName="estadoAnuncio">
                 <option value="Edicion">Edicion</option>
-                <option value="Confeccion">Confeccionado</option><!--imagino que el redactor podrá tener el anuncio como en edición o confeccionado y el encargado lo autoriza o lo cancela-->
+                <option value="Confeccion">Confeccionado</option>
+                <!--imagino que el redactor podrá tener el anuncio como en edición o confeccionado y el encargado lo autoriza o lo cancela-->
                 <!--<option value="Autorizado">Autorizado</option>
                 <option value="Cancelado">Cancelado</option>-->
             </select>
         </div>
 
-        <div class="form-group">
-            <label for="destinatariosAnuncio" class="form-label">Destinatarios</label><!--todavía por hacer-->
+        <!--<div class="form-group">
+            <label for="destinatariosAnuncio" class="form-label">Destinatarios</label>
             <input type="text" class="form-control" name="destinatariosAnuncio" formControlName="destinatariosAnuncio"
                 id="destinatariosAnuncio">
+        </div>-->
+
+        <div class="form-group">
+            <label for="destinatariosAnuncio" class="form-label">Destinatarios</label>
+            <ng-multiselect-dropdown id="destinatariosAnuncio" [placeholder]="'Elige uno o varios Destinatarios ...'"
+                [settings]="settingsDestinatario" [data]="dataDestinatario" name="destinatariosAnuncio"
+                formControlName="destinatariosAnuncio">
+            </ng-multiselect-dropdown>
         </div>
 
         <div class="form-group">
             <label for="recursosAnuncio">Recursos del Anuncio</label>
-            <input type="file" accept="image/x-png,image/gif,image/jpeg" (onFileChanged)="onFileChanges($event)" multiple alife-file-to-base64
-                class="form-control" id="recursosAnuncio" placeholder="Ingrese Archivos del Anuncio"
-                name="recursosAnuncio" required>
+            <input type="file" accept="image/x-png,image/gif,image/jpeg" (onFileChanged)="onFileChanges($event)"
+                multiple alife-file-to-base64 class="form-control" id="recursosAnuncio"
+                placeholder="Ingrese Archivos del Anuncio" name="recursosAnuncio" required>
         </div>
 
         <div class="form-group">
@@ -63,11 +72,11 @@
             </select>
         </div>
 
-        <div class="form-group">
+        <!--<div class="form-group">
             <label for="redactorAnuncio">Redactor del Anuncio</label>
             <input type="text" class="form-control" id="redactorAnuncio" formControlName="redactorAnuncio"
                 name="redactorAnuncio" required>
-        </div>
+        </div>-->
 
         <div>
             <button [disabled]="!anunciosForm.valid" type="submit" class="formulario btn btn-primary"

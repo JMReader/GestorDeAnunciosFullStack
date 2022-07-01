@@ -16,18 +16,18 @@ import { RolService } from 'src/app/services/rol.service';
   styleUrls: ['./crearempleado.component.css']
 })
 export class CrearempleadoComponent implements OnInit {
-  
+
   areas = new Array<Area>();
   roles = new Array<Rol>();
   elemento = new ElementForList();
   empleados = new Array<Empleado>();
   unEmpleado = new Empleado();
-  areaElegida : boolean = false;
+  areaElegida: boolean = false;
   dropdownList: Array<ElementForList> = [];//{ item_id: number, item_text: string }
-  dropdownSettings:IDropdownSettings={
+  dropdownSettings: IDropdownSettings = {
     idField: 'item_id',
     textField: 'item_text'
-};
+  };
 
   empleadoForm = new FormGroup({
     apellido: new FormControl(),
@@ -38,12 +38,12 @@ export class CrearempleadoComponent implements OnInit {
     password: new FormControl(),
     legajo: new FormControl(),
     area: new FormControl(),
-    roles: new FormControl([],Validators.required),
+    roles: new FormControl([], Validators.required),
     encargado: new FormControl(),
   });
 
 
-  constructor(private es: EmpleadoService, private rs: RolService, private as: AreaService) { 
+  constructor(private es: EmpleadoService, private rs: RolService, private as: AreaService) {
     this.as.getArea().subscribe(
       (result) => {
         result.forEach((element: any) => {
@@ -53,36 +53,34 @@ export class CrearempleadoComponent implements OnInit {
         });
       });
 
-      this.es.getEmpleado().subscribe(
-        (result) => {
-          console.log(result);
-          result.forEach((element: any) => {
-            this.empleados.push(element);
-          });
-          });
-          console.log(this.empleados);
+    this.es.getEmpleado().subscribe(
+      (result) => {
+        console.log(result);
+        result.forEach((element: any) => {
+          this.empleados.push(element);
+        });
+      });
+    console.log(this.empleados);
   }
 
-  obtenerRolesSegunArea(){
-    console.log("Si");
-    var area= this.empleadoForm.get('area')?.value;
-    if (area != null)
-    {
+  obtenerRolesSegunArea() {
+    var area = this.empleadoForm.get('area')?.value;
+    if (area != null) {
       this.rs.getRoles().subscribe(
         (result) => {
-          this.roles= new Array<Rol>();
+          this.roles = new Array<Rol>();
           result.forEach((element: any) => {
             var unRol = new Rol();
             Object.assign(unRol, element);
             this.roles.push(unRol);
           });
         });
-        console.log(this.roles);
-        this.delay(100);
-      }
+      console.log(this.roles);
+      this.delay(100);
+    }
   }
 
-  async enviarEmpleado(){
+  async enviarEmpleado() {
     var apellido = this.empleadoForm.get('apellido')?.value;
     var nombre = this.empleadoForm.get('nombre')?.value;
     var dni = this.empleadoForm.get('dni')?.value;
@@ -91,8 +89,8 @@ export class CrearempleadoComponent implements OnInit {
     var password = this.empleadoForm.get('password')?.value;
     var legajo = this.empleadoForm.get('legajo')?.value;
     var area = this.empleadoForm.get('area')?.value;
-    var roles =this.empleadoForm.get('roles')?.value;
-    this.es.guardarEmpleado(apellido,nombre,dni,email,username,password,legajo,area,roles);
+    var roles = this.empleadoForm.get('roles')?.value;
+    this.es.guardarEmpleado(apellido, nombre, dni, email, username, password, legajo, area, roles);
     await new Promise(f => setTimeout(f, 80));
     this.es.getEmpleado().subscribe(
       (result) => {
@@ -100,35 +98,35 @@ export class CrearempleadoComponent implements OnInit {
         result.forEach((element: any) => {
           this.empleados.push(element);
         });
-        });
+      });
   }
 
   ngOnInit(): void {
   }
 
   async delay(ms: number) {
-    this.areaElegida=false;
-    var area= this.empleadoForm.get('area')?.value;
+    this.areaElegida = false;
+    var area = this.empleadoForm.get('area')?.value;
     this.empleadoForm.get('roles')?.setValue([]);
-    this.dropdownList= new Array<ElementForList>();
+    this.dropdownList = new Array<ElementForList>();
     await new Promise(f => setTimeout(f, 50));
-    this.roles=this.roles.filter(o =>{ return o.areaAsignada._id === area});
+    this.roles = this.roles.filter(o => { return o.areaAsignada._id === area });
     this.roles.forEach(element => {
 
       this.elemento = new ElementForList();
-      this.elemento.item_id=element._id;
-      this.elemento.item_text=element.nombreRol;
+      this.elemento.item_id = element._id;
+      this.elemento.item_text = element.nombreRol;
       this.dropdownList.push(this.elemento);
     });
-    
-    this.areaElegida=true;
+
+    this.areaElegida = true;
     console.log(this.dropdownList);
-}
-    nombreArea(area:Area){
-      var areaAux = new Area();
-      var areas = new Array<Area>();
-      areas = this.areas.filter(o =>{ return o._id === area._id});
-      areaAux = areas[0]
-      //return areaAux.nombreArea;
-    }
+  }
+  nombreArea(area: Area) {
+    var areaAux = new Area();
+    var areas = new Array<Area>();
+    areas = this.areas.filter(o => { return o._id === area._id });
+    areaAux = areas[0]
+    //return areaAux.nombreArea;
+  }
 }

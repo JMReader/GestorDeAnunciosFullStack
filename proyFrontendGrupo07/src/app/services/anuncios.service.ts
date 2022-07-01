@@ -12,7 +12,7 @@ export class AnunciosService {
   constructor(private _http: HttpClient) { }
 
 
-  public postAnuncio(anuncio: Anuncio): Observable<any> {
+  public postAnuncio(anuncio: Anuncio,redactor:string): Observable<any> {
     const httpOptions = {
       headers: new HttpHeaders({
         'access-control-allow-origin': "http://localhost:4200/",
@@ -20,16 +20,19 @@ export class AnunciosService {
       }),
       params: new HttpParams({})
     };
-    /*let myJSON = {
-      "_id": pasaje._id,
-      "precioPasaje": pasaje.precio,
-      "categoriaPasajero": pasaje.categoria,
-      "fechaCompra": pasaje.fecha,
-      "pasajero": {
-        "_id": pasaje.pasajero
-      }
-    };let body = JSON.stringify(myJSON);*/
-    let body = JSON.stringify(anuncio);
+    let myJSON = {
+      "texto": anuncio.texto,
+      "tipo": anuncio.tipo,
+      "medio": anuncio.medio,
+      "fechaEntrada": anuncio.fechaEntrada,
+      "estado": anuncio.estado,
+      "destinatarios": anuncio.destinatarios,
+      "recursos":anuncio.recursos,
+      "tiempoLectura":anuncio.tiempoLectura,
+      "redactor": redactor,
+    };
+    let body = JSON.stringify(myJSON);
+    //let body = JSON.stringify(anuncio);
     this.url = this.url + "/crear";
     
     return this._http.post(this.url, body, httpOptions);
