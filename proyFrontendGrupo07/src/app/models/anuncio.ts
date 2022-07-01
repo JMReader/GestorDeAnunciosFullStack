@@ -1,4 +1,5 @@
 import { Empleado } from "./empleado";
+import { Rol } from "./rol";
 
 export class Anuncio {
     texto!: string;
@@ -7,13 +8,14 @@ export class Anuncio {
     fechaEntrada!: string;
     fechaSalida!: string;
     estado!: string;
-    destinatarios!: Array<string>;
+    destinatarios!: Array<Rol>;
     recursos!: Array<string>;
     tiempoLectura!: string;
     redactor!: Empleado;
+    fechaCreacion!: Date;
 
     constructor(){
-        this.destinatarios = new Array<string>();
+        this.destinatarios = new Array<Rol>();
         this.recursos = new Array<string>();
     }
 }
