@@ -1,7 +1,7 @@
 const Empleado = require('../models/empleado');
 const empCtrl = {}
 
-empCtrl.getEmpleados= async (req, res) => {
+empCtrl.getEmpleados = async (req, res) => {
     try {
         var empleados = await Empleado.find();
         res.json(empleados);
@@ -38,8 +38,10 @@ empCtrl.loginUsuario = async (req, res) => {
         username: req.body.username,
         password: req.body.password
     }
-
-    Empleado.findOne(criteria, function (err, user) {
+    //const user = await Empleado.findOne(criteria).populate("area").populate("roles");
+    //res.json(user);
+    //.populate("area");
+    Empleado.findOne(criteria).populate("area").populate("roles").exec(function (err, user) {
         if (err) {
             res.json({
                 status: 0,
@@ -56,9 +58,7 @@ empCtrl.loginUsuario = async (req, res) => {
             res.json({
                 status: 1,
                 msg: "Usuario encontrado",
-                username: user.username,
-                roles: user.roles, 
-                id: user._id
+                user: user
             })
         }
     }
