@@ -4,4 +4,7 @@ export class Rol {
     _id!: string;
     nombreRol!: string;
     areaAsignada!: Area;
+    constructor(){
+        this.areaAsignada = new Area();
+    }
 }

@@ -40,9 +40,8 @@ export class LoginComponent implements OnInit {
           sessionStorage.setItem("username", user.username);
           sessionStorage.setItem("roles", JSON.stringify(user.roles));//sessionstorage unicamente guarda en string asi que solo transformo el array roles en string
           //para recuperar se usa var roles = JSON.parse(sessionStorage.getItem("roles"));
-          sessionStorage.setItem("area", user.area);
+          sessionStorage.setItem("area", JSON.stringify(user.area));
           //redirigimos a home o a pagina que llamo
-          console.log(sessionStorage.getItem("roles"));
           this.router.navigateByUrl(this.returnUrl);
         } else {
           //usuario no encontrado muestro mensaje en la vista
