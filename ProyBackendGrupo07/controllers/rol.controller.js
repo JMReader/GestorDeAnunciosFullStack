@@ -22,4 +22,10 @@ rolCtrl.createRol = async (req, res) => {
     }
 }
 
+rolCtrl.buscarRol =  async (req,res)=>{
+    var rol = await Rol.findById(req.params._id).populate('areaAsignada');
+    res.json(rol);
+    console.log(rol);
+}
+
 module.exports = rolCtrl;
