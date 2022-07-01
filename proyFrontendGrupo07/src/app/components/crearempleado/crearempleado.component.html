@@ -93,8 +93,8 @@
                     <td>{{emp.email}}</td>
                     <td>{{emp.username}}</td>
                     <td>{{emp.legajo}}</td>
-                    <td>{{emp.area}}</td>
-                    <td><ul><li *ngFor="let rol of emp.roles">{{rol}}</li></ul></td>
+                    <td>{{emp.area.nombreArea}}</td>
+                    <td><ul><li *ngFor="let rol of emp.roles">{{rol.nombreRol}}</li></ul></td>
                 </tr>
             </tbody>
         </table>
