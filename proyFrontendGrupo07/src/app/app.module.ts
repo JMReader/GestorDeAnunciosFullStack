@@ -15,6 +15,7 @@ import { NgMultiSelectDropDownModule, } from 'ng-multiselect-dropdown';
 import { FacebookModule } from 'ngx-facebook';
 import { CrearareaComponent } from './components/creararea/creararea.component';
 import { CrearrolComponent } from './components/crearrol/crearrol.component';
+import { AutorizaranuncioComponent } from './components/autorizaranuncio/autorizaranuncio.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { CrearrolComponent } from './components/crearrol/crearrol.component';
     ListaranunciosComponent,
     CrearempleadoComponent,
     CrearareaComponent,
-    CrearrolComponent
+    CrearrolComponent,
+    AutorizaranuncioComponent
 
   ],
   imports: [
