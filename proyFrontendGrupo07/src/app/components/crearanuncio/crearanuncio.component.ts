@@ -21,7 +21,7 @@ export class CrearanuncioComponent implements OnInit {
   tipos!: Array<string>;
   mediosDisponibles!: Array<string>;
   recursos!: string;
-  redactor!:string;
+  redactor!: string;
 
   //DROPDOWN
   dataDestinatario: Array<ElementForList> = new Array<ElementForList>();//{ item_id: number, item_text: string }
@@ -36,7 +36,7 @@ export class CrearanuncioComponent implements OnInit {
     medioAnuncio: new FormArray([], [Validators.required]),
     vigenciaAnuncio: new FormControl(),
     estadoAnuncio: new FormControl(),
-    destinatariosAnuncio: new FormControl([],Validators.required),
+    destinatariosAnuncio: new FormControl([], Validators.required),
 
     lecturaAnuncio: new FormControl(),
     //redactorAnuncio: new FormControl()
@@ -74,12 +74,12 @@ export class CrearanuncioComponent implements OnInit {
     await new Promise(f => setTimeout(f, 50));
     this.destinatarios = this.destinatarios.filter(o => { return o.areaAsignada._id === area._id }).slice();
     //console.log(this.destinatarios);
-    
+
     //cargar dropdown de destinatarios
     this.anunciosForm.get('destinatariosAnuncio')?.setValue([]);
     this.dataDestinatario = new Array<ElementForList>();
-    
-    for(let element of this.destinatarios){
+
+    for (let element of this.destinatarios) {
       var elemento = new ElementForList();
       elemento.item_id = element._id;
       elemento.item_text = element.nombreRol;
@@ -103,11 +103,10 @@ export class CrearanuncioComponent implements OnInit {
     //this.anuncio.recursos ya se carga en el metodo "onfilechanges" con los archivos base64
     this.anuncio.tiempoLectura = this.anunciosForm.get('lecturaAnuncio')?.value;
     this.redactor = sessionStorage.getItem("_id")!;
-    this.anuncio.fechaCreacion=  new Date();
+    this.anuncio.fechaCreacion = new Date();
     console.log(this.anuncio);
-    this.anuncioService.postAnuncio(this.anuncio,this.redactor, destinatarios);
-
-
+    console.log("Redactor" + this.redactor);
+    this.anuncioService.postAnuncio(this.anuncio, this.redactor, destinatarios);
   }
 
 

@@ -4,7 +4,6 @@ import { Area } from 'src/app/models/area';
 import { Rol } from 'src/app/models/rol';
 import { AreaService } from 'src/app/services/area.service';
 import { RolService } from 'src/app/services/rol.service';
-import {AbstractControl, ValidatorFn} from '@angular/forms';
 
 @Component({
   selector: 'app-crearrol',
@@ -16,7 +15,7 @@ export class CrearrolComponent implements OnInit {
   roles = new Array<Rol>();
   rolForm = new FormGroup({
     area: new FormControl(),
-    nombreRol: new FormControl([],this.unico()),
+    nombreRol: new FormControl(),
   });
 
   constructor(private as: AreaService, private rs: RolService) {
@@ -29,9 +28,10 @@ export class CrearrolComponent implements OnInit {
         });
       });
       console.log(this.areas);
+      this.listarRoles();
   }
 
-  obtenerRolesSegunArea(){
+  /*obtenerRolesSegunArea(){
     var area= this.rolForm.get('area')?.value;
     if (area != null)
     {
@@ -48,27 +48,41 @@ export class CrearrolComponent implements OnInit {
         //this.delay(100);
       }
   }
+  (change)="obtenerRolesSegunArea()"
+  */
 
-unico(): ValidationErrors {  
-  var roles = new Array<Rol>();
-  (control: AbstractControl): { [key: string]: any } | null =>  
-        
-roles=this.roles.filter(o =>{ return o.nombreRol === control.value.toString()});
 
-if (roles.length>1){
-  return {["unique"]: false};
-}
-else{
-  return {["unique"]: true};
-}
-}
 
-error(a:any){
-  console.log(a);
-}
+
+
+
+
+
   enviarRol(){
+    var area = this.rolForm.get('area')?.value;
+    var rol = this.rolForm.get('nombreRol')?.value;
+    var unRol = new Rol();
+    unRol.areaAsignada=area;
+    unRol.nombreRol=rol;
+    this.rs.postRoles(unRol).subscribe(
+      (result) => {
+        console.log(result);
+        this.listarRoles();
+    });
+
   }
 
+  listarRoles(){
+    this.roles = new Array<Rol>();
+        this.rs.getRoles().subscribe(
+          (resultado) => {
+          resultado.forEach((element: any) => {
+          var unRol = new Rol();
+          Object.assign(unRol, element);
+          this.roles.push(unRol);
+          });
+      });
+  }
   ngOnInit(): void {
   }
 

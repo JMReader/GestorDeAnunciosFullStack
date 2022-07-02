@@ -1,87 +1,81 @@
 <div class="container-fluid">
+    <br>
     <h1 class="text-center">Formulario de Anuncio</h1>
-    <form class="forms" [formGroup]="anunciosForm">
+    <br>
+    <div class="row">
+        <div class="col-10 offset-1">
+            <form class="forms" [formGroup]="anunciosForm">
 
-        <div class="form-group">
-            <label for="textoAnuncio" class="form-label">Ingrese el texto del Anuncio</label>
-            <textarea name="textoAnuncio" id="textoAnuncio" class="form-control" placeholder="Mucho texto..." rows="5"
-                formControlName="textoAnuncio"></textarea>
-        </div>
-
-        <div class="form-group">
-            <label for="tipoAnuncio" class="form-label">Tipo Contenido</label>
-            <select name="tipoAnuncio" id="tipoAnuncio" class="form-select" formControlName="tipoAnuncio">
-                <option value="{{item}}" *ngFor="let item of tipos">{{item}}</option>
-            </select>
-        </div>
-
-        <br>
-        <p>Medios de Publicacion:</p>
-        <div *ngFor="let medios of mediosDisponibles; let i=index" class="form-check" required>
-            <label required>
-                <input class="form-check-input" type="checkbox" [value]="medios" (change)="onCheckChange($event)">
-                {{medios}}
-            </label>
-        </div>
-        <br>
-
-        <div class="form-group">
-            <label for="vigenciaAnuncio" class="form-label">Fecha de Vigencia</label>
-            <input type="date" class="form-control" placeholder="Fecha Vigencia" name="vigenciaAnuncio"
-                formControlName="vigenciaAnuncio" id="vigenciaAnuncio">
-        </div>
-
-        <div class="form-group">
-            <label for="estadoAnuncio" class="form-label">Estado Anuncio</label>
-            <select name="estadoAnuncio" id="estadoAnuncio" class="form-select" formControlName="estadoAnuncio">
-                <option value="Edicion">Edicion</option>
-                <option value="Confeccion">Confeccionado</option>
-                <!--imagino que el redactor podrá tener el anuncio como en edición o confeccionado y el encargado lo autoriza o lo cancela-->
-                <!--<option value="Autorizado">Autorizado</option>
+                <div class="form-group">
+                    <label for="textoAnuncio" class="form-label">Ingrese el texto del Anuncio</label>
+                    <textarea name="textoAnuncio" id="textoAnuncio" class="form-control" placeholder="Mucho texto..."
+                        rows="5" formControlName="textoAnuncio"></textarea>
+                </div>
+                <br>
+                <div class="form-group">
+                    <label for="tipoAnuncio" class="form-label">Tipo Contenido</label>
+                    <select name="tipoAnuncio" id="tipoAnuncio" class="form-select" formControlName="tipoAnuncio">
+                        <option value="{{item}}" *ngFor="let item of tipos">{{item}}</option>
+                    </select>
+                </div>
+                <br>
+                <p>Medios de Publicacion:</p>
+                <div *ngFor="let medios of mediosDisponibles; let i=index" class="form-check" required>
+                    <label required>
+                        <input class="form-check-input" type="checkbox" [value]="medios"
+                            (change)="onCheckChange($event)">
+                        {{medios}}
+                    </label>
+                </div>
+                <br>
+                <div class="form-group">
+                    <label for="vigenciaAnuncio" class="form-label">Fecha de Vigencia</label>
+                    <input type="date" class="form-control" placeholder="Fecha Vigencia" name="vigenciaAnuncio"
+                        formControlName="vigenciaAnuncio" id="vigenciaAnuncio">
+                </div>
+                <br>
+                <div class="form-group">
+                    <label for="estadoAnuncio" class="form-label">Estado Anuncio</label>
+                    <select name="estadoAnuncio" id="estadoAnuncio" class="form-select" formControlName="estadoAnuncio">
+                        <option value="Edicion">Edicion</option>
+                        <option value="Confeccion">Confeccionado</option>
+                        <!--imagino que el redactor podrá tener el anuncio como en edición o confeccionado y el encargado lo autoriza o lo cancela-->
+                        <!--<option value="Autorizado">Autorizado</option>
                 <option value="Cancelado">Cancelado</option>-->
-            </select>
+                    </select>
+                </div>
+                <br>
+                <div class="form-group">
+                    <label for="destinatariosAnuncio" class="form-label">Destinatarios</label>
+                    <ng-multiselect-dropdown id="destinatariosAnuncio"
+                        [placeholder]="'Elige uno o varios Destinatarios ...'" [settings]="settingsDestinatario"
+                        [data]="dataDestinatario" name="destinatariosAnuncio" formControlName="destinatariosAnuncio">
+                    </ng-multiselect-dropdown>
+                </div>
+                <br>
+                <div class="form-group">
+                    <label for="recursosAnuncio">Recursos del Anuncio</label>
+                    <input type="file" accept="image/x-png,image/gif,image/jpeg" (onFileChanged)="onFileChanges($event)"
+                        multiple alife-file-to-base64 class="form-control" id="recursosAnuncio"
+                        placeholder="Ingrese Archivos del Anuncio" name="recursosAnuncio" required>
+                </div>
+                <br>
+                <div class="form-group">
+                    <label for="lecturaAnuncio" class="form-label">Tiempo Lectura</label>
+                    <select name="lecturaAnuncio" id="lecturaAnuncio" class="form-select"
+                        formControlName="lecturaAnuncio">
+                        <option value="Corto">Corto</option>
+                        <option value="Medio">Medio</option>
+                        <option value="Largo">Largo</option>
+                    </select>
+                </div>
+                <br>
+                <div>
+                    <button [disabled]="!anunciosForm.valid" type="submit" class="boton btn btn-primary"
+                        (click)="crearAnuncio();anunciosForm.reset()">Registrar</button>
+                </div>
+                <br>
+            </form>
         </div>
-
-        <!--<div class="form-group">
-            <label for="destinatariosAnuncio" class="form-label">Destinatarios</label>
-            <input type="text" class="form-control" name="destinatariosAnuncio" formControlName="destinatariosAnuncio"
-                id="destinatariosAnuncio">
-        </div>-->
-
-        <div class="form-group">
-            <label for="destinatariosAnuncio" class="form-label">Destinatarios</label>
-            <ng-multiselect-dropdown id="destinatariosAnuncio" [placeholder]="'Elige uno o varios Destinatarios ...'"
-                [settings]="settingsDestinatario" [data]="dataDestinatario" name="destinatariosAnuncio"
-                formControlName="destinatariosAnuncio">
-            </ng-multiselect-dropdown>
-        </div>
-
-        <div class="form-group">
-            <label for="recursosAnuncio">Recursos del Anuncio</label>
-            <input type="file" accept="image/x-png,image/gif,image/jpeg" (onFileChanged)="onFileChanges($event)"
-                multiple alife-file-to-base64 class="form-control" id="recursosAnuncio"
-                placeholder="Ingrese Archivos del Anuncio" name="recursosAnuncio" required>
-        </div>
-
-        <div class="form-group">
-            <label for="lecturaAnuncio" class="form-label">Tiempo Lectura</label>
-            <select name="lecturaAnuncio" id="lecturaAnuncio" class="form-select" formControlName="lecturaAnuncio">
-                <option value="Corto">Corto</option>
-                <option value="Medio">Medio</option>
-                <option value="Largo">Largo</option>
-            </select>
-        </div>
-
-        <!--<div class="form-group">
-            <label for="redactorAnuncio">Redactor del Anuncio</label>
-            <input type="text" class="form-control" id="redactorAnuncio" formControlName="redactorAnuncio"
-                name="redactorAnuncio" required>
-        </div>-->
-
-        <div>
-            <button [disabled]="!anunciosForm.valid" type="submit" class="formulario btn btn-primary"
-                (click)="crearAnuncio();anunciosForm.reset()">Registrar</button>
-        </div>
-
-    </form>
+    </div>
 </div>

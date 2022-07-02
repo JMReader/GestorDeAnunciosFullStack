@@ -7,8 +7,7 @@
             <form class="forms" [formGroup]="rolForm">
                 <div class="form-group">
                     <label for="area" class="form-label">Area:</label>
-                    <select name="area" class="form-select" formControlName="area" (change)="obtenerRolesSegunArea()"
-                        required>
+                    <select name="area" class="form-select" formControlName="area" required>
                         <option value="" selected disabled>Seleccione un area...</option>
                         <option *ngFor="let area of areas" value="{{area._id}}">{{area.nombreArea}}</option>
                     </select>
@@ -17,14 +16,6 @@
                     <label for="nombreRol" class="form-label">Nombre del Rol:</label>
                     <input type="text" class="form-control" placeholder="Ingrese el nombre del Rol" name="nombreRol"
                         formControlName="nombreRol" required>
-
-                    <div *ngIf="rolForm.controls['nombreRol'].errors && (rolForm.controls['nombreRol'].dirty || rolForm.controls['nombreRol'].touched)"
-                        class="alert alert-danger">
-                        {{error(rolForm.controls['nombreRol'].errors)}}
-                        <div *ngIf="rolForm.controls['nombreRol'].errors['unique'] && (rolForm.controls['nombreRol'].dirty || rolForm.controls['nombreRol'].touched)" >
-                            Sorry, is wrong
-                        </div>
-                    </div>
                 </div>
                 <br>
                 <button [disabled]="!rolForm.valid" class="boton btn btn-primary"
@@ -33,33 +24,24 @@
             </form>
             <br>
             <br>
-        </div>
-    </div>
+        
     <div class="table-responsive">
         <table class="table table-bordered">
             <thead>
                 <tr>
-                    <th scope="col">Nombre Area</th>
-                    <th scope="col">Encargado</th>
+                    <th scope="col">Nombre Rol</th>
+                    <th scope="col">Area Asignada</th>
                 </tr>
             </thead>
 
             <tbody>
-                <tr *ngFor="let area of areas">
-                    <td>{{area.nombreArea}}</td>
-                    <td>
-                        <ul *ngIf="area.encargado==null">
-                            <p class="null">No hay un encargado asignado</p>
-                        </ul>
-
-                        <ul *ngIf="area.encargado!=null">
-                            <li>Apellido: {{area.encargado.apellido}}</li>
-                            <li>Nombre: {{area.encargado.nombre}}</li>
-                            <li>DNI: {{area.encargado.dni}}</li>
-                        </ul>
-                    </td>
+                <tr *ngFor="let rol of roles">
+                    <td>{{rol.nombreRol}}</td>
+                    <td>{{rol.areaAsignada.nombreArea}}</td>
                 </tr>
             </tbody>
         </table>
     </div>
+</div>
+</div>
 </div>

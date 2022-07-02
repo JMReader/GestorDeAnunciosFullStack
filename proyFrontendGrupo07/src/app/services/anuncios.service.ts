@@ -45,20 +45,35 @@ export class AnunciosService {
     });
     anuncio.destinatarios = rolesArray;
 
-    var empleados = new Array<Empleado>();
+    var redactorAux = new Empleado();
     this.es.getEmpleado().subscribe((result) => {
-      result.forEach((element: any) => {
-        empleados.push(element);
+
+      
+        
+     
+    
+    
+    
+      
+   
+    
+   
+ 
+    
+
+      result.forEach((element :any) => {  
+        if(element._id === redactor)
+        {
+          redactorAux=element;
+        }
       });
     });
-    await new Promise((f) => setTimeout(f, 50));
-    empleados = empleados.filter((o) => {
-      return o._id === redactor;
-    });
-    await new Promise((f) => setTimeout(f, 50));
-    var unEmpleado = empleados[0];
-    anuncio.redactor = unEmpleado;
-    console.log(anuncio.redactor);
+
+  await new Promise(f => setTimeout(f, 60));
+  anuncio.redactor= redactorAux;
+  console.log(redactorAux)
+  console.log(anuncio.redactor);
+
     let body = JSON.stringify(anuncio);
     //let body = JSON.stringify(anuncio);
     var url = this.url + '/crear';
@@ -83,7 +98,11 @@ export class AnunciosService {
   }
 
   public updateAnuncio(anuncio: Anuncio, id: string): Observable<any> {
-    var url = this.url + '/modificar';
+
+    
+
+    var url = this.url + "/actualizar/";
+
     const httpOptions = {
       headers: new HttpHeaders({
         'access-control-allow-origin': 'http://localhost:4200/',
