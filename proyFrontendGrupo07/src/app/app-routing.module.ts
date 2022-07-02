@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { AutorizaranuncioComponent } from './components/autorizaranuncio/autorizaranuncio.component';
 import { CrearanuncioComponent } from './components/crearanuncio/crearanuncio.component';
 import { CrearareaComponent } from './components/creararea/creararea.component';
 import { CrearempleadoComponent } from './components/crearempleado/crearempleado.component';
@@ -12,8 +13,9 @@ const routes: Routes = [
 { path: 'login', component: LoginComponent}, 
 { path: 'anuncios/crear', component: CrearanuncioComponent },
 { path: 'anuncios/ver', component: ListaranunciosComponent  },
+{ path: 'anuncios/autorizar', component: AutorizaranuncioComponent },
 /*{ path: 'anuncios/buscar', component:  },
-{ path: 'anuncios/autorizar', component:  },
+
 { path: 'anuncios/programa', component:  },
 { path: '**', component: },*/
 { path: 'empleado/crear', component: CrearempleadoComponent },

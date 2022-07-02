@@ -2,6 +2,7 @@ import { Empleado } from "./empleado";
 import { Rol } from "./rol";
 
 export class Anuncio {
+    _id!: string;
     texto!: string;
     tipo!: string;
     medio!: Array<string>;

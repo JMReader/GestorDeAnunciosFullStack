@@ -75,7 +75,7 @@ export class AnunciosService {
   }
 
   public updateAnuncio(anuncio: Anuncio, id: string): Observable<any> {
-    this.url = this.url + "/modificar";
+    var url = this.url + "/actualizar/";
     const httpOptions = {
       headers: new HttpHeaders({ 'access-control-allow-origin': "http://localhost:4200/", 'Content-Type': 'application/json' }),
       params: new HttpParams({
@@ -83,7 +83,7 @@ export class AnunciosService {
     };
     let body = JSON.stringify(anuncio);
     console.log(body);
-    return this._http.put(this.url + id, body, httpOptions);
+    return this._http.put(url + id, body, httpOptions);
   }
 
 
