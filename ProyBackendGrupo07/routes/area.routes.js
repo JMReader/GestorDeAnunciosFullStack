@@ -5,6 +5,6 @@ const router = express.Router();
 
 router.get('/obtener', areaCtrl.getAreas );
 router.post('/crear', areaCtrl.createArea);
-router.put('/actualizar/:id', areaCtrl.updateArea);
+router.put('/actualizar/:_id', areaCtrl.updateArea);
 
 module.exports = router;

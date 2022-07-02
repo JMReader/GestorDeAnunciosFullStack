@@ -19,7 +19,7 @@ const EmpleadoSchema = new Schema({
     //roles: [{type: Schema.Types.ObjectId, ref: "Rol", required: 'debe asignar uno o mas roles'}],
     //area: {type: Schema.Types.ObjectId, ref: "Area", required: true},
 
-    dni: {type: String, required: 'debe asignar un usuario al empleado para darlo de alta'},
+    dni: {type: String, required: 'debe asignar un dni al empleado para darlo de alta'},
     username: { type: String, required: true },
     password: { type: String, required: true },
     legajo: {type:String, required: true},

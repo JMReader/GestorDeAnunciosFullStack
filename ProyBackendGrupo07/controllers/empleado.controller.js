@@ -1,4 +1,5 @@
 const Empleado = require('../models/empleado');
+const Area = require('../models/area');
 const empCtrl = {}
 
 empCtrl.getEmpleados = async (req, res) => {
@@ -18,6 +19,12 @@ empCtrl.getEmpleados = async (req, res) => {
 empCtrl.createEmpleado = async (req, res) => {
 
     const empleado = new Empleado(req.body);
+    console.log(empleado)
+    if (empleado.esEncargado==true){
+        ar = await Area.findById(empleado.area)
+        ar.encargado.push(empleado._id) 
+        await Area.updateOne({ _id: empleado.area }, ar);
+    }
     try {
         await empleado.save();
         res.status(200).json({
