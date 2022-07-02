@@ -47,20 +47,6 @@ export class AnunciosService {
 
     var redactorAux = new Empleado();
     this.es.getEmpleado().subscribe((result) => {
-
-      
-        
-     
-    
-    
-    
-      
-   
-    
-   
- 
-    
-
       result.forEach((element :any) => {  
         if(element._id === redactor)
         {
@@ -126,4 +112,89 @@ export class AnunciosService {
     var url = this.url + '/obtener';
     return this._http.get(url, httpOptions);
   }
+  public getFiltroEstado(estado : string): Observable<any> {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'access-control-allow-origin': 'http://localhost:4200/',
+        'Content-Type': 'application/json',
+      }),
+      params: new HttpParams({}),
+    };
+    var url = this.url + '/filtro/estado/';
+    return this._http.get(url + estado , httpOptions);
+  }
+  public getFiltrotxt(texto : string): Observable<any> {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'access-control-allow-origin': 'http://localhost:4200/',
+        'Content-Type': 'application/json',
+      }),
+      params: new HttpParams({}),
+    };
+    var url = this.url + '/filtro/txt/';
+    return this._http.get(url + texto , httpOptions);
+  }
+  public getFiltrofechas(desde : string, hasta :string): Observable<any> {
+    const options = {
+      method: 'GET',
+      params: {
+        "desde": desde,
+        "hasta": hasta
+      },
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      })
+    }
+    var url = this.url + '/filtro/fechas'
+    return this._http.get(url,options)
+  }
+
+  public getFiltroRedactor(RedactorID : string): Observable<any> {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'access-control-allow-origin': 'http://localhost:4200/',
+        'Content-Type': 'application/json',
+      }),
+      params: new HttpParams({}),
+    };
+    var url = this.url + '/filtro/redactor/';
+    return this._http.get(url + RedactorID , httpOptions);
+  }
+
+  public getFiltroDestinatario(DestinatarioID : string): Observable<any> {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'access-control-allow-origin': 'http://localhost:4200/',
+        'Content-Type': 'application/json',
+      }),
+      params: new HttpParams({}),
+    };
+    var url = this.url + '/filtro/destinatario/';
+    return this._http.get(url + DestinatarioID , httpOptions);
+  }
+  public getFiltroMedio(medio : string): Observable<any> {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'access-control-allow-origin': 'http://localhost:4200/',
+        'Content-Type': 'application/json',
+      }),
+      params: new HttpParams({}),
+    };
+    var url = this.url + '/filtro/medio/';
+    return this._http.get(url + medio , httpOptions);
+  }
+  public getFiltroTipoContenido(tipo : string): Observable<any> {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'access-control-allow-origin': 'http://localhost:4200/',
+        'Content-Type': 'application/json',
+      }),
+      params: new HttpParams({}),
+    };
+    var url = this.url + '/filtro/tipo/';
+    return this._http.get(url + tipo , httpOptions);
+  }
+
+
+
 }
