@@ -39,17 +39,19 @@ export class AnunciosService {
     });
     anuncio.destinatarios= rolesArray;
 
-    var empleados = new Array<Empleado>();
+    var redactorAux = new Empleado();
     this.es.getEmpleado().subscribe((result) => {
-  result.forEach((element:any) => {
-    empleados.push(element);
-  });
+      result.forEach((element :any) => {  
+        if(element._id === redactor)
+        {
+          redactorAux=element;
+        }
+      });
     });
-    await new Promise(f => setTimeout(f, 50));
-  empleados = empleados.filter(o => { return o._id === redactor });
-  await new Promise(f => setTimeout(f, 50));
-  var unEmpleado = empleados[0];
-  anuncio.redactor= unEmpleado;
+
+  await new Promise(f => setTimeout(f, 60));
+  anuncio.redactor= redactorAux;
+  console.log(redactorAux)
   console.log(anuncio.redactor);
     let body = JSON.stringify(anuncio);
     //let body = JSON.stringify(anuncio);

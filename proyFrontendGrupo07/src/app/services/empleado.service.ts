@@ -61,8 +61,6 @@ export class EmpleadoService {
     await new Promise(f => setTimeout(f, 60));
     empleado.area = areaAux;
     this.body = JSON.stringify(empleado);
-    console.log("el body xd");
-    console.log(this.body);
     
     this._http.post(url, this.body, httpOptions).subscribe((result) => {
     console.log(result);

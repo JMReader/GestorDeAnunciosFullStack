@@ -49,7 +49,8 @@
                 <br>
                 <div class="form-group">
                     <label for="area" class="form-label">Area:</label>
-                    <select name="area" class="form-select" formControlName="area" (change)="obtenerRolesSegunArea()" required>
+                    <select name="area" class="form-select" formControlName="area" (change)="obtenerRolesSegunArea()"
+                        required>
                         <option value="" selected disabled>Seleccione un area...</option>
                         <option *ngFor="let area of areas" value="{{area._id}}">{{area.nombreArea}}</option>
                     </select>
@@ -64,39 +65,44 @@
                 <br>
                 <button [disabled]="!empleadoForm.valid" class="boton btn btn-primary"
                     (click)="enviarEmpleado()">Registrar</button>
-                    
+
             </form>
             <br>
             <br>
-        </div>
-    </div>
-    <div class="table-responsive">
-        <table class="table table-bordered">
-            <thead>
-                <tr>
-                    <th scope="col">Apellido</th>
-                    <th scope="col">Nombre</th>
-                    <th scope="col">DNI</th>
-                    <th scope="col">Email</th>
-                    <th scope="col">Username</th>
-                    <th scope="col">Legajo</th>
-                    <th scope="col">Area</th>
-                    <th scope="col">Roles</th>
-                </tr>
-            </thead>
 
-            <tbody>
-                <tr *ngFor="let emp of empleados">
-                    <td>{{emp.apellido}}</td>
-                    <td>{{emp.nombre}}</td>
-                    <td>{{emp.dni}}</td>
-                    <td>{{emp.email}}</td>
-                    <td>{{emp.username}}</td>
-                    <td>{{emp.legajo}}</td>
-                    <td>{{emp.area.nombreArea}}</td>
-                    <td><ul><li *ngFor="let rol of emp.roles">{{rol.nombreRol}}</li></ul></td>
-                </tr>
-            </tbody>
-        </table>
+            <div class="table-responsive">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th scope="col">Apellido</th>
+                            <th scope="col">Nombre</th>
+                            <th scope="col">DNI</th>
+                            <th scope="col">Email</th>
+                            <th scope="col">Username</th>
+                            <th scope="col">Legajo</th>
+                            <th scope="col">Area</th>
+                            <th scope="col">Roles</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <tr *ngFor="let emp of empleados">
+                            <td>{{emp.apellido}}</td>
+                            <td>{{emp.nombre}}</td>
+                            <td>{{emp.dni}}</td>
+                            <td>{{emp.email}}</td>
+                            <td>{{emp.username}}</td>
+                            <td>{{emp.legajo}}</td>
+                            <td>{{emp.area.nombreArea}}</td>
+                            <td>
+                                <ul>
+                                    <li *ngFor="let rol of emp.roles">{{rol.nombreRol}}</li>
+                                </ul>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
 </div>

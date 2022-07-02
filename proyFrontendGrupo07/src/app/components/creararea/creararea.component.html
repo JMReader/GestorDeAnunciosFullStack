@@ -13,37 +13,38 @@
                 <br>
                 <button [disabled]="!areaForm.valid" class="boton btn btn-primary"
                     (click)="enviarArea()">Registrar</button>
-                    
+
             </form>
             <br>
             <br>
+
+            <div class="table-responsive">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th scope="col">Nombre Area</th>
+                            <th scope="col">Encargado</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <tr *ngFor="let area of areas">
+                            <td>{{area.nombreArea}}</td>
+                            <td>
+                                <ul *ngIf="area.encargado==null">
+                                    <p class="null">No hay un encargado asignado</p>
+                                </ul>
+
+                                <ul *ngIf="area.encargado!=null">
+                                    <li>Apellido: {{area.encargado.apellido}}</li>
+                                    <li>Nombre: {{area.encargado.nombre}}</li>
+                                    <li>DNI: {{area.encargado.dni}}</li>
+                                </ul>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
-    </div>
-    <div class="table-responsive">
-        <table class="table table-bordered">
-            <thead>
-                <tr>
-                    <th scope="col">Nombre Area</th>
-                    <th scope="col">Encargado</th>
-                </tr>
-            </thead>
-
-            <tbody>
-                <tr *ngFor="let area of areas">
-                    <td>{{area.nombreArea}}</td>
-                    <td>
-                        <ul *ngIf="area.encargado==null">
-                            <p class="null">No hay un encargado asignado</p>
-                        </ul>
-
-                        <ul *ngIf="area.encargado!=null">
-                            <li>Apellido: {{area.encargado.apellido}}</li>
-                            <li>Nombre: {{area.encargado.nombre}}</li>
-                            <li>DNI: {{area.encargado.dni}}</li>
-                        </ul>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
     </div>
 </div>
