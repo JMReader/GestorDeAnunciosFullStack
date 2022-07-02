@@ -51,6 +51,13 @@ export class CrearrolComponent implements OnInit {
   (change)="obtenerRolesSegunArea()"
   */
 
+
+
+
+
+
+
+
   enviarRol(){
     var area = this.rolForm.get('area')?.value;
     var rol = this.rolForm.get('nombreRol')?.value;
@@ -62,6 +69,7 @@ export class CrearrolComponent implements OnInit {
         console.log(result);
         this.listarRoles();
     });
+
   }
 
   listarRoles(){
