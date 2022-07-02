@@ -66,7 +66,8 @@ else{
 error(a:any){
   console.log(a);
 }
-  enviarRol(){}
+  enviarRol(){
+  }
 
   ngOnInit(): void {
   }
