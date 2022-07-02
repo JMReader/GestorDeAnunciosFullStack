@@ -1,4 +1,5 @@
 const Rol = require('../models/rol');
+const area = require('../models/area');
 const rolCtrl  = {}
 
 rolCtrl.getRoles = async (req,res)=>{
@@ -8,18 +9,33 @@ rolCtrl.getRoles = async (req,res)=>{
 
 rolCtrl.createRol = async (req, res) => {
     var rol = new Rol(req.body);
-    try {
-        await rol.save();
-        res.json({
-            'status': '1',
-            'msg': 'Rol guardado correctamente.'
-        })
-    } catch (error) {
+    var rnuevo = await area.find({$and : [{_id:rol.areaAsignada}, { roles: { $in : [rol.nombreRol] }}]});
+    console.log(rnuevo);
+    if(rnuevo[0] == null){
+        console.log("xd")
+        try {
+            let ar = await area.findById(rol.areaAsignada);
+            ar.roles.push(rol.nombreRol)
+            await area.updateOne({ _id: rol.areaAsignada }, ar);
+            await rol.save();
+            res.json({
+                'status': '1',
+                'msg': 'Rol guardado correctamente.'
+            })
+        } catch (error) {
+            res.status(400).json({
+                'status': '0',
+                'msg': 'Error procesando operacion.'
+            })
+        }
+    }else{
+
         res.status(400).json({
             'status': '0',
-            'msg': 'Error procesando operacion.'
+            'msg': 'Este Rol ya se encuentra en el area.'
         })
     }
+
 }
 
 rolCtrl.buscarRol =  async (req,res)=>{

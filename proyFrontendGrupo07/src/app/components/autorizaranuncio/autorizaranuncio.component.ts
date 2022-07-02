@@ -48,6 +48,7 @@ export class AutorizaranuncioComponent implements OnInit {
       console.log(result);
       result.forEach((element: Empleado) => {
         //Busco solo el empleado que me interesa (mismo ID)
+
         if (element._id==id) 
         {
           unEmpleado._id=element._id;
@@ -66,6 +67,7 @@ export class AutorizaranuncioComponent implements OnInit {
     this.anuncios=this.anuncios.filter(o => { 
       //Pongo o.redactor.area.toString() porque, si bien es un objeto area, vuelve solo el id porque no tiene el populate
       //entonces al hacerlo string, puedo compararlo con el id del conectado
+
       return o.redactor.area.toString() === unEmpleado.area._id  && o.estado === "Confeccion"});
     console.log(this.anuncios);
   }
