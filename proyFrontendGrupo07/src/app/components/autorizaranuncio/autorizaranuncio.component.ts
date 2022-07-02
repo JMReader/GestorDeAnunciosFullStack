@@ -21,12 +21,17 @@ export class AutorizaranuncioComponent implements OnInit {
    }
 
   async obtenerAnuncios() {
+    //Hago que el array de anuncios este vacio
     this.anuncios = new Array<Anuncio>();
+    //Obtengo todos los anuncios
     this.as.getAnuncios().subscribe((result) => {
       console.log(result);
       result.forEach((element: any) => {
+        //creo un elemento anuncio
         var unAnuncio = new Anuncio();
+        //Lo lleno de valores
         Object.assign(unAnuncio, element);
+        //Lo cargo en el array de anuncios
         this.anuncios.push(unAnuncio);
       });
     },
@@ -35,11 +40,14 @@ export class AutorizaranuncioComponent implements OnInit {
       });
     console.log("Anuncios: ");
     console.log(this.anuncios);
+    //Obtengo el id del usuario que esta logueado
     var id= sessionStorage.getItem('_id')
     var unEmpleado = new Empleado();
+    //Uso el get para obtener los empleados
     this.es.getEmpleado().subscribe((result) => {
       console.log(result);
       result.forEach((element: Empleado) => {
+        //Busco solo el empleado que me interesa (mismo ID)
         if (element._id==id) 
         {
           unEmpleado._id=element._id;
@@ -50,11 +58,14 @@ export class AutorizaranuncioComponent implements OnInit {
       error => {
         console.log(error);
       });
+    // Esto lo uso para esperar a que termine de buscar los empleados antes de seguir
     await new Promise(f => setTimeout(f, 60));
     console.log(unEmpleado);
     console.log(this.anuncios);
+    //Aqui filtro los anuncios que tienen el mismo area que el que esta conectado y el estado de confeccion
     this.anuncios=this.anuncios.filter(o => { 
-      console.log(o.redactor.area.toString());
+      //Pongo o.redactor.area.toString() porque, si bien es un objeto area, vuelve solo el id porque no tiene el populate
+      //entonces al hacerlo string, puedo compararlo con el id del conectado
       return o.redactor.area.toString() === unEmpleado.area._id  && o.estado === "Confeccion"});
     console.log(this.anuncios);
   }
