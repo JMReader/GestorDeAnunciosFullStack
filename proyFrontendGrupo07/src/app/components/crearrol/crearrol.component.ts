@@ -55,7 +55,7 @@ unico(): ValidationErrors {
         
 roles=this.roles.filter(o =>{ return o.nombreRol === control.value.toString()});
 
-if (roles.length>0){
+if (roles.length>1){
   return {["unique"]: false};
 }
 else{

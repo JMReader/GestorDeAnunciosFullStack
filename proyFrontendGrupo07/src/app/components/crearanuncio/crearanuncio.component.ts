@@ -98,21 +98,14 @@ export class CrearanuncioComponent implements OnInit {
     this.anuncio.medio = this.anunciosForm.get('medioAnuncio')?.value;
     this.anuncio.fechaEntrada = this.anunciosForm.get('vigenciaAnuncio')?.value;
     this.anuncio.estado = this.anunciosForm.get('estadoAnuncio')?.value;
-    this.anuncio.destinatarios.push(this.anunciosForm.get('destinatariosAnuncio')?.value);
+    var destinatarios = new Array<ElementForList>();
+    destinatarios = this.anunciosForm.get('destinatariosAnuncio')?.value;
     //this.anuncio.recursos ya se carga en el metodo "onfilechanges" con los archivos base64
     this.anuncio.tiempoLectura = this.anunciosForm.get('lecturaAnuncio')?.value;
     this.redactor = sessionStorage.getItem("_id")!;
-    //console.log(this.anuncio);
-    this.anuncioService.postAnuncio(this.anuncio,this.redactor).subscribe(
-      (result) => {
-        //console.log(result);
-        alert("Anuncio guardado.");
-        this.anuncio = new Anuncio();
-      },
-      (errors) => {
-        console.log(errors);
-      }
-    );
+    this.anuncio.fechaCreacion=  new Date();
+    console.log(this.anuncio);
+    this.anuncioService.postAnuncio(this.anuncio,this.redactor, destinatarios);
 
 
   }

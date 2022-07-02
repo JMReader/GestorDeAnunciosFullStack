@@ -2,6 +2,11 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Anuncio } from '../models/anuncio';
+import { ElementForList } from '../models/element-for-list';
+import { Empleado } from '../models/empleado';
+import { Rol } from '../models/rol';
+import { EmpleadoService } from './empleado.service';
+import { RolService } from './rol.service';
 
 @Injectable({
   providedIn: 'root'
@@ -9,10 +14,10 @@ import { Anuncio } from '../models/anuncio';
 export class AnunciosService {
   url: string = "http://localhost:3000/anuncio"
 
-  constructor(private _http: HttpClient) { }
+  constructor(private _http: HttpClient, private rs : RolService, private es: EmpleadoService ) { }
 
 
-  public postAnuncio(anuncio: Anuncio,redactor:string): Observable<any> {
+  public async postAnuncio(anuncio: Anuncio,redactor:string, destinatarios:Array<ElementForList>) {
     const httpOptions = {
       headers: new HttpHeaders({
         'access-control-allow-origin': "http://localhost:4200/",
@@ -20,22 +25,39 @@ export class AnunciosService {
       }),
       params: new HttpParams({})
     };
-    let myJSON = {
-      "texto": anuncio.texto,
-      "tipo": anuncio.tipo,
-      "medio": anuncio.medio,
-      "fechaEntrada": anuncio.fechaEntrada,
-      "estado": anuncio.estado,
-      "destinatarios": anuncio.destinatarios,
-      "recursos":anuncio.recursos,
-      "tiempoLectura":anuncio.tiempoLectura,
-      "redactor": redactor,
-    };
-    let body = JSON.stringify(myJSON);
-    //let body = JSON.stringify(anuncio);
-    this.url = this.url + "/crear";
+
     
-    return this._http.post(this.url, body, httpOptions);
+    var rolesArray = new Array<Rol>();
+    var unRol = new Rol;
+    destinatarios.forEach(element => {
+      //rolesArray.push(element.item_id)
+      this.rs.buscarRol(element.item_id).subscribe((result) => {
+        unRol = new Rol;
+        unRol = result;
+        rolesArray.push(unRol);
+      });
+    });
+    anuncio.destinatarios= rolesArray;
+
+    var empleados = new Array<Empleado>();
+    this.es.getEmpleado().subscribe((result) => {
+  result.forEach((element:any) => {
+    empleados.push(element);
+  });
+    });
+    await new Promise(f => setTimeout(f, 50));
+  empleados = empleados.filter(o => { return o._id === redactor });
+  await new Promise(f => setTimeout(f, 50));
+  var unEmpleado = empleados[0];
+  anuncio.redactor= unEmpleado;
+  console.log(anuncio.redactor);
+    let body = JSON.stringify(anuncio);
+    //let body = JSON.stringify(anuncio);
+    var url = this.url + "/crear";
+    
+    this._http.post(url, body, httpOptions).subscribe((result) => {
+      console.log(result);
+      });;
   }
 
 
