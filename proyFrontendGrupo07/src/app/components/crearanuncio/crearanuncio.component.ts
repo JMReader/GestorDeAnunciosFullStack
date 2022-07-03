@@ -22,6 +22,7 @@ export class CrearanuncioComponent implements OnInit {
   mediosDisponibles!: Array<string>;
   recursos!: string;
   redactor!: string;
+  area!: string;
 
   //DROPDOWN
   dataDestinatario: Array<ElementForList> = new Array<ElementForList>();//{ item_id: number, item_text: string }
@@ -104,9 +105,12 @@ export class CrearanuncioComponent implements OnInit {
     this.anuncio.tiempoLectura = this.anunciosForm.get('lecturaAnuncio')?.value;
     this.redactor = sessionStorage.getItem("_id")!;
     this.anuncio.fechaCreacion = new Date();
+    var objeto= JSON.parse(sessionStorage.getItem("area")!);
+    this.area = objeto._id;
     console.log(this.anuncio);
     console.log("Redactor" + this.redactor);
-    this.anuncioService.postAnuncio(this.anuncio, this.redactor, destinatarios);
+    console.log("area obtenida", this.area)
+    this.anuncioService.postAnuncio(this.anuncio, this.redactor, destinatarios, this.area);
   }
 
 

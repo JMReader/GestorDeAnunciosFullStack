@@ -1,3 +1,4 @@
+import { Area } from "./area";
 import { Empleado } from "./empleado";
 import { Rol } from "./rol";
 
@@ -14,6 +15,7 @@ export class Anuncio {
     tiempoLectura!: string;
     redactor!: Empleado;
     fechaCreacion!: Date;
+    area!: Area;
 
     constructor(){
         this.destinatarios = new Array<Rol>();

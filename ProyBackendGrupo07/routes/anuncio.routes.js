@@ -15,4 +15,5 @@ router.get('/filtro/redactor/:redactor', AnuncioController.filtrarRedactor);
 router.get('/filtro/destinatario/:destinatario', AnuncioController.filtrarDestinatario);
 router.get('/filtro/medio/:medio', AnuncioController.filtrarMedio);
 router.get('/filtro/tipo/:contenido', AnuncioController.filtrarContenido);
+router.get('/filtro/area/:area', AnuncioController.obtenerPorArea);
 module.exports = router;
