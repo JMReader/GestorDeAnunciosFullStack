@@ -4,6 +4,10 @@ import { Area } from 'src/app/models/area';
 import { AnunciosService } from 'src/app/services/anuncios.service';
 import { AreaService } from 'src/app/services/area.service';
 import { GoogleChartInterface, GoogleChartType } from 'ng2-google-charts';
+import { Rol } from 'src/app/models/rol';
+import { RolService } from 'src/app/services/rol.service';
+import { EmpleadoService } from 'src/app/services/empleado.service';
+import { Empleado } from 'src/app/models/empleado';
 
 @Component({
   selector: 'app-estadistica',
@@ -13,13 +17,18 @@ import { GoogleChartInterface, GoogleChartType } from 'ng2-google-charts';
 export class EstadisticaComponent implements OnInit {
 
   areas: Array<Area> = [];
-  contadorTotal: number = 0;
   cont: number = 0;
   display: boolean = false;
-  elemento!:boolean;
+  display2: boolean = false;
+  elemento!: boolean;
 
-  constructor(private anuncioService: AnunciosService, private areaService: AreaService) {
+  roles: Array<Rol> = [];
+  empleados: Array<Empleado> = [];
+
+  constructor(private anuncioService: AnunciosService, private areaService: AreaService,
+    private rolService: RolService, private empleadoService: EmpleadoService) {
     this.obtenerAreas();
+    this.obtenerRoles();
   }
 
   ngOnInit(): void {
@@ -33,7 +42,6 @@ export class EstadisticaComponent implements OnInit {
         result.forEach((element: any) => {
           Object.assign(area, element)
           this.areas.push(area);
-          this.contadorTotal++;
           area = new Area();
         });
         console.log(this.areas, 'areas')
@@ -87,5 +95,62 @@ export class EstadisticaComponent implements OnInit {
   hideData() {
     return (this.elemento = false);
   }
+
+  async obtenerRoles() {
+    this.empleados = new Array();
+    this.empleadoService.getEmpleado().subscribe(
+      (result) => {
+        var emp = new Empleado();
+        result.forEach((element: any) => {
+          Object.assign(emp, element)
+          this.empleados.push(emp);
+          emp = new Empleado();
+        });
+        console.log(this.empleados, 'empleados obtenidos')
+      },
+      error => { alert("Error en la petición"); }
+    )
+
+    await new Promise(f => setTimeout(f, 50));
+    var contA: number;
+
+    this.empleados.forEach(async element => {
+
+      this.anuncioService.getFiltroRedactor(element._id).subscribe(
+        async (result) => {
+          console.log(result, 'anuncio obtenido por redactor')
+          contA = result.length;
+          console.log(contA, 'cantidad anuncio por redactor')
+
+          for (let i in element.roles) {
+            //this.roles.push(element.roles[i].nombreRol)
+            //this.roles.push(element.roles[i])
+            this.pieChartRol.dataTable.push([element.roles[i].nombreRol, contA])
+            this.BarChartRol.dataTable.push([element.roles[i].nombreRol, contA])
+            await new Promise(f => setTimeout(f, 50));
+          }
+        }
+      )
+
+    });
+    await new Promise(f => setTimeout(f, 50));
+    this.display2 = true;
+  }
+
+  pieChartRol: GoogleChartInterface = {
+    chartType: GoogleChartType.PieChart,
+    dataTable: [
+      ['Rol', 'Anuncios']
+    ],
+    options: { 'title': 'Anuncios por rol' },
+  };
+
+  BarChartRol: GoogleChartInterface = {
+    chartType: GoogleChartType.ColumnChart,
+    dataTable: [
+      ['Rol', 'Anuncios']
+    ],
+    options: { 'title': 'Anuncios por rol' },
+  };
 
 }

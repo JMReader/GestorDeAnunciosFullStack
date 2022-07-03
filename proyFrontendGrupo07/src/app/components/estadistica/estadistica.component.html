@@ -12,3 +12,15 @@
     </div>
 </div>
 
+<div *ngIf="elemento == true">
+    <div *ngIf="display2==true">
+        <google-chart [data]="pieChartRol" ></google-chart>
+    </div>
+</div>
+
+<div *ngIf="elemento == false">
+    <div *ngIf="display2==true">
+        <google-chart [data]="BarChartRol" ></google-chart>
+    </div> 
+</div>
+

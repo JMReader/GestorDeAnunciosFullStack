@@ -69,7 +69,7 @@ AnuncioController.filtrarRedactor = async (req, res) => {
     try {
         const redac= req.params.redactor;
         
-        const anuncios = await anuncio.find({ redactor: redac});
+        const anuncios = await anuncio.find({ redactor: redac}).populate('redactor');
         res.status(200).json(anuncios);
     } catch (error) {
         console.log(error)
