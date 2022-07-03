@@ -1,0 +1,14 @@
+
+<button (click)="showData()" class="boton btn btn-primary">Grafico en torta</button>
+<button (click)="hideData()" class="boton btn btn-primary">Graficos en Barra</button>
+<div *ngIf="elemento == true">
+    <div *ngIf="display==true">
+        <google-chart [data]="pieChart" ></google-chart>
+    </div>
+</div>
+<div *ngIf="elemento == false">
+    <div *ngIf="display==true">
+        <google-chart [data]="BarChart" ></google-chart>
+    </div>
+</div>
+

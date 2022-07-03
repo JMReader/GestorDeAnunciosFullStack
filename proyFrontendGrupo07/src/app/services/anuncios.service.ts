@@ -2,9 +2,11 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Anuncio } from '../models/anuncio';
+import { Area } from '../models/area';
 import { ElementForList } from '../models/element-for-list';
 import { Empleado } from '../models/empleado';
 import { Rol } from '../models/rol';
+import { AreaService } from './area.service';
 import { EmpleadoService } from './empleado.service';
 import { RolService } from './rol.service';
 
@@ -17,13 +19,15 @@ export class AnunciosService {
   constructor(
     private _http: HttpClient,
     private rs: RolService,
-    private es: EmpleadoService
-  ) {}
+    private es: EmpleadoService,
+    private as: AreaService
+  ) { }
 
   public async postAnuncio(
     anuncio: Anuncio,
     redactor: string,
-    destinatarios: Array<ElementForList>
+    destinatarios: Array<ElementForList>,
+    area: string
   ) {
     const httpOptions = {
       headers: new HttpHeaders({
@@ -47,18 +51,33 @@ export class AnunciosService {
 
     var redactorAux = new Empleado();
     this.es.getEmpleado().subscribe((result) => {
-      result.forEach((element :any) => {  
-        if(element._id === redactor)
-        {
-          redactorAux=element;
+      result.forEach((element: any) => {
+        if (element._id === redactor) {
+          redactorAux = element;
         }
       });
     });
 
-  await new Promise(f => setTimeout(f, 60));
-  anuncio.redactor= redactorAux;
-  console.log(redactorAux)
-  console.log(anuncio.redactor);
+    await new Promise(f => setTimeout(f, 60));
+    anuncio.redactor = redactorAux;
+    console.log(redactorAux)
+    console.log(anuncio.redactor);
+
+    var areaAux = new Area();
+    this.as.getArea().subscribe(
+      (result) => {
+        result.forEach((element: any) => {
+          if (element._id === area) {
+            areaAux = element;
+          }
+        });
+      }
+    )
+    
+    await new Promise(f => setTimeout(f, 60));
+    anuncio.area = areaAux;
+    console.log('area obtenida service', areaAux)
+    console.log('area obtenida service', anuncio.area);
 
     let body = JSON.stringify(anuncio);
     //let body = JSON.stringify(anuncio);
@@ -85,7 +104,7 @@ export class AnunciosService {
 
   public updateAnuncio(anuncio: Anuncio, id: string): Observable<any> {
 
-    
+
 
     var url = this.url + "/actualizar/";
 
@@ -112,7 +131,7 @@ export class AnunciosService {
     var url = this.url + '/obtener';
     return this._http.get(url, httpOptions);
   }
-  public getFiltroEstado(estado : string): Observable<any> {
+  public getFiltroEstado(estado: string): Observable<any> {
     const httpOptions = {
       headers: new HttpHeaders({
         'access-control-allow-origin': 'http://localhost:4200/',
@@ -121,9 +140,9 @@ export class AnunciosService {
       params: new HttpParams({}),
     };
     var url = this.url + '/filtro/estado/';
-    return this._http.get(url + estado , httpOptions);
+    return this._http.get(url + estado, httpOptions);
   }
-  public getFiltrotxt(texto : string): Observable<any> {
+  public getFiltrotxt(texto: string): Observable<any> {
     const httpOptions = {
       headers: new HttpHeaders({
         'access-control-allow-origin': 'http://localhost:4200/',
@@ -132,9 +151,9 @@ export class AnunciosService {
       params: new HttpParams({}),
     };
     var url = this.url + '/filtro/txt/';
-    return this._http.get(url + texto , httpOptions);
+    return this._http.get(url + texto, httpOptions);
   }
-  public getFiltrofechas(desde : string, hasta :string): Observable<any> {
+  public getFiltrofechas(desde: string, hasta: string): Observable<any> {
     const options = {
       method: 'GET',
       params: {
@@ -146,10 +165,10 @@ export class AnunciosService {
       })
     }
     var url = this.url + '/filtro/fechas'
-    return this._http.get(url,options)
+    return this._http.get(url, options)
   }
 
-  public getFiltroRedactor(RedactorID : string): Observable<any> {
+  public getFiltroRedactor(RedactorID: string): Observable<any> {
     const httpOptions = {
       headers: new HttpHeaders({
         'access-control-allow-origin': 'http://localhost:4200/',
@@ -158,10 +177,10 @@ export class AnunciosService {
       params: new HttpParams({}),
     };
     var url = this.url + '/filtro/redactor/';
-    return this._http.get(url + RedactorID , httpOptions);
+    return this._http.get(url + RedactorID, httpOptions);
   }
 
-  public getFiltroDestinatario(DestinatarioID : string): Observable<any> {
+  public getFiltroDestinatario(DestinatarioID: string): Observable<any> {
     const httpOptions = {
       headers: new HttpHeaders({
         'access-control-allow-origin': 'http://localhost:4200/',
@@ -170,9 +189,9 @@ export class AnunciosService {
       params: new HttpParams({}),
     };
     var url = this.url + '/filtro/destinatario/';
-    return this._http.get(url + DestinatarioID , httpOptions);
+    return this._http.get(url + DestinatarioID, httpOptions);
   }
-  public getFiltroMedio(medio : string): Observable<any> {
+  public getFiltroMedio(medio: string): Observable<any> {
     const httpOptions = {
       headers: new HttpHeaders({
         'access-control-allow-origin': 'http://localhost:4200/',
@@ -181,9 +200,9 @@ export class AnunciosService {
       params: new HttpParams({}),
     };
     var url = this.url + '/filtro/medio/';
-    return this._http.get(url + medio , httpOptions);
+    return this._http.get(url + medio, httpOptions);
   }
-  public getFiltroTipoContenido(tipo : string): Observable<any> {
+  public getFiltroTipoContenido(tipo: string): Observable<any> {
     const httpOptions = {
       headers: new HttpHeaders({
         'access-control-allow-origin': 'http://localhost:4200/',
@@ -192,9 +211,20 @@ export class AnunciosService {
       params: new HttpParams({}),
     };
     var url = this.url + '/filtro/tipo/';
-    return this._http.get(url + tipo , httpOptions);
+    return this._http.get(url + tipo, httpOptions);
   }
 
+  public getFiltroArea(AreaID: string): Observable<any> {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'access-control-allow-origin': 'http://localhost:4200/',
+        'Content-Type': 'application/json',
+      }),
+      params: new HttpParams({}),
+    };
+    var url = this.url + '/filtro/area/';
+    return this._http.get(url + AreaID, httpOptions);
+  }
 
 
 }
