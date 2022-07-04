@@ -26,25 +26,36 @@ AnuncioController.crearAnuncio = async (req, res) => {
 AnuncioController.editarAnuncio = async (req, res) => {
     const nuevoAnuncio = new anuncio(req.body);
     try {
-        console.log(nuevoAnuncio)
-        console.log(req.params.id)
+        //console.log(nuevoAnuncio)
+        //console.log(req.params.id)
         //si el anuncio es confeccionado procederemos a enviar un mail al encargado del area
         if (nuevoAnuncio.estado == "confeccionado"){
+            var mails ;
             //buscamos el jefe de area
             var r = await rol.findById(nuevoAnuncio.destinatarios[0])
             
             var a = await area.findById(r.areaAsignada)
             
-            var e = await empleado.findById(a.encargado[0])
-           
+            
+            for (let i = 0; i < a.encargado.length; i++) {
+                var e = await empleado.findById(a.encargado[i])
+                if(i==0){
+                    
+                    mails = e.email;
+                    console.log(mails)
+                }else{
+                    mails = mails + ", " + e.email;
+                }
+            }
+            console.log(mails);
             //transportador del mensaje (quien lo envia en este caso un mail temporal )
             let transporter = nodemailer.createTransport({
                 host: "smtp.gmail.com",
                 port: 465,
                 secure: true, // true for 465, false for other ports
                 auth: {
-                  user: "juanmcoro2003@gmail.com", // generated ethereal user
-                  pass: "lizpxnvjjtbtaiqd", // generated ethereal password
+                  user: "juanmcoro2003@gmail.com", // Mail del qie se va a enviar el mensaje
+                  pass: "lizpxnvjjtbtaiqd", // contraseña de app
                 },
                 tls: {
                     rejectUnauthorized: false
@@ -52,8 +63,7 @@ AnuncioController.editarAnuncio = async (req, res) => {
 
               });
 
-            
-              let info = await transporter.sendMail({
+              let info = await transporter.sendMail({//info del mensaje que se va a enviar
                 from: '"Nuevo anuncio Para Autorizar" <juanmcoro2003@gmail.com>', // sender address
                 to: e.email, // list of receivers
                 subject: "Nuevo Anuncio", // Subject line
@@ -78,7 +88,6 @@ AnuncioController.editarAnuncio = async (req, res) => {
     }
 
 }
-
 
 AnuncioController.getAnuncios = async (req, res) => {
     try {
