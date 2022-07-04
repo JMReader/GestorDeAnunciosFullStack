@@ -58,11 +58,14 @@ export class AnunciosService {
       });
     });
 
+
     await new Promise(f => setTimeout(f, 60));
     anuncio.redactor = redactorAux;
     console.log(redactorAux)
     console.log(anuncio.redactor);
-
+    console.log("El anuncio: ");
+    console.log(anuncio);
+    await new Promise(f => setTimeout(f, 60));
     var areaAux = new Area();
     this.as.getArea().subscribe(
       (result) => {

@@ -84,6 +84,18 @@ export class AutorizaranuncioComponent implements OnInit {
     this.obtenerAnuncios();
   }
 
+  async cancelar(anuncio: Anuncio){
+    anuncio.estado = "Cancelado";
+    this.as.updateAnuncio(anuncio,anuncio._id).subscribe((result) => {
+      console.log(result);
+    },
+      error => {
+        console.log(error);
+      });
+      await new Promise(f => setTimeout(f, 60));
+    this.obtenerAnuncios();
+  }
+
   ngOnInit(): void {
   }
 

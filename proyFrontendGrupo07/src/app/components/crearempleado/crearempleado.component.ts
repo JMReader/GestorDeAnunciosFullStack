@@ -90,7 +90,8 @@ export class CrearempleadoComponent implements OnInit {
     var legajo = this.empleadoForm.get('legajo')?.value;
     var area = this.empleadoForm.get('area')?.value;
     var roles = this.empleadoForm.get('roles')?.value;
-    this.es.guardarEmpleado(apellido, nombre, dni, email, username, password, legajo, area, roles);
+    var encargado = this.empleadoForm.get('encargado')?.value;
+    this.es.guardarEmpleado(apellido, nombre, dni, email, username, password, legajo, area, roles, encargado);
     await new Promise(f => setTimeout(f, 80));
     this.empleados = new Array();
     this.es.getEmpleado().subscribe(

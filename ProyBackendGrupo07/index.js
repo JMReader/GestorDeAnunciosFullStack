@@ -10,6 +10,7 @@ app.use('/anuncio', require('./routes/anuncio.routes'));
 app.use('/empleado', require('./routes/empleado.routes'));
 app.use('/area', require('./routes/area.routes'));
 app.use('/rol', require('./routes/rol.routes'));
+app.use('/medio', require('./routes/medio.routes'));
 /*app.use('/transacciones', require('./routes/transaccion.route'));
 app.use('/persona', require('./routes/persona.route'));
 app.use('/pasaje', require('./routes/pasaje.route'));*/
