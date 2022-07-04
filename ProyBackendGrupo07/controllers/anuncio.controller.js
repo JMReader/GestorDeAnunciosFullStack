@@ -1,4 +1,8 @@
 const anuncio = require("../models/anuncio");
+const rol = require("../models/rol");
+const area = require("../models/area");
+const empleado  = require("../models/empleado");
+const nodemailer = require("nodemailer");
 const AnuncioController = {};
 
 AnuncioController.crearAnuncio = async (req, res) => {
@@ -22,18 +26,57 @@ AnuncioController.crearAnuncio = async (req, res) => {
 AnuncioController.editarAnuncio = async (req, res) => {
     const nuevoAnuncio = new anuncio(req.body);
     try {
-        
-        await anuncio.updateOne({ _id: req.params.id }, nuevoAnuncio);
+        console.log(nuevoAnuncio)
+        console.log(req.params.id)
+        //si el anuncio es confeccionado procederemos a enviar un mail al encargado del area
+        if (nuevoAnuncio.estado == "confeccionado"){
+            //buscamos el jefe de area
+            var r = await rol.findById(nuevoAnuncio.destinatarios[0])
+            
+            var a = await area.findById(r.areaAsignada)
+            
+            var e = await empleado.findById(a.encargado[0])
+           
+            //transportador del mensaje (quien lo envia en este caso un mail temporal )
+            let transporter = nodemailer.createTransport({
+                host: "smtp.gmail.com",
+                port: 465,
+                secure: true, // true for 465, false for other ports
+                auth: {
+                  user: "juanmcoro2003@gmail.com", // generated ethereal user
+                  pass: "lizpxnvjjtbtaiqd", // generated ethereal password
+                },
+                tls: {
+                    rejectUnauthorized: false
+                }
+
+              });
+
+            
+              let info = await transporter.sendMail({
+                from: '"Nuevo anuncio Para Autorizar" <juanmcoro2003@gmail.com>', // sender address
+                to: e.email, // list of receivers
+                subject: "Nuevo Anuncio", // Subject line
+                text: "tenes para actualizar un anuncio pa", // plain text body
+                html: "<b>Nuevo anuncio para autorizar</b> <br> <p>Hola encagado!!"
+                 + " alguien en tu area a subido un anuncio para revisar, ve a hacerlo antes de que sea tarde!!! </p>", // html body
+              });
+
+              console.log("Message sent: %s", info.messageId);}
+
+        await anuncio.updateOne({ _id: req.params.id }, nuevoAnuncio)
         res.json({
             'status': '1',
             'msg': 'Anuncio actualizado correctamente'
         })
     } catch (error) {
+        console.log(error)
         res.json({
             'status': '0',
             'msg': 'Error al actualizar el auncio'
         })
     }
+
 }
 
 
@@ -98,7 +141,6 @@ AnuncioController.filtrarMedio= async (req, res) => {
 
 //buscar por tipo de cont
 AnuncioController.filtrarContenido= async (req, res) => {
-
     try {
         const cont = req.params.contenido;
         //el in busca dentro de un array el valor que especifiquemos :))
