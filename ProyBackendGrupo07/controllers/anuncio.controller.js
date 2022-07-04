@@ -39,7 +39,7 @@ AnuncioController.editarAnuncio = async (req, res) => {
 
 AnuncioController.getAnuncios = async (req, res) => {
     try {
-        var Anuncios = await anuncio.find().populate('redactor');
+        var Anuncios = await anuncio.find().populate('redactor').populate('medios').populate('destinatarios').populate('area');
         res.json(Anuncios);
     } catch (error) {
         console.log(error)
@@ -69,7 +69,7 @@ AnuncioController.filtrarRedactor = async (req, res) => {
     try {
         const redac= req.params.redactor;
         
-        const anuncios = await anuncio.find({ redactor: redac});
+        const anuncios = await anuncio.find({ redactor: redac}).populate('redactor');
         res.status(200).json(anuncios);
     } catch (error) {
         console.log(error)
@@ -176,5 +176,19 @@ AnuncioController.filtrarTexto= async (req, res) =>{
     }
 }
 
+AnuncioController.obtenerPorArea = async (req,res) =>{
+    try {
+        const areaBuscada= req.params.area;
+        
+        const anuncios = await anuncio.find({ area: areaBuscada}).populate('area');
+        res.status(200).json(anuncios);
+    } catch (error) {
+        console.log(error)
+        res.status(400).json({
+            status: '0',
+            msg: 'Error al filtrar los anuncios'
+        })
+    }
+}
 
 module.exports = AnuncioController;

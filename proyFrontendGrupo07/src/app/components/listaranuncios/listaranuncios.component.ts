@@ -21,7 +21,7 @@ export class ListaranunciosComponent implements OnInit {
     this.obtenerAnuncios();
    }
 
-  obtenerAnuncios() {
+  async obtenerAnuncios() {
     this.as.getAnuncios().subscribe((result) => {
       console.log(result);
       result.forEach((element: any) => {
@@ -45,6 +45,7 @@ export class ListaranunciosComponent implements OnInit {
       error => {
         console.log(error);
       });
+      await new Promise(f => setTimeout(f, 80));
     console.log("Anuncios: ");
     console.log(this.anuncios);
     

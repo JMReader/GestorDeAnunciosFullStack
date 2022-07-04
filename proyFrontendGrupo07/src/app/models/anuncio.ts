@@ -1,11 +1,15 @@
+import { Area } from "./area";
 import { Empleado } from "./empleado";
+import { Medio } from "./medio";
 import { Rol } from "./rol";
 
 export class Anuncio {
     _id!: string;
-    texto!: string;
+    titulo!: string;
+    tvSelected!: boolean;
     tipo!: string;
-    medio!: Array<string>;
+    medios!: Array<Medio>;
+    fechaCreacion!: string;
     fechaEntrada!: string;
     fechaSalida!: string;
     estado!: string;
@@ -13,7 +17,7 @@ export class Anuncio {
     recursos!: Array<string>;
     tiempoLectura!: string;
     redactor!: Empleado;
-    fechaCreacion!: Date;
+    area!: Area;
 
     constructor(){
         this.destinatarios = new Array<Rol>();

@@ -18,7 +18,7 @@ export class EmpleadoService {
   body: string = "";
   constructor(private _http: HttpClient, private rs: RolService, private as : AreaService) { }
 
-  public async guardarEmpleado(apellido: string, nombre: string, dni : string, email : string, username : string, password : string, legajo : string, area : string, roles: Array<ElementForList>) {
+  public async guardarEmpleado(apellido: string, nombre: string, dni : string, email : string, username : string, password : string, legajo : string, area : string, roles: Array<ElementForList>, encargado: boolean) {
     var areaAux = new Area();
     this.areas = new Array<Area>();
 
@@ -56,7 +56,7 @@ export class EmpleadoService {
     empleado.username = username;
     empleado.password = password;
     empleado.legajo = legajo;
-    empleado.esEncargado = true;
+    empleado.esEncargado = encargado;
     empleado.roles = rolesArray;
     await new Promise(f => setTimeout(f, 60));
     empleado.area = areaAux;

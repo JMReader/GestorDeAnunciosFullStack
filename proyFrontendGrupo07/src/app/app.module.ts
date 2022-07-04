@@ -16,6 +16,9 @@ import { FacebookModule } from 'ngx-facebook';
 import { CrearareaComponent } from './components/creararea/creararea.component';
 import { CrearrolComponent } from './components/crearrol/crearrol.component';
 import { AutorizaranuncioComponent } from './components/autorizaranuncio/autorizaranuncio.component';
+import { DatePipe } from '@angular/common'
+import { EstadisticaComponent } from './components/estadistica/estadistica.component';
+import { Ng2GoogleChartsModule } from 'ng2-google-charts';
 
 @NgModule({
   declarations: [
@@ -28,7 +31,8 @@ import { AutorizaranuncioComponent } from './components/autorizaranuncio/autoriz
     CrearempleadoComponent,
     CrearareaComponent,
     CrearrolComponent,
-    AutorizaranuncioComponent
+    AutorizaranuncioComponent,
+    EstadisticaComponent
 
   ],
   imports: [
@@ -39,9 +43,10 @@ import { AutorizaranuncioComponent } from './components/autorizaranuncio/autoriz
     HttpClientModule,
     ReactiveFormsModule,
     NgMultiSelectDropDownModule.forRoot(),
-    FacebookModule.forRoot()
+    FacebookModule.forRoot(),
+    Ng2GoogleChartsModule
   ],
-  providers: [],
+  providers: [DatePipe],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
