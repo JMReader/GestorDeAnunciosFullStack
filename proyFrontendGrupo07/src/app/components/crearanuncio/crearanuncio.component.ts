@@ -34,6 +34,7 @@ export class CrearanuncioComponent implements OnInit {
   videoSelected: boolean = false;
   otroSelected: boolean = false;
   archivoCargado: boolean = false;
+  area!: string;
   ArrayRecursos = new  Array<string>(); 
   //DROPDOWN DESTINATARIOS
   dataDestinatario: Array<ElementForList> = new Array<ElementForList>();//{ item_id: number, item_text: string }
@@ -242,11 +243,17 @@ export class CrearanuncioComponent implements OnInit {
     //this.anuncio.recursos ya se carga en el metodo "onfilechanges" con los archivos base64
     this.anuncio.tiempoLectura = this.anunciosForm.get('lecturaAnuncio')?.value;
     this.redactor = sessionStorage.getItem("_id")!;
+
     var date = new Date();
     this.anuncio.fechaCreacion = date.toLocaleDateString();
+///HAY QUE VER ESTO QUE NO SE
+    var objeto= JSON.parse(sessionStorage.getItem("area")!);
+    this.area = objeto._id;
+
     console.log(this.anuncio);
     console.log("Redactor" + this.redactor);
-    this.anuncioService.postAnuncio(this.anuncio, this.redactor, destinatarios);
+    console.log("area obtenida", this.area)
+    this.anuncioService.postAnuncio(this.anuncio, this.redactor, destinatarios, this.area);
   }
 
 //Comprobado

@@ -14,7 +14,7 @@ const AnuncioSchema = new Schema({
    recursos: {type: [String], required: true},
    tiempoLectura: {type:String, required:false},
    redactor: {type: Schema.Types.ObjectId, ref: "Empleado", required: false},
-   
+   area: {type: Schema.Types.ObjectId, ref: "Area", required: false}
 });
 
 module.exports = mongoose.models.Anuncio || mongoose.model('Anuncio', AnuncioSchema);

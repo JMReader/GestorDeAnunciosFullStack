@@ -1,3 +1,4 @@
+import { Area } from "./area";
 import { Empleado } from "./empleado";
 import { Medio } from "./medio";
 import { Rol } from "./rol";
@@ -16,6 +17,7 @@ export class Anuncio {
     recursos!: Array<string>;
     tiempoLectura!: string;
     redactor!: Empleado;
+    area!: Area;
 
     constructor(){
         this.destinatarios = new Array<Rol>();
