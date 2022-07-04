@@ -184,6 +184,8 @@ export class CrearanuncioComponent implements OnInit {
     this.anuncio.medios = mediosSeleccionados;
     this.anuncio.fechaEntrada = this.anunciosForm.get('fechaInicio')?.value;
     this.anuncio.estado = "Confeccionado";
+    var objeto= JSON.parse(sessionStorage.getItem("area")!);
+    this.area = objeto._id;
     var date= new Date() ;
     var dateString= this.dp.transform(date, 'yyyy-MM-dd')?.toString();
     if (dateString != undefined){
@@ -228,7 +230,7 @@ export class CrearanuncioComponent implements OnInit {
   }
     console.log(this.anuncio);
     console.log("Redactor" + this.redactor);
-    this.anuncioService.postAnuncio(this.anuncio, this.redactor, destinatarios);
+    this.anuncioService.postAnuncio(this.anuncio, this.redactor, destinatarios,this.area);
     this.anunciosForm.reset() 
 }
 
@@ -244,8 +246,11 @@ export class CrearanuncioComponent implements OnInit {
     this.anuncio.tiempoLectura = this.anunciosForm.get('lecturaAnuncio')?.value;
     this.redactor = sessionStorage.getItem("_id")!;
 
-    var date = new Date();
-    this.anuncio.fechaCreacion = date.toLocaleDateString();
+    var date= new Date() ;
+    var dateString= this.dp.transform(date, 'yyyy-MM-dd')?.toString();
+    if (dateString != undefined){
+    this.anuncio.fechaCreacion = dateString;
+    }
 ///HAY QUE VER ESTO QUE NO SE
     var objeto= JSON.parse(sessionStorage.getItem("area")!);
     this.area = objeto._id;
