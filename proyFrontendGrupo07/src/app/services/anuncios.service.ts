@@ -86,11 +86,7 @@ export class AnunciosService {
   }
 
   public updateAnuncio(anuncio: Anuncio, id: string): Observable<any> {
-
-    
-
     var url = this.url + "/actualizar/";
-
     const httpOptions = {
       headers: new HttpHeaders({
         'access-control-allow-origin': 'http://localhost:4200/',
