@@ -39,7 +39,7 @@ AnuncioController.editarAnuncio = async (req, res) => {
 
 AnuncioController.getAnuncios = async (req, res) => {
     try {
-        var Anuncios = await anuncio.find().populate('redactor');
+        var Anuncios = await anuncio.find().populate('redactor').populate('medios');
         res.json(Anuncios);
     } catch (error) {
         console.log(error)

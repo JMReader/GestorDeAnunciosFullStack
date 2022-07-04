@@ -47,7 +47,7 @@ export class AnunciosService {
 
     var redactorAux = new Empleado();
     this.es.getEmpleado().subscribe((result) => {
-      result.forEach((element :any) => {  
+      result.forEach((element :Empleado) => {  
         if(element._id === redactor)
         {
           redactorAux=element;
@@ -59,7 +59,9 @@ export class AnunciosService {
   anuncio.redactor= redactorAux;
   console.log(redactorAux)
   console.log(anuncio.redactor);
-
+  console.log("El anuncio: ");
+  console.log(anuncio);
+  await new Promise(f => setTimeout(f, 60));
     let body = JSON.stringify(anuncio);
     //let body = JSON.stringify(anuncio);
     var url = this.url + '/crear';

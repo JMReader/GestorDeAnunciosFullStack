@@ -63,6 +63,12 @@
                     </ng-multiselect-dropdown>
                 </div>
                 <br>
+                <div class="form-check">
+                    <input type="checkbox" class="form-check-input" name="encargado"
+                        formControlName="encargado">
+                    <label for="legajo" class="form-check-label">Es Encargado de área?:</label>
+                </div>
+                <br>
                 <button [disabled]="!empleadoForm.valid" class="boton btn btn-primary"
                     (click)="enviarEmpleado()">Registrar</button>
 

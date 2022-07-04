@@ -4,13 +4,14 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="card col-md-3 offset-md-1 col-sm-5 offset-sm-1 col-12" *ngFor="let anuncio of anuncios">
-                     <img [src]="anuncio.recursos" alt="">
+                    <img *ngFor="let rec of anuncio.recursos" [src]="rec" alt="">
+                    <p>Recursos:  </p>
                     <p>Tipo: {{anuncio.tipo}}</p>
-                    <p>Medio: {{anuncio.medio}}</p>
+                    <p>Medio:<li *ngIf="anuncio.tvSelected==true">TV</li><li *ngFor="let medio of anuncio.medios">{{medio.nombre}}</li> </p>
                     <p>Tiempo de Lectura:{{anuncio.tiempoLectura}}</p>
                     <p>Desde {{anuncio.fechaEntrada}} hasta {{anuncio.fechaSalida}}</p>
                     <p>Autor: {{anuncio.redactor.nombre}}</p>
-                    <h5>{{anuncio.texto}}</h5> 
+                    <!--<h5>{{anuncio.texto}}</h5> -->
                 </div>
                 <div class="d-block">
                     <br>

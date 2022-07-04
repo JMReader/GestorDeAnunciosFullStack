@@ -16,6 +16,7 @@ import { FacebookModule } from 'ngx-facebook';
 import { CrearareaComponent } from './components/creararea/creararea.component';
 import { CrearrolComponent } from './components/crearrol/crearrol.component';
 import { AutorizaranuncioComponent } from './components/autorizaranuncio/autorizaranuncio.component';
+import { DatePipe } from '@angular/common'
 
 @NgModule({
   declarations: [
@@ -41,7 +42,7 @@ import { AutorizaranuncioComponent } from './components/autorizaranuncio/autoriz
     NgMultiSelectDropDownModule.forRoot(),
     FacebookModule.forRoot()
   ],
-  providers: [],
+  providers: [DatePipe],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
