@@ -6,7 +6,7 @@
                 <div class="card col-md-3 offset-md-1 col-sm-5 offset-sm-1 col-12" *ngFor="let anuncio of anuncios">
                     <img [src]="anuncio.recursos" alt="">
                     <p>Tipo: {{anuncio.tipo}}</p>
-                    <p>Medio: {{anuncio.medios}}</p>
+                    <p>Medio:<li *ngIf="anuncio.tvSelected==true">TV</li><li *ngFor="let medio of anuncio.medios">{{medio.nombre}}</li> </p>
                     <p>Tiempo de Lectura:{{anuncio.tiempoLectura}}</p>
                     <p>Desde {{anuncio.fechaEntrada}}</p>
                     <p>Autor: {{anuncio.redactor.nombre}}</p>

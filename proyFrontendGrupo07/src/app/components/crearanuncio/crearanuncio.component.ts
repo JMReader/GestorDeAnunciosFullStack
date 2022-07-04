@@ -186,6 +186,7 @@ export class CrearanuncioComponent implements OnInit {
     this.anuncio.estado = "Confeccionado";
     var objeto= JSON.parse(sessionStorage.getItem("area")!);
     this.area = objeto._id;
+    console.log(this.area);
     var date= new Date() ;
     var dateString= this.dp.transform(date, 'yyyy-MM-dd')?.toString();
     if (dateString != undefined){
@@ -235,30 +236,72 @@ export class CrearanuncioComponent implements OnInit {
 }
 
   borradorAnuncio(){
+    var tipo = this.anunciosForm.get('tipoAnuncio')?.value;
+    this.anuncio.tipo = tipo;
     this.anuncio.titulo = this.anunciosForm.get('tituloAnuncio')?.value;
-    this.anuncio.tipo = this.anunciosForm.get('tipoAnuncio')?.value;
-    this.anuncio.medios = this.anunciosForm.get('medioAnuncio')?.value;
-    this.anuncio.fechaEntrada = this.anunciosForm.get('vigenciaAnuncio')?.value;
-    this.anuncio.estado = "Edicion";
-    var destinatarios = new Array<ElementForList>();
-    destinatarios = this.anunciosForm.get('destinatariosAnuncio')?.value;
-    //this.anuncio.recursos ya se carga en el metodo "onfilechanges" con los archivos base64
-    this.anuncio.tiempoLectura = this.anunciosForm.get('lecturaAnuncio')?.value;
-    this.redactor = sessionStorage.getItem("_id")!;
+    var mediosSeleccionados = new Array<Medio>();
+    var medios = this.anunciosForm.get('medioAnuncio')?.value;
+  
+      medios.forEach((element: ElementForList) => {
+        var unMedio= new Medio();
+        if (element.item_id != "TV"){
+        unMedio._id = element.item_id;
+        mediosSeleccionados.push(unMedio);
+        }
+      });
 
+    this.anuncio.tvSelected=this.tvSelected;
+    this.anuncio.medios = mediosSeleccionados;
+    this.anuncio.fechaEntrada = this.anunciosForm.get('fechaInicio')?.value;
+    this.anuncio.estado = "Borrador";
+    var objeto= JSON.parse(sessionStorage.getItem("area")!);
+    this.area = objeto._id;
     var date= new Date() ;
     var dateString= this.dp.transform(date, 'yyyy-MM-dd')?.toString();
     if (dateString != undefined){
     this.anuncio.fechaCreacion = dateString;
     }
-///HAY QUE VER ESTO QUE NO SE
-    var objeto= JSON.parse(sessionStorage.getItem("area")!);
-    this.area = objeto._id;
-
+    console.log("Fecha Creacion"+this.anuncio.fechaCreacion )
+    var destinatarios = new Array<ElementForList>();
+    destinatarios = this.anunciosForm.get('destinatariosAnuncio')?.value;
+    this.anuncio.tiempoLectura = this.anunciosForm.get('lecturaAnuncio')?.value;
+    this.redactor = sessionStorage.getItem("_id")!;
+    this.anuncio.recursos = new Array<string>();
+    switch (tipo) {
+    case "Texto":{
+      var texto = this.anunciosForm.get('textoAnuncio')?.value;
+      this.anuncio.recursos.push(texto);
+      break;
+    }
+    case "Video":{
+      var video = this.anunciosForm.get('videoAnuncio')?.value;
+      this.anuncio.recursos.push(video);
+      break;
+    }
+    case "HTML":{
+      var html = this.anunciosForm.get('htmlAnuncio')?.value;  
+      this.anuncio.recursos.push(html);
+      break;
+    }
+    case "Imagen":{
+      if (this.tvSelected == true){
+        this.anuncio.fechaSalida = this.anunciosForm.get('fechaFin')?.value;
+      }
+      this.anuncio.recursos = this.ArrayRecursos;
+      break;
+    }
+    case "Otro":{
+      var texto = this.anunciosForm.get('textoAnuncio')?.value;
+      this.anuncio.recursos.push(texto);
+      this.ArrayRecursos.forEach(element => {
+        this.anuncio.recursos.push(element);
+      });
+    }
+  }
     console.log(this.anuncio);
     console.log("Redactor" + this.redactor);
-    console.log("area obtenida", this.area)
-    this.anuncioService.postAnuncio(this.anuncio, this.redactor, destinatarios, this.area);
+    this.anuncioService.postAnuncio(this.anuncio, this.redactor, destinatarios,this.area);
+    this.anunciosForm.reset() 
   }
 
 //Comprobado
