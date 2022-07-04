@@ -13,8 +13,8 @@ const EmpleadoSchema = new Schema({
     apellido: {type: String, required: false},
     email: {type: String, required: false},
 
-    roles: [{type: Schema.Types.ObjectId, ref: Rol, required: 'debe asignar uno o mas roles'}],
-    area: {type: Schema.Types.ObjectId, ref: Area, required: true},
+    roles: [{type: Schema.Types.ObjectId, ref: "Rol", required: 'debe asignar uno o mas roles'}],
+    area: {type: Schema.Types.ObjectId, ref: "Area", required: true},
     //main
     //roles: [{type: Schema.Types.ObjectId, ref: "Rol", required: 'debe asignar uno o mas roles'}],
     //area: {type: Schema.Types.ObjectId, ref: "Area", required: true},
