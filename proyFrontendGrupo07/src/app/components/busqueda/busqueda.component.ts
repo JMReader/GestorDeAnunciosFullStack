@@ -227,7 +227,7 @@ obtenerEmpleados(){
         case "Fechas": {
           var fechaInicio = this.filtroForm.get('fechaStart')?.value;
           var fechaFin = this.filtroForm.get('fechaEnd')?.value;
-          await new Promise(f => setTimeout(f, 30));
+          await new Promise(f => setTimeout(f, 200));
           // this.destinatarios = this.destinatarios.filter(o => { return o.areaAsignada._id === area._id }).slice();
           this.anunciosAFiltrar = this.anunciosAFiltrar.filter(o => { return o.fechaCreacion > fechaInicio && o.fechaCreacion < fechaFin });
           break;
@@ -290,7 +290,7 @@ obtenerEmpleados(){
         }
         case "Redactor": {
           var redactor = this.filtroForm.get('redactor')?.value;//valor ID
-          await new Promise(f => setTimeout(f, 30));
+          await new Promise(f => setTimeout(f, 100));
           this.anunciosAFiltrar = this.anunciosAFiltrar.filter(o => { return o.redactor._id == redactor });
           break;
         }
