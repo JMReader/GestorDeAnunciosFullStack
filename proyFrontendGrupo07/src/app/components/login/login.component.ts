@@ -27,7 +27,7 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || 'anuncios/crear'; //cambiar ruta por home
+    this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || 'anuncios/ver'; //cambiar ruta por home
   }
 
   login() {
@@ -41,6 +41,8 @@ export class LoginComponent implements OnInit {
           sessionStorage.setItem("roles", JSON.stringify(user.roles));//sessionstorage unicamente guarda en string asi que solo transformo el array roles en string
           //para recuperar se usa var roles = JSON.parse(sessionStorage.getItem("roles"));
           sessionStorage.setItem("area", JSON.stringify(user.area));
+          sessionStorage.setItem("esEncargado", user.esEncargado);
+          sessionStorage.setItem("token", result.token);
           //redirigimos a home o a pagina que llamo
           this.router.navigateByUrl(this.returnUrl);
         } else {
@@ -57,7 +59,13 @@ export class LoginComponent implements OnInit {
   }
 
 
-
+  getToken(): string {
+    if (sessionStorage.getItem("token") != null) {
+      return sessionStorage.getItem("token")!;
+    } else {
+      return "";
+    }
+  }
 
 
 }

@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { Area } from 'src/app/models/area';
 import { Rol } from 'src/app/models/rol';
 import { AreaService } from 'src/app/services/area.service';
+import { LoginService } from 'src/app/services/login.service';
 import { RolService } from 'src/app/services/rol.service';
 
 @Component({
@@ -18,17 +20,23 @@ export class CrearrolComponent implements OnInit {
     nombreRol: new FormControl(),
   });
 
-  constructor(private as: AreaService, private rs: RolService) {
-    this.as.getArea().subscribe(
-      (result) => {
-        result.forEach((element: any) => {
-          var unArea = new Area();
-          Object.assign(unArea, element);
-          this.areas.push(unArea);
+  constructor(private as: AreaService, private rs: RolService, public loginService: LoginService, private router: Router) {
+    if (this.loginService.userLoggedIn() && this.loginService.esEncargado()) {
+      this.as.getArea().subscribe(
+        (result) => {
+          result.forEach((element: any) => {
+            var unArea = new Area();
+            Object.assign(unArea, element);
+            this.areas.push(unArea);
+          });
         });
-      });
       console.log(this.areas);
       this.listarRoles();
+    } else {
+      alert("Acceso no autorizado: Debe haberse validado y ser un encargado");
+      this.router.navigate(['login']);
+    }
+
   }
 
   /*obtenerRolesSegunArea(){
@@ -58,29 +66,29 @@ export class CrearrolComponent implements OnInit {
 
 
 
-  enviarRol(){
+  enviarRol() {
     var area = this.rolForm.get('area')?.value;
     var rol = this.rolForm.get('nombreRol')?.value;
     var unRol = new Rol();
-    unRol.areaAsignada=area;
-    unRol.nombreRol=rol;
+    unRol.areaAsignada = area;
+    unRol.nombreRol = rol;
     this.rs.postRoles(unRol).subscribe(
       (result) => {
         console.log(result);
         this.listarRoles();
-    });
+      });
 
   }
 
-  listarRoles(){
+  listarRoles() {
     this.roles = new Array<Rol>();
-        this.rs.getRoles().subscribe(
-          (resultado) => {
-          resultado.forEach((element: any) => {
+    this.rs.getRoles().subscribe(
+      (resultado) => {
+        resultado.forEach((element: any) => {
           var unRol = new Rol();
           Object.assign(unRol, element);
           this.roles.push(unRol);
-          });
+        });
       });
   }
   ngOnInit(): void {

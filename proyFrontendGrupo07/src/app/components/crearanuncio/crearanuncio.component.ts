@@ -73,17 +73,22 @@ export class CrearanuncioComponent implements OnInit {
   });
  
 
+
+ // constructor(private anuncioService: AnunciosService, public loginService: LoginService, private router: Router, private areaService: AreaService, private rolService: RolService) {
+ //   if (this.loginService.userLoggedIn()&&!this.loginService.esEncargado()) {
+ //     this.cargarDestinatarios();
+
   constructor(private anuncioService: AnunciosService, public loginService: LoginService, 
     private router: Router, private areaService: AreaService, private rolService: RolService, 
     private ms: MedioService, private dp: DatePipe, private fbService: FbService) {
-    if (this.loginService.userLoggedIn()) {
+    if (this.loginService.userLoggedIn()&&!this.loginService.esEncargado()) {
        this.cargarDestinatarios();
       this.anuncio = new Anuncio();
        this.tipos = new Array<string>();
        this.tipos = ["Texto", "HTML", "Imagen", "Video", "Otro"];
       this.cargarMedios();
     } else {
-      alert("Debe validarse e ingresar su usuario y clave");
+      alert("Acceso no autorizado: Debe haberse validado, además de ser un empleado");
       this.router.navigate(['login']);
     }
   }
