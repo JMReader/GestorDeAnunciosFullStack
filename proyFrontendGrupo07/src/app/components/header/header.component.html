@@ -10,7 +10,7 @@
             <!--<li class="nav-item"><a class="nav-link" [routerLink]="['anuncios/programa']">Calendario</a></li>-->
 
            
-            <li class="nav-item"><a class="nav-link" [routerLink]="['estadisticas']">Estadisticas</a></li>
+            <li class="nav-item" [hidden]="!loginService.userLoggedIn()||!loginService.esEncargado()"><a class="nav-link" [routerLink]="['estadisticas']">Estadisticas</a></li>
 
 
             <!--    <div>
