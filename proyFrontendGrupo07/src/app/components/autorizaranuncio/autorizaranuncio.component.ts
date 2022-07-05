@@ -90,7 +90,7 @@ export class AutorizaranuncioComponent implements OnInit {
       return o.redactor.area.toString() === unEmpleado.area._id && o.estado === "Confeccionado"
     });
     console.log(this.anuncios);
-    await new Promise(f => setTimeout(f, 50));
+    await new Promise(f => setTimeout(f, 90));
     console.log(this.anuncios);
     this.display = true;
     if (this.anuncios.length == 0) {
@@ -117,6 +117,7 @@ export class AutorizaranuncioComponent implements OnInit {
     );
     
     await new Promise(f => setTimeout(f, 90));
+
     this.obtenerAnuncios();
   }
 

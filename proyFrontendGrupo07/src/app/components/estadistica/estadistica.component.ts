@@ -24,7 +24,7 @@ export class EstadisticaComponent implements OnInit {
   anun: Array<Anuncio> = [];
   roles: Array<Rol> = [];
   anuncios!: Array<Anuncio>;
-  elemento!: boolean;
+  elemento: boolean=false;
   elemento2!:boolean;
   display: boolean = false;
   display2: boolean = false;

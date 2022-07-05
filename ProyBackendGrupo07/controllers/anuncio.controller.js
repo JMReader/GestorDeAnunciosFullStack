@@ -8,17 +8,25 @@ const AnuncioController = {};
 AnuncioController.crearAnuncio = async (req, res) => {
     var Anuncio = new anuncio(req.body);
     try {
-
         console.log(req.body);
         if (Anuncio.estado == "Confeccionado") {
             var mails;
             //buscamos el jefe de area
             var a = await area.findById(Anuncio.area)
 
+//por si falla   
+ //           for (let i = 1; i < a.encargado.length; i++) {
+  //              var e = await empleado.findById(a.encargado[i])
+    //            console.log(a.encargado);
+      //          if(i==1){
+//por si falla
+
+
 
             for (let i = 0; i < a.encargado.length; i++) {
                 var e = await empleado.findById(a.encargado[i])
                 if (i == 0) {
+
 
                     mails = e.email;
                     console.log(mails)
@@ -26,6 +34,7 @@ AnuncioController.crearAnuncio = async (req, res) => {
                     mails = mails + ", " + e.email;
                 }
             }
+            console.log("Ok");
             console.log(mails);
             //transportador del mensaje (quien lo envia en este caso un mail temporal )
             let transporter = nodemailer.createTransport({
@@ -92,10 +101,19 @@ AnuncioController.editarAnuncio = async (req, res) => {
 
             var a = await area.findById(r.areaAsignada)
 
+            
+    /*Por si falla        
+            for (let i = 1; i < a.encargado.length; i++) {
+                var e = await empleado.findById(a.encargado[i])
+                if(i==1){
+   */                 
+
+
 
             for (let i = 0; i < a.encargado.length; i++) {
                 var e = await empleado.findById(a.encargado[i])
                 if (i == 0) {
+
 
                     mails = e.email;
                     console.log(mails)
