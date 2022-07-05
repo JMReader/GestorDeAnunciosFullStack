@@ -8,7 +8,11 @@
                     <h3>Titulo: {{anuncio.titulo}}</h3> 
                     <p>Tipo: {{anuncio.tipo}}</p>
                     <img *ngIf="anuncio.tipo == 'Imagen'" [src]="anuncio.recursos[0]" alt="">
-                    <p *ngIf="anuncio.tipo != 'Imagen'">{{anuncio.recursos}}</p>
+                    <p *ngIf="anuncio.tipo == 'Otro'">Texto del Anuncio: {{anuncio.recursos[0]}}</p>
+                    
+                    <img *ngIf="anuncio.tipo == 'Otro'" [src]="anuncio.recursos[1]" alt="">
+                    <p *ngIf="anuncio.tipo != 'Imagen' && anuncio.tipo != 'Otro'">Contenido del Anuncio: {{anuncio.recursos}}</p>
+                    
                     <p>Autor: {{anuncio.redactor.nombre}} {{anuncio.redactor.apellido}} {{anuncio.redactor.dni}}</p>
                     <p>Medio/s:<li *ngIf="anuncio.tvSelected==true">TV</li><li *ngFor="let medio of anuncio.medios">{{medio.nombre}}</li> </p>
                     <p>Area: {{anuncio.area.nombreArea}}</p>

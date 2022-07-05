@@ -197,6 +197,7 @@ export class CrearanuncioComponent implements OnInit {
     destinatarios = this.anunciosForm.get('destinatariosAnuncio')?.value;
     this.anuncio.tiempoLectura = this.anunciosForm.get('lecturaAnuncio')?.value;
     this.redactor = sessionStorage.getItem("_id")!;
+    console.log("redactor"+this.redactor);
     this.anuncio.recursos = new Array<string>();
     switch (tipo) {
     case "Texto":{
