@@ -19,15 +19,16 @@ const routes: Routes = [
 { path: 'anuncios/descripcion', component: AnuncioComponent },
 { path: 'anuncios/buscar', component: BusquedaComponent },
 /*
-{ path: 'anuncios/programa', component:  },
-{ path: '**', component: },*/
+{ path: 'anuncios/programa', component:  },*/
+
 { path: 'empleado/crear', component: CrearempleadoComponent },
 
 { path: 'area/crear', component: CrearareaComponent },
 
 { path: 'estadisticas', component: EstadisticaComponent },
 
-{ path: 'rol/crear', component: CrearrolComponent }];
+{ path: 'rol/crear', component: CrearrolComponent },
+{ path: '**', component: ListaranunciosComponent}];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
