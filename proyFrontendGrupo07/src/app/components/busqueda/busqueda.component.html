@@ -1,10 +1,12 @@
 <form [formGroup]="filtroForm">
-  <div class="form-group f">
+  <div class="form-group f rows">
+    <div class="col-10 offset-1">
     <label for="consultas" class="form-label">Filtros:</label>
     <ng-multiselect-dropdown *ngIf="display==true" id="consultas"
       [placeholder]="'Elige uno o varios filtros de busqueda'" [settings]="settingsFiltros" [data]="dataFiltros"
       name="medioAnuncio" formControlName="filtros" (click)="cambioFiltro()">
     </ng-multiselect-dropdown>
+    </div>
   </div>
   <br><br>
   <div class="cont-f">
@@ -12,13 +14,14 @@
 
     <div class="busquedas">
 
-      <div class="input-group mb-3">
+      <div class="form-group mb-3" *ngIf="tituloSelected==true">
+        <label class="form-label" for="titulo">Filtrar por titulo:</label>
         <input type="text" class="form-control" placeholder="titulo" aria-label="Recipient's username"
-          aria-describedby="button-addon2" *ngIf="tituloSelected==true" formControlName="titulo">
+          aria-describedby="button-addon2" formControlName="titulo">
 
       </div>
-      <div class="input-group mb-3" *ngIf="destinatarioSelected==true">
-
+      <div class="form-groupmb-3" *ngIf="destinatarioSelected==true">
+        <label class="form-label" for="destinatario">Filtrar por destinatario:</label>
         <select class="form-select" formControlName="destinatario">
           <option value="" disabled selected>Seleccione una opcion...</option>
           <option *ngFor="let rol of roles" value="{{rol.nombreRol}}">{{rol.nombreRol}}</option>
@@ -26,26 +29,29 @@
         </select>
       </div>
 
-      <div class="input-group mb-3" *ngIf="fechasSelected==true">
-        <div class="mb-3 m">
-          <label for="desde">Desde: </label>
+      <div class="form-group " *ngIf="fechasSelected==true">
+        <label for="fecha">Filtrar por Fecha:</label>
+        <br>
+        <div class="mb-3">
+          <label class="form-label" for="desde">Desde: </label>
           <input type="date" class="form-control" id="desde" name="desde" formControlName="fechaStart">
         </div>
 
         <div class="mb-3">
-          <label for="hasta">Hasta: </label>
+          <label class="form-label" for="hasta">Hasta: </label>
           <input type="date" class="form-control" id="hasta" name="hasta" formControlName="fechaEnd">
         </div>
       </div>
-      <div class="input-group mb-3" *ngIf="medioSelected==true">
-        
+      <div class="form-group mb-3" *ngIf="medioSelected==true">
+        <label class="form-label" for="medio">Filtrar por medio:</label>
         <select class="form-select" formControlName="medio">
           <option value="" disabled selected>Seleccione una opcion...</option>
           <option *ngFor="let med of mediosDisponibles" value="{{med.nombre}}">{{med.nombre}}</option>
           
         </select>
       </div>
-      <div class="input-group mb-3" *ngIf="tipoSelected==true" >
+      <div class="form-group mb-3" *ngIf="tipoSelected==true" >
+        <label class="form-label" for="tipo">Filtrar por tipo:</label>
         <select class="form-select" formControlName="tipo">
           <option value="" disabled selected>Seleccione una opcion...</option>
           <option value="Texto">Texto</option>
@@ -56,9 +62,9 @@
         </select>
         
       </div>
-      <div class="input-group mb-3" *ngIf="estadoSelected==true">
+      <div class="form-group mb-3" *ngIf="estadoSelected==true">
 
-
+        <label class="form-label" for="estado">Filtrar por Estado:</label>
         <select class="form-select" formControlName="estado">
           <option value="" disabled selected>Seleccione una opcion...</option>
           <option value="Borrador">Borrador</option>
@@ -69,8 +75,8 @@
         </select>
 
       </div>
-      <div class="input-group mb-3" *ngIf="redactorSelected==true">
-
+      <div class="form-group mb-3" *ngIf="redactorSelected==true">
+        <label class="form-label" for="redactor">Filtrar por redactor:</label>
         <select class="form-select" formControlName="redactor">
           <option value="" disabled selected>Seleccione una opcion...</option>
           <option *ngFor="let emp of empleados" value="{{emp._id}}">{{emp.apellido}} {{emp.nombre}} {{emp.dni}}</option>
@@ -81,21 +87,23 @@
       
 
 
-      <button class="btn btn-primary" (click)="filtrar()">Filtrar</button>
+      <button class="btn btn-primary boton" (click)="filtrar()">Filtrar</button>
     </div>
     <div class="cont">
     <h4 class="t">Anuncios encontrados:</h4>
     <div class="result">
       <br>
       <div class="card col-md-4 col-sm-6 col-12" *ngFor="let anuncio of anunciosAFiltrar">
+        <div *ngIf="displayCard==true">
         <b>{{anuncio.titulo}}</b>
         <p>Tipo: {{anuncio.tipo}}</p>
         <p *ngIf="anuncio.tipo == 'Otro'">Texto del Anuncio: {{anuncio.recursos[0]}}</p>
         <img *ngIf="anuncio.tipo == 'Otro'" [src]="anuncio.recursos[1]" alt=""> 
         <p *ngIf="anuncio.tipo != 'Imagen' && anuncio.tipo != 'Otro'">Contenido del Anuncio: {{anuncio.recursos[0]}}</p>
         <br>
-        <button class="btn btn-primary" (click)="redirect(anuncio._id)">Mas Informacion</button>
+        <button type="submit" class="btn btn-primary" [disabled]="!filtroForm.valid" (click)="redirect(anuncio._id)">Mas Informacion</button>
         <br>
+      </div>
     </div>
     </div>
     </div>
