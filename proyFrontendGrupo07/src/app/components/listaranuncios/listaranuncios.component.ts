@@ -14,7 +14,7 @@ export class ListaranunciosComponent implements OnInit {
   anunciosSlider: Array<Anuncio> = [];
   anuncioSlider: Anuncio = new Anuncio();
   anunciosListado : Array<Anuncio> = [];
-  bandTV: boolean=false;
+  anuncioEnSlider: boolean=false;
 
   anuncios: Array<Anuncio> = [];
   anuncio: Anuncio = new Anuncio(); 
@@ -40,8 +40,9 @@ export class ListaranunciosComponent implements OnInit {
       this.anuncios = this.anuncios.filter(o => o.estado == "Autorizado");
       await new Promise(f => setTimeout(f, 90));
       this.anuncios.forEach(element => {
-          if(element.tvSelected==true){
+          if(element.tvSelected==true || element.tipo=="Imagen"){
             this.anunciosSlider.push(element);
+            this.anuncioEnSlider=true;
           }
           else
           {
