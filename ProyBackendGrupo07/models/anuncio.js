@@ -6,6 +6,7 @@ const AnuncioSchema = new Schema({
    tipo: {type: String, required: true},
    medios: {type: [Schema.Types.ObjectId], ref:"Medio", required: true},
    tvSelected: {type: Boolean, required: true},
+   fbSelected: {type: Boolean, required: true},
    fechaCreacion: {type: Date, required: true},//hora de la creacion del anuncio :)
    fechaEntrada: {type: Date, required: false},//autorizacion
    fechaSalida: {type: Date, required: false},
