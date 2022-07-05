@@ -27,6 +27,7 @@
     "ng2-charts": "^3.1.0",
     "ng2-google-charts": "^7.0.0",
     "ngx-facebook": "^3.0.0-0",
+    "query": "^0.2.0",
     "rxjs": "~7.5.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.11.4"

@@ -9,7 +9,7 @@ import { CrearrolComponent } from './components/crearrol/crearrol.component';
 import { EstadisticaComponent } from './components/estadistica/estadistica.component';
 import { ListaranunciosComponent } from './components/listaranuncios/listaranuncios.component';
 import { LoginComponent } from './components/login/login.component';
-
+import { BusquedaComponent } from './components/busqueda/busqueda.component';
 
 const routes: Routes = [
 { path: 'login', component: LoginComponent}, 
@@ -17,8 +17,8 @@ const routes: Routes = [
 { path: 'anuncios/ver', component: ListaranunciosComponent  },
 { path: 'anuncios/autorizar', component: AutorizaranuncioComponent },
 { path: 'anuncios/descripcion', component: AnuncioComponent },
-/*{ path: 'anuncios/buscar', component:  },
-
+{ path: 'anuncios/buscar', component: BusquedaComponent },
+/*
 { path: 'anuncios/programa', component:  },
 { path: '**', component: },*/
 { path: 'empleado/crear', component: CrearempleadoComponent },

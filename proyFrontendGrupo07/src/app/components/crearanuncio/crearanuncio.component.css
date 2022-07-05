@@ -1,3 +1,11 @@
 .boton{
     width: 100%;
 }
+
+.fbForm{
+    background-color: #2f55a4;
+    padding: 12px;
+    color: white;
+    margin: 6px;
+    border-radius: 9px;
+}

@@ -5,8 +5,8 @@
         <div class="carousel-inner ">
             <div class="carousel-item active d-flex align-items-center text-center justify-content-center">
 
-                <img class="d-block img-fluid" src="{{anuncioSlider.recursos}}"
-                    style="width: auto;height: 60vh;object-fit: scale-down;">
+                <img class="d-block img-fluid" src="{{anuncioSlider.recursos[0]}}"
+                    style="width: auto;height: 60vh;object-fit: scale-down;" (click)="redirect(anuncioSlider._id)" >
                 <div class="carousel-caption d-block">
                 </div>
 
@@ -25,19 +25,32 @@
     <div class=" container-fluid row">
 
         <div class="container-fluid">
-            <div class="row">
-                <div class="card col-md-3 offset-md-1 col-sm-5 offset-sm-1 col-12" *ngFor="let anuncio of anunciosListado">
-                    <img [src]="anuncio.recursos" alt="">
+            <div class="row gx-6">
+                <div class="card col-md-4 col-sm-6 col-12" *ngFor="let anuncio of anunciosListado">
+                    <!--<img [src]="anuncio.recursos" alt="">
 
-                    <!--<img *ngFor="let rec of anuncio.recursos" [src]="rec" alt="">
+                    <img *ngFor="let rec of anuncio.recursos" [src]="rec" alt="">
                     <p>Recursos:  </p>-->
-
+                    
                     <p>Tipo: {{anuncio.tipo}}</p>
-                    <p>Medio:<li *ngIf="anuncio.tvSelected==true">TV</li><li *ngFor="let medio of anuncio.medios">{{medio.nombre}}</li> </p>
-                    <p>Tiempo de Lectura:{{anuncio.tiempoLectura}}</p>
-                    <p>Desde {{anuncio.fechaEntrada}} hasta {{anuncio.fechaSalida}}</p>
-                    <p>Autor: {{anuncio.redactor.nombre}}</p>
-
+                    <p *ngIf="anuncio.tipo == 'Otro'">Texto del Anuncio: {{anuncio.recursos[0]}}</p>
+                    <img *ngIf="anuncio.tipo == 'Otro'" [src]="anuncio.recursos[1]" alt=""> 
+                    <p *ngIf="anuncio.tipo != 'Imagen' && anuncio.tipo != 'Otro'">Contenido del Anuncio: {{anuncio.recursos[0]}}</p>
+                    
+                    <!--<p>Autor: {{anuncio.redactor.nombre}} {{anuncio.redactor.apellido}} {{anuncio.redactor.dni}}</p>
+                    <p>Medio/s:<li *ngIf="anuncio.tvSelected==true">TV</li>
+                        <li *ngFor="let medio of anuncio.medios">{{medio.nombre}}</li>
+                    </p>
+                    <p>Area: {{anuncio.area.nombreArea}}</p>
+                    <p>Destinatarios: <li *ngFor="let dest of anuncio.destinatarios">{{dest.nombreRol}}</li>
+                    </p>
+                    <p>Tiempo de Lectura: {{anuncio.tiempoLectura}}</p>
+                    <p>Fecha Creacion: {{anuncio.fechaCreacion}}</p>
+                    <p>Desde: {{anuncio.fechaEntrada}} <span *ngIf="anuncio.tvSelected==true"> Hasta:
+                            {{anuncio.fechaSalida}}</span></p>-->
+                    <br>
+                    <button class="btn btn-primary" (click)="redirect(anuncio._id)">Mas Informacion</button>
+                    <br>
                     <!--<h5>{{anuncio.texto}}</h5> -->
                 </div>
                 <div class="d-block">

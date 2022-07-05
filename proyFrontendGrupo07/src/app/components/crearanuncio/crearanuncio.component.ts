@@ -6,12 +6,13 @@ import { Rol } from 'src/app/models/rol';
 import { AnunciosService } from 'src/app/services/anuncios.service';
 import { LoginService } from 'src/app/services/login.service';
 import { IDropdownSettings } from 'ng-multiselect-dropdown';
-import { ElementForList } from 'src/app/models/element-for-list';
 import { AreaService } from 'src/app/services/area.service';
 import { RolService } from 'src/app/services/rol.service';
 import { Medio } from 'src/app/models/medio';
 import { MedioService } from 'src/app/services/medio.service';
 import { DatePipe } from '@angular/common'
+import { ElementForList } from 'src/app/models/element-for-list';
+import { FbService } from 'src/app/services/fb.service';
 
 @Component({
   selector: 'app-crearanuncio',
@@ -33,6 +34,8 @@ export class CrearanuncioComponent implements OnInit {
   imagenSelected: boolean = false;
   videoSelected: boolean = false;
   otroSelected: boolean = false;
+  fbSelected: boolean = false;
+  fbEstado: boolean = false;
   archivoCargado: boolean = false;
   addMedio: boolean = false;
   checkMedio: boolean = true;
@@ -67,19 +70,28 @@ export class CrearanuncioComponent implements OnInit {
     estadoAnuncio: new FormControl(),
     destinatariosAnuncio: new FormControl([], Validators.required),
     lecturaAnuncio: new FormControl(),
-    objectMedio: new FormControl()
+    objectMedio: new FormControl(),
+    urlFB: new FormControl(),
+    textoFB: new FormControl(),
   });
  
 
-  constructor(private anuncioService: AnunciosService, public loginService: LoginService, private router: Router, private areaService: AreaService, private rolService: RolService, private ms: MedioService, private dp: DatePipe) {
-    if (this.loginService.userLoggedIn()) {
-      this.cargarDestinatarios();
+
+ // constructor(private anuncioService: AnunciosService, public loginService: LoginService, private router: Router, private areaService: AreaService, private rolService: RolService) {
+ //   if (this.loginService.userLoggedIn()&&!this.loginService.esEncargado()) {
+ //     this.cargarDestinatarios();
+
+  constructor(private anuncioService: AnunciosService, public loginService: LoginService, 
+    private router: Router, private areaService: AreaService, private rolService: RolService, 
+    private ms: MedioService, private dp: DatePipe, private fbService: FbService) {
+    if (this.loginService.userLoggedIn()&&!this.loginService.esEncargado()) {
+       this.cargarDestinatarios();
       this.anuncio = new Anuncio();
-      this.tipos = new Array<string>();
-      this.tipos = ["Texto", "HTML", "Imagen", "Video", "Otro"];
+       this.tipos = new Array<string>();
+       this.tipos = ["Texto", "HTML", "Imagen", "Video", "Otro"];
       this.cargarMedios();
     } else {
-      alert("Debe validarse e ingresar su usuario y clave");
+      alert("Acceso no autorizado: Debe haberse validado, además de ser un empleado");
       this.router.navigate(['login']);
     }
   }
@@ -87,21 +99,20 @@ export class CrearanuncioComponent implements OnInit {
   async cargarMedios() {
     this.mediosDisponibles = new Array<Medio>();
     var unMedio = new Medio();
-    /*unMedio.nombre = "Twitter";
-    unMedio._id ="Twitter";
+    // unMedio.nombre = "Twitter";
+    // unMedio._id ="Twitter";
+    // unMedio.usuario=""
+    // this.mediosDisponibles.push(unMedio);
+    // unMedio = new Medio();
+    // unMedio.nombre = "YouTube";
+    // unMedio._id ="YouTube";
+    // unMedio.usuario=""
+    // this.mediosDisponibles.push(unMedio);
+    unMedio.nombre = "Facebook";
+    unMedio._id ="Facebook";
     unMedio.usuario=""
     this.mediosDisponibles.push(unMedio);
     unMedio = new Medio();
-    unMedio.nombre = "YouTube";
-    unMedio._id ="YouTube";
-    unMedio.usuario=""
-    this.mediosDisponibles.push(unMedio);
-    unMedio = new Medio();
-    unMedio.nombre = "TikTok";
-    unMedio._id ="TikTok";
-    unMedio.usuario=""
-    this.mediosDisponibles.push(unMedio);
-    unMedio = new Medio();*/
     unMedio.nombre = "TV";
     unMedio._id ="TV";
     this.mediosDisponibles.push(unMedio);
@@ -167,7 +178,44 @@ export class CrearanuncioComponent implements OnInit {
     //console.log(this.dataDestinatario);
   }
 
+  cont!: number;
+  cambiar(){
+    this.cont=0;
+    if(this.fbEstado==true){
+      this.fbEstado=false;
+    }
+    else{
+      this.fbEstado=true
+    }
+  }
+
+  postearFb(){
+    if(this.fbSelected == true){
+      if (this.fbEstado == true) {
+        var texto = this.anunciosForm.get('textoFB')?.value;
+        this.fbService.postearFb(texto)
+        console.log("xd")
+      } else {
+        var texto = this.anunciosForm.get('textoFB')?.value;
+        var url = this.anunciosForm.get('urlFB')?.value;
+        this.fbService.postearImgFb(url,texto)
+      }
+    }
+  }
+
   crearAnuncio() {
+    if(this.fbSelected == true){
+      if (this.fbEstado == true) {
+        var texto = this.anunciosForm.get('textoFB')?.value;
+        this.fbService.postearFb(texto)
+        console.log("xd")
+      } else {
+        var texto = this.anunciosForm.get('textoFB')?.value;
+        var url = this.anunciosForm.get('urlFB')?.value;
+        this.fbService.postearImgFb(url,texto)
+      }
+    }
+
     var tipo = this.anunciosForm.get('tipoAnuncio')?.value;
     this.anuncio.tipo = tipo;
     this.anuncio.titulo = this.anunciosForm.get('tituloAnuncio')?.value;
@@ -176,13 +224,14 @@ export class CrearanuncioComponent implements OnInit {
   
       medios.forEach((element: ElementForList) => {
         var unMedio= new Medio();
-        if (element.item_id != "TV"){
+        if (element.item_id != "TV" && element.item_id !="Facebook"){
         unMedio._id = element.item_id;
         mediosSeleccionados.push(unMedio);
         }
       });
 
     this.anuncio.tvSelected=this.tvSelected;
+    this.anuncio.fbSelected=this.fbSelected;
     this.anuncio.medios = mediosSeleccionados;
     this.anuncio.fechaEntrada = this.anunciosForm.get('fechaInicio')?.value;
     this.anuncio.estado = "Confeccionado";
@@ -331,42 +380,31 @@ export class CrearanuncioComponent implements OnInit {
         this.anunciosForm.get('tipoAnuncio')?.disable();
         this.tipoCambiado();
         this.anunciosForm.get('fechaFin')?.setValidators(Validators.required);
-        /*this.anunciosForm.get('tipoAnuncio')?.setValue("Imagen");
-        this.anunciosForm.get('tipoAnuncio')?.disable();
-        this.anunciosForm.get('htmlAnuncio')?.setValue(null);
-        this.anunciosForm.get('htmlAnuncio')?.markAsPristine;
-        this.anunciosForm.get('videoAnuncio')?.setValue(null);
-        this.anunciosForm.get('videoAnuncio')?.markAsPristine;
-        this.anunciosForm.get('textoAnuncio')?.setValue(null);
-        this.anunciosForm.get('textoAnuncio')?.markAsPristine;
-
-        this.otroSelected = false;
-        this.anunciosForm.get('textoAnuncio')?.setValidators(Validators.nullValidator);
-        this.HTMLSelected = false;
-        this.anunciosForm.get('htmlAnuncio')?.setValidators(Validators.nullValidator);
-        this.videoSelected = false;
-        this.anunciosForm.get('videoAnuncio')?.setValidators(Validators.nullValidator);
-        this.textoSelected = false;*/
-        //this.imagenSelected = true;
-        /*if (this.ArrayRecursos.length != 0)
-        {
-          this.archivoCargado = true;
-        }
-        else
-        {
-          this.archivoCargado = false;
-        }/*** */
-        //this.tipoCambiado();
       }
     });
+
     await new Promise(f => setTimeout(f, 50));
+
+    var fb = false;
+    medios.forEach((element: any) => {
+      if (element.item_text === "Facebook " && element.item_id === "Facebook")
+      {
+        fb=true;
+      }
+    });
+
+    await new Promise(f => setTimeout(f, 50));
+
     this.tvSelected = tv;
+    this.fbSelected= fb;
+    console.log(this.fbEstado)
     if (this.tvSelected == false){
       this.anunciosForm.get('tipoAnuncio')?.enable();
       this.anunciosForm.get('fechaFin')?.setValidators(Validators.nullValidator);
       this.anunciosForm.get('fechaFin')?.setValue(null);
     }
-    console.log("tvSelected: " + this.tvSelected);
+    //console.log("tvSelected: " + this.tvSelected);
+    console.log("fbSelected: " + this.fbSelected);
   }
 //revisar
   tipoCambiado(){
