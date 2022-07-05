@@ -110,7 +110,6 @@ export class CrearanuncioComponent implements OnInit {
     // this.mediosDisponibles.push(unMedio);
     unMedio.nombre = "Facebook";
     unMedio._id ="Facebook";
-    unMedio.usuario=""
     this.mediosDisponibles.push(unMedio);
     unMedio = new Medio();
     unMedio.nombre = "TV";

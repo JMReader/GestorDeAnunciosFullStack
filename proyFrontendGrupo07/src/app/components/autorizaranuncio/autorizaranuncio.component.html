@@ -1,5 +1,8 @@
 <body>
     <br>
+    <div *ngIf="existen==false">
+        <h1>No hay anuncios para autorizar</h1>
+    </div>
     <div class=" container-fluid row">
         <div class="container-fluid" *ngIf="display==true">
             <div class="row gx-6">

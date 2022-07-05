@@ -18,6 +18,7 @@ export class AutorizaranuncioComponent implements OnInit {
   anuncios: Array<Anuncio> = [];
   area!: string | null;
   display: boolean = false;
+  existen: boolean = true;
   //anuncio: Anuncio = new Anuncio(); 
 
   constructor(private as :AnunciosService, private es : EmpleadoService, public loginService: LoginService, private router: Router) {
@@ -87,6 +88,10 @@ export class AutorizaranuncioComponent implements OnInit {
     await new Promise(f => setTimeout(f, 50));
     console.log(this.anuncios);
     this.display = true;
+    if(this.anuncios.length == 0){
+      this.existen = false;
+
+    }
   }
 
   async autorizar(anuncio: Anuncio){
