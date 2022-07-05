@@ -47,8 +47,9 @@ AnuncioController.crearAnuncio = async (req, res) => {
                 to: mails, // list of receivers
                 subject: "Nuevo Anuncio", // Subject line
                 text: "tenes para actualizar un anuncio pa", // plain text body
-                html: "<b>Nuevo anuncio para autorizar</b> <br> <p>Hola encargado!!"
-                 + " alguien en tu area ha subido un anuncio para revisar, ve a hacerlo antes de que sea tarde!!! </p>", // html body
+                html: " <b>Nuevo anuncio para autorizar!!</b> <br>  <p>Hola encagado!!"
+                 + " alguien en tu area a subido un anuncio para revisar, ve a hacerlo antes de que sea tarde!!! </p>"
+                 +"<br> <img style='height: 228px; width: 390px; margin-left:114px;'  src='https://cdn.discordapp.com/attachments/987427041001504849/993760187552890880/unknown.png'> <br> ", // html body
               });
 
               console.log("Message sent: %s", info.messageId);}

@@ -31,6 +31,8 @@ export class LoginService {
     sessionStorage.removeItem("username");
     sessionStorage.removeItem("roles");
     sessionStorage.removeItem("area");
+    sessionStorage.removeItem("esEncargado");
+    sessionStorage.removeItem("token");
   }
 
   public userLoggedIn() {
@@ -42,6 +44,18 @@ export class LoginService {
     return resultado;
   }
 
+  public esEncargado():boolean {
+    if (sessionStorage.getItem("esEncargado") != null) {
+      if ((sessionStorage.getItem("esEncargado")) == "true") {
+        return true;
+      } else {
+        return false;
+      }
+    } else {
+      return false;
+    }
+  }
+
   public userLogged() {
     var usuario = sessionStorage.getItem("username");
     return usuario;
@@ -50,6 +64,14 @@ export class LoginService {
   public idLogged() {
     var id = sessionStorage.getItem("_id");
     return id;
+  }
+
+  getToken(): string {
+    if (sessionStorage.getItem("token") != null) {
+      return sessionStorage.getItem("token")!;
+    } else {
+      return "";
+    }
   }
 
   // public userRoles(){

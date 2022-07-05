@@ -9,6 +9,8 @@ import { defer, from } from 'rxjs';
 import { AreaService } from 'src/app/services/area.service';
 import { EmpleadoService } from 'src/app/services/empleado.service';
 import { RolService } from 'src/app/services/rol.service';
+import { LoginService } from 'src/app/services/login.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-crearempleado',
@@ -43,32 +45,59 @@ export class CrearempleadoComponent implements OnInit {
   });
 
 
-  constructor(private es: EmpleadoService, private rs: RolService, private as: AreaService) {
-    this.cargar();
-    
-    
+
+  constructor(private es: EmpleadoService, private rs: RolService, private as: AreaService,public loginService: LoginService, private router: Router) {
+    if (this.loginService.userLoggedIn() && this.loginService.esEncargado()) {
+      this.as.getArea().subscribe(
+        (result) => {
+          result.forEach((element: any) => {
+            var unArea = new Area();
+            Object.assign(unArea, element);
+            this.areas.push(unArea);
+          });
+        });
+  
+      this.es.getEmpleado().subscribe(
+        (result) => {
+          console.log(result);
+          result.forEach((element: any) => {
+            this.empleados.push(element);
+          });
+        });
+      console.log(this.empleados);
+    }else{
+      alert("Acceso no autorizado: Debe haberse validado y ser un encargado");
+      this.router.navigate(['login']);
+    }
   }
 
-  async cargar(){
-  this.as.getArea().subscribe(
-    (result) => {
-      result.forEach((element: any) => {
-        var unArea = new Area();
-        Object.assign(unArea, element);
-        this.areas.push(unArea);
-      });
-    });
+//  constructor(private es: EmpleadoService, private rs: RolService, private as: AreaService) {
+//    this.cargar();
+    
+    
+//  }
 
-  this.es.getEmpleado().subscribe(
-    (result) => {
-      console.log(result);
-      result.forEach((element: any) => {
-        this.empleados.push(element);
-      });
-    });
-  console.log(this.empleados);
-  await new Promise(f => setTimeout(f, 100));
-}
+//  async cargar(){
+//  this.as.getArea().subscribe(
+//    (result) => {
+//      result.forEach((element: any) => {
+//        var unArea = new Area();
+//        Object.assign(unArea, element);
+//        this.areas.push(unArea);
+//      });
+//    });
+
+//  this.es.getEmpleado().subscribe(
+//    (result) => {
+//      console.log(result);
+//      result.forEach((element: any) => {
+//        this.empleados.push(element);
+//      });
+//    });
+//  console.log(this.empleados);
+//  await new Promise(f => setTimeout(f, 100));
+//}
+
 
 
   obtenerRolesSegunArea() {
