@@ -12,6 +12,7 @@ export class ListaranunciosComponent implements OnInit {
   i: number=0;
   anunciosSlider: Array<Anuncio> = [];
   anuncioSlider: Anuncio = new Anuncio();
+  anunciosListado : Array<Anuncio> = [];
   bandTV: boolean=false;
 
   anuncios: Array<Anuncio> = [];
@@ -49,18 +50,16 @@ export class ListaranunciosComponent implements OnInit {
       this.anuncios = this.anuncios.filter(o => o.estado == "Autorizado");
       this.anuncios.forEach(element => {
           if(element.tvSelected==true){
-            //this.bandTV=true;
             this.anunciosSlider.push(element);
           }
-          /*if(this.bandTV==true || element.tipo=="Imagen"){
-            this.anunciosSlider.push(element);
-            this.bandTV=false;
-          }*/
-        
+          else
+          {
+            this.anunciosListado.push(element);
+          }
       });
       this.iniciar();
     console.log("Anuncios: ");
-    console.log(this.anuncios);
+    console.log(this.anunciosSlider);
     
   }
 

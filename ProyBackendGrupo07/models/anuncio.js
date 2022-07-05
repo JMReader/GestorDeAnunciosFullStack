@@ -10,7 +10,7 @@ const AnuncioSchema = new Schema({
    fechaEntrada: {type: Date, required: false},//autorizacion
    fechaSalida: {type: Date, required: false},
    estado: {type: String, required: false},
-   destinatarios: {type: [Schema.Types.ObjectId], required: 'debe asignar a quien esta dirigido el anuncio'},
+   destinatarios: {type: [Schema.Types.ObjectId],ref: "Rol", required: 'debe asignar a quien esta dirigido el anuncio'},
    recursos: {type: [String], required: true},
    tiempoLectura: {type:String, required:false},
    redactor: {type: Schema.Types.ObjectId, ref: "Empleado", required: false},
