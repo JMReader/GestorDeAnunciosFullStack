@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { IDropdownSettings } from 'ng-multiselect-dropdown';
 import { Anuncio } from 'src/app/models/anuncio';
 import { ElementForList } from 'src/app/models/element-for-list';
@@ -33,7 +34,7 @@ export class BusquedaComponent implements OnInit {
 
   filtroForm = new FormGroup({
     filtros: new FormControl([], Validators.required),
-    destinatarios: new FormControl([]),//[], Validators.required
+    destinatario: new FormControl([]),//[], Validators.required
     fechaStart: new FormControl(),
     fechaEnd: new FormControl(),
     medio: new FormControl([]),//[], Validators.required
@@ -42,14 +43,15 @@ export class BusquedaComponent implements OnInit {
     estado: new FormControl(),
     redactor: new FormControl(),
   })
+  anunciosAFiltrar= new Array<Anuncio>();
 
 
-  constructor(private as: AnunciosService) { 
+  constructor(private as: AnunciosService, private rout: Router) { 
 this.obtenerAnuncios();
 this.cargarFiltros();
   }
 
-  obtenerAnuncios() {
+  async obtenerAnuncios() {
     this.anuncios = new Array<Anuncio>();
     this.as.getAnuncios().subscribe(result => {
       console.log(result);
@@ -59,6 +61,7 @@ this.cargarFiltros();
         this.anuncios.push(unAnuncio);
       });
     });
+    await new Promise(f => setTimeout(f, 90));
   }
 
   async cargarFiltros() {
@@ -148,7 +151,7 @@ this.cargarFiltros();
 
   filtrar() {
     var filtrosElegidos = this.filtroForm.get('filtros')?.value;
-    var anunciosAFiltrar = this.anuncios;
+    this.anunciosAFiltrar = this.anuncios;
     var anunciosEncontrados = true;
     filtrosElegidos.forEach(async (element: any) => {
 
@@ -158,14 +161,14 @@ this.cargarFiltros();
           var fechaFin = this.filtroForm.get('fechaEnd')?.value;
           await new Promise(f => setTimeout(f, 30));
           // this.destinatarios = this.destinatarios.filter(o => { return o.areaAsignada._id === area._id }).slice();
-          anunciosAFiltrar = anunciosAFiltrar.filter(o => { return o.fechaCreacion > fechaInicio && o.fechaCreacion < fechaFin });
+          this.anunciosAFiltrar = this.anunciosAFiltrar.filter(o => { return o.fechaCreacion > fechaInicio && o.fechaCreacion < fechaFin });
           break;
         }
         case "Medios": { //El unico que dudo si funcara o no :c
           var medioElegido = this.filtroForm.get('medio')?.value;
           var anuncios = new Array<Anuncio>();
 
-          anunciosAFiltrar.forEach((anuncio: Anuncio) => {
+          this.anunciosAFiltrar.forEach((anuncio: Anuncio) => {
             anuncio.medios.forEach(element => {
               if (element == medioElegido) {
                 anuncios.push(anuncio);
@@ -173,32 +176,34 @@ this.cargarFiltros();
             });
           });
           await new Promise(f => setTimeout(f, 90));
-          anunciosAFiltrar = anuncios;
+          this.anunciosAFiltrar = anuncios;
           await new Promise(f => setTimeout(f, 90));
           break;
         }
         case "Titulo": {
           var titulo = this.filtroForm.get('titulo')?.value;
           await new Promise(f => setTimeout(f, 30));
-          anunciosAFiltrar = anunciosAFiltrar.filter(o => { return o.titulo == titulo });
+          this.anunciosAFiltrar = this.anunciosAFiltrar.filter(o => { return o.titulo == titulo });
           break;
         }
         case "Tipo": {
           var tipo = this.filtroForm.get('tipo')?.value;
+          console.log(tipo);
+          this.anunciosAFiltrar = this.anunciosAFiltrar.filter(o => { return o.tipo === tipo });
           await new Promise(f => setTimeout(f, 30));
-          anunciosAFiltrar = anunciosAFiltrar.filter(o => { return o.tipo == tipo });
+          console.log(this.anunciosAFiltrar);
           break;
         }
         case "Estado": {
           var estado = this.filtroForm.get('estado')?.value;
           await new Promise(f => setTimeout(f, 30));
-          anunciosAFiltrar = anunciosAFiltrar.filter(o => { return o.estado == estado });
+          this.anunciosAFiltrar = this.anunciosAFiltrar.filter(o => { return o.estado == estado });
           break;
         }
         case "Redactor": {
           var redactor = this.filtroForm.get('redactor')?.value;//valor ID
           await new Promise(f => setTimeout(f, 30));
-          anunciosAFiltrar = anunciosAFiltrar.filter(o => { return o.redactor._id == redactor });
+          this.anunciosAFiltrar = this.anunciosAFiltrar.filter(o => { return o.redactor._id == redactor });
           break;
         }
         case "Destinatario": {
@@ -206,7 +211,7 @@ this.cargarFiltros();
           await new Promise(f => setTimeout(f, 30));
           var anuncios = new Array<Anuncio>();
 
-          anunciosAFiltrar.forEach((anuncio: Anuncio) => {
+          this.anunciosAFiltrar.forEach((anuncio: Anuncio) => {
             anuncio.destinatarios.forEach(element => {
               if ( element == destinatario) {
                 anuncios.push(anuncio);
@@ -214,16 +219,19 @@ this.cargarFiltros();
             });
           });
           await new Promise(f => setTimeout(f, 90));
-          anunciosAFiltrar = anuncios;
+          this.anunciosAFiltrar = anuncios;
           await new Promise(f => setTimeout(f, 90));
           break;
         }
       }
       await new Promise(f => setTimeout(f, 80));
     });
-
+    console.log(this.anunciosAFiltrar);
   }
 
+  redirect(link:string){
+    this.rout.navigateByUrl('anuncios/descripcion?id='+link);
+  }
 
   ngOnInit(): void {
   }
