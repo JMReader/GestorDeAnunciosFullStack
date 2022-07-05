@@ -1,7 +1,7 @@
 const anuncio = require("../models/anuncio");
 const rol = require("../models/rol");
 const area = require("../models/area");
-const empleado  = require("../models/empleado");
+const empleado = require("../models/empleado");
 const nodemailer = require("nodemailer");
 const AnuncioController = {};
 
@@ -9,20 +9,28 @@ AnuncioController.crearAnuncio = async (req, res) => {
     var Anuncio = new anuncio(req.body);
     try {
         console.log(req.body);
-        if (Anuncio.estado == "Confeccionado"){
-            var mails ;
+        if (Anuncio.estado == "Confeccionado") {
+            var mails;
             //buscamos el jefe de area
             var a = await area.findById(Anuncio.area)
-            console.log("Si");
-            
-            for (let i = 1; i < a.encargado.length; i++) {
+
+//por si falla   
+ //           for (let i = 1; i < a.encargado.length; i++) {
+  //              var e = await empleado.findById(a.encargado[i])
+    //            console.log(a.encargado);
+      //          if(i==1){
+//por si falla
+
+
+
+            for (let i = 0; i < a.encargado.length; i++) {
                 var e = await empleado.findById(a.encargado[i])
-                console.log(a.encargado);
-                if(i==1){
-                    console.log("xd")
+                if (i == 0) {
+
+
                     mails = e.email;
                     console.log(mails)
-                }else{
+                } else {
                     mails = mails + ", " + e.email;
                 }
             }
@@ -34,27 +42,37 @@ AnuncioController.crearAnuncio = async (req, res) => {
                 port: 465,
                 secure: true, // true for 465, false for other ports
                 auth: {
-                  user: "juanmcoro2003@gmail.com", // Mail del qie se va a enviar el mensaje
-                  pass: "lizpxnvjjtbtaiqd", // contraseña de app
+                    user: "juanmcoro2003@gmail.com", // Mail del qie se va a enviar el mensaje
+                    pass: "lizpxnvjjtbtaiqd", // contraseña de app
                 },
                 tls: {
                     rejectUnauthorized: false
                 }
 
-              });
-              console.log("Bueno");
+            });
 
-              let info = await transporter.sendMail({//info del mensaje que se va a enviar
+            let info = await transporter.sendMail({//info del mensaje que se va a enviar
                 from: '"Nuevo anuncio Para Autorizar" <juanmcoro2003@gmail.com>', // sender address
                 to: mails, // list of receivers
                 subject: "Nuevo Anuncio", // Subject line
-                text: "tenes para actualizar un anuncio pa", // plain text body
+                text: "Tenes para actualizar un anuncio", // plain text body
                 html: " <b>Nuevo anuncio para autorizar!!</b> <br>  <p>Hola encagado!!"
-                 + " alguien en tu area a subido un anuncio para revisar, ve a hacerlo antes de que sea tarde!!! </p>"
-                 +"<br> <img style='height: 228px; width: 390px; margin-left:114px;'  src='https://cdn.discordapp.com/attachments/987427041001504849/993760187552890880/unknown.png'> <br> ", // html body
-              });
+                    + " alguien en tu area a subido un anuncio para revisar, ve a hacerlo antes de que sea tarde!!! </p>"
+                    + "<br> <img style='height: 228px; width: 390px; margin-left:114px;'  src='https://cdn.discordapp.com/attachments/987427041001504849/993760187552890880/unknown.png'> <br> ", // html body
+            });
 
-              console.log("Message sent: %s", info.messageId);}
+            console.log("Message sent: %s", info.messageId);
+        }
+
+
+
+
+
+
+
+
+
+
         await Anuncio.save();
         res.json({
             'status': '1',
@@ -76,21 +94,30 @@ AnuncioController.editarAnuncio = async (req, res) => {
         //console.log(nuevoAnuncio)
         //console.log(req.params.id)
         //si el anuncio es confeccionado procederemos a enviar un mail al encargado del area
-        if (nuevoAnuncio.estado == "Confeccionado"){
-            var mails ;
+        if (nuevoAnuncio.estado == "Confeccionado") {
+            var mails;
             //buscamos el jefe de area
             var r = await rol.findById(nuevoAnuncio.destinatarios[0])
-            
+
             var a = await area.findById(r.areaAsignada)
+
             
-            
+    /*Por si falla        
             for (let i = 1; i < a.encargado.length; i++) {
                 var e = await empleado.findById(a.encargado[i])
                 if(i==1){
-                    
+   */                 
+
+
+
+            for (let i = 0; i < a.encargado.length; i++) {
+                var e = await empleado.findById(a.encargado[i])
+                if (i == 0) {
+
+
                     mails = e.email;
                     console.log(mails)
-                }else{
+                } else {
                     mails = mails + ", " + e.email;
                 }
             }
@@ -101,25 +128,26 @@ AnuncioController.editarAnuncio = async (req, res) => {
                 port: 465,
                 secure: true, // true for 465, false for other ports
                 auth: {
-                  user: "juanmcoro2003@gmail.com", // Mail del qie se va a enviar el mensaje
-                  pass: "lizpxnvjjtbtaiqd", // contraseña de app
+                    user: "juanmcoro2003@gmail.com", // Mail del qie se va a enviar el mensaje
+                    pass: "lizpxnvjjtbtaiqd", // contraseña de app
                 },
                 tls: {
                     rejectUnauthorized: false
                 }
 
-              });
+            });
 
-              let info = await transporter.sendMail({//info del mensaje que se va a enviar
+            let info = await transporter.sendMail({//info del mensaje que se va a enviar
                 from: '"Nuevo anuncio Para Autorizar" <juanmcoro2003@gmail.com>', // sender address
                 to: mails, // list of receivers
                 subject: "Nuevo Anuncio", // Subject line
-                text: "tenes para actualizar un anuncio pa", // plain text body
+                text: "Tenes para actualizar un anuncio", // plain text body
                 html: "<b>Nuevo anuncio para autorizar</b> <br> <p>Hola encargado!!"
-                 + " alguien en tu area ha subido un anuncio para revisar, ve a hacerlo antes de que sea tarde!!! </p>", // html body
-              });
+                    + " alguien en tu area ha subido un anuncio para revisar, ve a hacerlo antes de que sea tarde!!! </p>", // html body
+            });
 
-              console.log("Message sent: %s", info.messageId);}
+            console.log("Message sent: %s", info.messageId);
+        }
 
         await anuncio.updateOne({ _id: req.params.id }, nuevoAnuncio)
         res.json({
@@ -153,7 +181,7 @@ AnuncioController.filtrarDestinatario = async (req, res) => {
     try {
         const desti = req.params.destinatario;
         //el in busca dentro de un array el valor que especifiquemos :))
-        const anuncios = await anuncio.find({ destinatarios: { $in : [desti] }});
+        const anuncios = await anuncio.find({ destinatarios: { $in: [desti] } });
         res.status(200).json(anuncios);
     } catch (error) {
         console.log(error)
@@ -166,9 +194,9 @@ AnuncioController.filtrarDestinatario = async (req, res) => {
 //buscar por redactor
 AnuncioController.filtrarRedactor = async (req, res) => {
     try {
-        const redac= req.params.redactor;
-        
-        const anuncios = await anuncio.find({ redactor: redac}).populate('redactor');
+        const redac = req.params.redactor;
+
+        const anuncios = await anuncio.find({ redactor: redac }).populate('redactor');
         res.status(200).json(anuncios);
     } catch (error) {
         console.log(error)
@@ -179,12 +207,12 @@ AnuncioController.filtrarRedactor = async (req, res) => {
     }
 }
 //buscar porr medio 
-AnuncioController.filtrarMedio= async (req, res) => {
+AnuncioController.filtrarMedio = async (req, res) => {
 
     try {
         const med = req.params.medio;
         //el in busca dentro de un array el valor que especifiquemos :))
-        const anuncios = await anuncio.find({ medio: { $in : [med] }});
+        const anuncios = await anuncio.find({ medio: { $in: [med] } });
         res.status(200).json(anuncios);
     } catch (error) {
         console.log(error)
@@ -196,11 +224,11 @@ AnuncioController.filtrarMedio= async (req, res) => {
 }
 
 //buscar por tipo de cont
-AnuncioController.filtrarContenido= async (req, res) => {
+AnuncioController.filtrarContenido = async (req, res) => {
     try {
         const cont = req.params.contenido;
         //el in busca dentro de un array el valor que especifiquemos :))
-        const anuncios = await anuncio.find({ tipo: cont});
+        const anuncios = await anuncio.find({ tipo: cont });
         res.status(200).json(anuncios);
     } catch (error) {
         console.log(error)
@@ -227,16 +255,18 @@ AnuncioController.Borrar = async (req, res) => {
     }
 }
 
-AnuncioController.CreadosEntrefechas= async (req, res) => {
+AnuncioController.CreadosEntrefechas = async (req, res) => {
     try {
         var hasta = req.query.hasta
         console.log(req.query.hasta);
         var desde = req.query.desde
         //const anun = await anuncio.find({fechaCreacion: {"$gte" : desde, "$lte" : hasta}})
         const anun = await anuncio.find(
-            {$and: [
-                {fechaCreacion: {$gte: new Date(desde), $lt: new Date(hasta)}}
-            ]}
+            {
+                $and: [
+                    { fechaCreacion: { $gte: new Date(desde), $lt: new Date(hasta) } }
+                ]
+            }
         ).populate('area').populate('redactor')
         res.json(anun)
     } catch (error) {
@@ -249,10 +279,10 @@ AnuncioController.CreadosEntrefechas= async (req, res) => {
 }
 
 
-AnuncioController.filtrarAnunciosPendientes = async (req, res) =>{
+AnuncioController.filtrarAnunciosPendientes = async (req, res) => {
     try {
         const estado = req.params.estado;
-        
+
         const anuncios = await anuncio.find({ estado: estado });
         res.status(200).json(anuncios);
     } catch (error) {
@@ -264,11 +294,11 @@ AnuncioController.filtrarAnunciosPendientes = async (req, res) =>{
     }
 }
 
-AnuncioController.filtrarTexto= async (req, res) =>{
+AnuncioController.filtrarTexto = async (req, res) => {
     try {
-        const txt =  req.params.texto ;
-        
-        const anuncios = await anuncio.find({texto : {$regex : txt}})
+        const txt = req.params.texto;
+
+        const anuncios = await anuncio.find({ texto: { $regex: txt } })
         res.status(200).json(anuncios);
     } catch (error) {
         console.log(error)
@@ -279,11 +309,11 @@ AnuncioController.filtrarTexto= async (req, res) =>{
     }
 }
 
-AnuncioController.obtenerPorArea = async (req,res) =>{
+AnuncioController.obtenerPorArea = async (req, res) => {
     try {
-        const areaBuscada= req.params.area;
-        
-        const anuncios = await anuncio.find({ area: areaBuscada}).populate('area');
+        const areaBuscada = req.params.area;
+
+        const anuncios = await anuncio.find({ area: areaBuscada }).populate('area');
         res.status(200).json(anuncios);
     } catch (error) {
         console.log(error)

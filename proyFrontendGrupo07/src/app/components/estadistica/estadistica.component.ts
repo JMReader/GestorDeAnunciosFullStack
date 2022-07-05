@@ -9,6 +9,8 @@ import { RolService } from 'src/app/services/rol.service';
 import { EmpleadoService } from 'src/app/services/empleado.service';
 import { Empleado } from 'src/app/models/empleado';
 import { ThisReceiver } from '@angular/compiler';
+import { LoginService } from 'src/app/services/login.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-estadistica',
@@ -31,9 +33,15 @@ export class EstadisticaComponent implements OnInit {
   
 
   constructor(private anuncioService: AnunciosService, private areaService: AreaService,
-    private rolService: RolService, private empleadoService: EmpleadoService) {
-    this.obtenerAreas();
-    this.obtenerRoles();
+    private rolService: RolService, private empleadoService: EmpleadoService, public loginService: LoginService, private router: Router) {
+      if (this.loginService.userLoggedIn() && this.loginService.esEncargado()) {
+        this.obtenerAreas();
+        this.obtenerRoles();
+      }else{
+        alert("Acceso no autorizado: Debe haberse validado y ser un encargado");
+        this.router.navigate(['login']);
+      }
+   
   }
 
   ngOnInit(): void {

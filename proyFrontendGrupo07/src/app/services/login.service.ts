@@ -16,6 +16,7 @@ export class LoginService {
   public login(username: string, password: string): Observable<any> {
     const httpOption = {
       headers: new HttpHeaders({
+        //'access-control-allow-origin': 'http://localhost:4200',
         'Content-Type': 'application/json'
       })
     }
