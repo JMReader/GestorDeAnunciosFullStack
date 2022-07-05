@@ -76,7 +76,7 @@ export class AnunciosService {
         });
       }
     )
-    
+
     await new Promise(f => setTimeout(f, 60));
     anuncio.area = areaAux;
     console.log('area obtenida service', areaAux)

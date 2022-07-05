@@ -13,6 +13,7 @@ import { MedioService } from 'src/app/services/medio.service';
 import { DatePipe } from '@angular/common'
 import { ElementForList } from 'src/app/models/element-for-list';
 import { FbService } from 'src/app/services/fb.service';
+import { CodigoQrService } from 'src/app/services/codigo-qr.service';
 
 @Component({
   selector: 'app-crearanuncio',
@@ -283,7 +284,7 @@ export class CrearanuncioComponent implements OnInit {
     console.log(this.anuncio);
     console.log("Redactor" + this.redactor);
     this.anuncioService.postAnuncio(this.anuncio, this.redactor, destinatarios,this.area);
-    this.anunciosForm.reset() 
+    this.anunciosForm.reset();
 }
 
   borradorAnuncio(){
