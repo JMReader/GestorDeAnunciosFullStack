@@ -61,8 +61,12 @@
 
       <button class="btn btn-primary" (click)="filtrar()">Filtrar</button>
     </div>
+    <div class="cont">
+    <h4 class="t">Anuncios encontrados:</h4>
     <div class="result">
+      <br>
       <div class="card col-md-4 col-sm-6 col-12" *ngFor="let anuncio of anunciosAFiltrar">
+        <b>{{anuncio.titulo}}</b>
         <p>Tipo: {{anuncio.tipo}}</p>
         <p *ngIf="anuncio.tipo == 'Otro'">Texto del Anuncio: {{anuncio.recursos[0]}}</p>
         <img *ngIf="anuncio.tipo == 'Otro'" [src]="anuncio.recursos[1]" alt=""> 
@@ -70,6 +74,7 @@
         <br>
         <button class="btn btn-primary" (click)="redirect(anuncio._id)">Mas Informacion</button>
         <br>
+    </div>
     </div>
     </div>
   </div>

@@ -372,7 +372,7 @@ export class CrearanuncioComponent implements OnInit {
     console.log(medios);
     var tv = false;
     medios.forEach((element: any) => {
-      if (element.item_text === "TV " && element.item_id === "TV")
+      if (element.item_text === "TV" && element.item_id === "TV")
       {
         tv=true;
         this.anunciosForm.get('tipoAnuncio')?.setValue("Imagen");
@@ -386,9 +386,10 @@ export class CrearanuncioComponent implements OnInit {
 
     var fb = false;
     medios.forEach((element: any) => {
-      if (element.item_text === "Facebook " && element.item_id === "Facebook")
+      if (element.item_text === "Facebook" && element.item_id === "Facebook")
       {
         fb=true;
+        console.log(fb);
       }
     });
 

@@ -4,10 +4,8 @@
         <ul class="nav nav-pills">
             <li class="nav-item"><a class="nav-link" [routerLink]="['anuncios/ver']">Inicio</a></li>
 
-            <li class="nav-item" [hidden]="!loginService.userLoggedIn()||loginService.esEncargado()"><a class="nav-link"
-                    [routerLink]="['anuncios/crear']">Crear anuncio</a></li>
-
-            <li class="nav-item"><a class="nav-link" [routerLink]="['anuncios/buscar']">Buscar Anuncio</a></li>
+            <li class="nav-item" [hidden]="!loginService.userLoggedIn()||loginService.esEncargado()"><a class="nav-link" [routerLink]="['anuncios/crear']">Crear anuncio</a></li>
+            <li class="nav-item" [hidden]="!loginService.userLoggedIn()"><a class="nav-link" [routerLink]="['anuncios/buscar']">Buscar Anuncio</a></li>
 
             <li class="nav-item" [hidden]="!loginService.userLoggedIn()||!loginService.esEncargado()"><a
                     class="nav-link" [routerLink]="['anuncios/autorizar']">Autorizar Anuncio</a></li>
@@ -25,6 +23,7 @@
                     {{loginService.userLogged()}} (logout)
                 </a>
             </div>-->
+
             <li class="nav-item" [hidden]="!loginService.userLoggedIn()||!loginService.esEncargado()"><a
                     class="nav-link" [routerLink]="['empleado/crear']">Crear Empleado</a></li>
 
@@ -34,6 +33,9 @@
             <li class="nav-item" [hidden]="!loginService.userLoggedIn()||!loginService.esEncargado()"><a
                     class="nav-link" [routerLink]="['rol/crear']">Crear Rol</a></li>
 
+            <!--<li class="nav-item" [hidden]="!loginService.userLoggedIn()||!loginService.esEncargado()"><a class="nav-link" [routerLink]="['empleado/crear']">Crear Empleado</a></li>
+            <li class="nav-item" [hidden]="!loginService.userLoggedIn()||!loginService.esEncargado()"><a class="nav-link" [routerLink]="['area/crear']">Crear Area</a></li>
+            <li class="nav-item" [hidden]="!loginService.userLoggedIn()||!loginService.esEncargado()"><a class="nav-link" [routerLink]="['rol/crear']">Crear Rol</a></li>-->
         </ul>
         <ul class="nav justify-content-end text-end">
             <li class="nav-item"><a class="nav-link" *ngIf="!loginService.userLoggedIn()"

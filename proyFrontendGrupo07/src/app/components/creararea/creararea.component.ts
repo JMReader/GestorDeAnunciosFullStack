@@ -19,7 +19,7 @@ export class CrearareaComponent implements OnInit {
 
 
   constructor(private as: AreaService, public loginService: LoginService, private router: Router) {
-    if (this.loginService.userLoggedIn()) {
+    if (this.loginService.userLoggedIn() && this.loginService.esEncargado()) {
       this.as.getArea().subscribe(
         (result) => {
           result.forEach((element: any) => {
@@ -30,13 +30,13 @@ export class CrearareaComponent implements OnInit {
         });
       console.log(this.areas);
     } else {
-      alert("Acceso no autorizado: Debe haberse validado");
+      alert("Acceso no autorizado: Debe haberse validado y ser un encargado");
       this.router.navigate(['login']);
     }
 
   }
 
-  enviarArea() {
+  async enviarArea() {
     var nombreArea = this.areaForm.get('nombreArea')?.value;
     var unArea = new Area();
     unArea.nombreArea = nombreArea;
@@ -44,6 +44,7 @@ export class CrearareaComponent implements OnInit {
       (result) => {
         console.log(result);
       });
+      await new Promise(f => setTimeout(f, 80));
     this.areas = new Array<Area>();
     this.as.getArea().subscribe(
       (result) => {

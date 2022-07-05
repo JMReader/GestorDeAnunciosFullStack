@@ -81,7 +81,7 @@ export class AnunciosService {
     anuncio.area = areaAux;
     console.log('area obtenida service', areaAux)
     console.log('area obtenida service', anuncio.area);
-
+    await new Promise(f => setTimeout(f, 60));
     let body = JSON.stringify(anuncio);
     //let body = JSON.stringify(anuncio);
     var url = this.url + '/crear';
