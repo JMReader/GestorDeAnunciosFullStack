@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Anuncio } from 'src/app/models/anuncio';
 import { AnunciosService } from 'src/app/services/anuncios.service';
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-listaranuncios',
@@ -18,36 +19,26 @@ export class ListaranunciosComponent implements OnInit {
   anuncios: Array<Anuncio> = [];
   anuncio: Anuncio = new Anuncio(); 
 
-  constructor(private as :AnunciosService) {
+  constructor(private as :AnunciosService, private rout: Router) {
     this.obtenerAnuncios();
    }
 
   async obtenerAnuncios() {
+    this.anunciosSlider = new Array<Anuncio>();
     this.as.getAnuncios().subscribe((result) => {
       console.log(result);
       result.forEach((element: any) => {
         var unAnuncio = new Anuncio();
         Object.assign(unAnuncio, element);
         this.anuncios.push(unAnuncio);
-
-        /*for(var i = 0; i < unAnuncio.medios.length; i++){
-          if(unAnuncio.tvSelected==true){
-            this.bandTV=true;
-          }
-        }
-        if(this.bandTV==true || unAnuncio.tipo=="Imagen"){
-          this.anunciosSlider.push(unAnuncio);
-          this.bandTV=false;
-        }
-*/
       });
-      //this.iniciar();
     },
       error => {
         console.log(error);
       });
-      await new Promise(f => setTimeout(f, 80));
+      await new Promise(f => setTimeout(f, 250));
       this.anuncios = this.anuncios.filter(o => o.estado == "Autorizado");
+      await new Promise(f => setTimeout(f, 90));
       this.anuncios.forEach(element => {
           if(element.tvSelected==true){
             this.anunciosSlider.push(element);
@@ -57,6 +48,7 @@ export class ListaranunciosComponent implements OnInit {
             this.anunciosListado.push(element);
           }
       });
+      await new Promise(f => setTimeout(f, 200));
       this.iniciar();
     console.log("Anuncios: ");
     console.log(this.anunciosSlider);
@@ -89,6 +81,10 @@ export class ListaranunciosComponent implements OnInit {
       this.i = this.anunciosSlider.length - 1;
       this.anuncioSlider = this.anunciosSlider[this.i];
     }
+  }
+
+  redirect(link:string){
+    this.rout.navigateByUrl('anuncios/descripcion?id='+link);
   }
 
   ngOnInit(): void {

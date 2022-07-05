@@ -20,6 +20,7 @@ import { DatePipe } from '@angular/common'
 import { EstadisticaComponent } from './components/estadistica/estadistica.component';
 import { Ng2GoogleChartsModule } from 'ng2-google-charts';
 import { AnuncioComponent } from './components/anuncio/anuncio.component';
+import { BusquedaComponent } from './components/busqueda/busqueda.component';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,8 @@ import { AnuncioComponent } from './components/anuncio/anuncio.component';
     CrearrolComponent,
     AutorizaranuncioComponent,
     EstadisticaComponent,
-    AnuncioComponent
+    AnuncioComponent,
+    BusquedaComponent
 
   ],
   imports: [
