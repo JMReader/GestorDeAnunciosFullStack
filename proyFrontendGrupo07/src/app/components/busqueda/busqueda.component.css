@@ -18,8 +18,28 @@
 
 }
 .result{
-    background-color: black;
+    padding: 4px;
+    display: flex;
+    flex-wrap: wrap;
+    flex-basis: auto;
+    background-color: rgb(221, 217, 217);
     width: 60vw;
     margin-left: 2vw;
-
+}
+.t{
+    background-color: rgb(221, 217, 217);
+    margin: 6px ;
+    width: 60vw;
+    text-align: center;
+    border-radius: 4px;
+    margin: 2vw;
+}
+.result div {
+    margin: 4px;
+}
+.cont{
+    
+    display: flex;
+    width: 60vw;
+    flex-direction: column;
 }

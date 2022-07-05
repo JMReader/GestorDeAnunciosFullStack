@@ -3,6 +3,14 @@
         margin-top: 0%;
     }
 }
+.body-main{
+    display: flex;
+    height: 100vh;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+
 
 h1 {
     text-align: center;
