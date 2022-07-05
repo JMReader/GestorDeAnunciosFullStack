@@ -4,6 +4,7 @@
     align-items: center;
     justify-content: center;
     width: 30vw;
+
     padding-left: 5vw;
    margin-left: 12px;
    margin-bottom: 18px;
@@ -20,4 +21,5 @@
     background-color: black;
     width: 60vw;
     margin-left: 2vw;
+
 }
