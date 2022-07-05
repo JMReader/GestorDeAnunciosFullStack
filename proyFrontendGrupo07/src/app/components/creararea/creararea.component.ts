@@ -36,7 +36,7 @@ export class CrearareaComponent implements OnInit {
 
   }
 
-  enviarArea() {
+  async enviarArea() {
     var nombreArea = this.areaForm.get('nombreArea')?.value;
     var unArea = new Area();
     unArea.nombreArea = nombreArea;
@@ -44,6 +44,7 @@ export class CrearareaComponent implements OnInit {
       (result) => {
         console.log(result);
       });
+      await new Promise(f => setTimeout(f, 80));
     this.areas = new Array<Area>();
     this.as.getArea().subscribe(
       (result) => {
