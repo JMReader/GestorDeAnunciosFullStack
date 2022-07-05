@@ -17,9 +17,13 @@
           aria-describedby="button-addon2" *ngIf="tituloSelected==true" formControlName="titulo">
 
       </div>
-      <div class="input-group mb-3">
-        <input type="text" class="form-control" placeholder="destinatario" aria-label="Recipient's username"
-          aria-describedby="button-addon2" *ngIf="destinatarioSelected==true" formControlName="destinatario">
+      <div class="input-group mb-3" *ngIf="destinatarioSelected==true">
+
+        <select class="form-select" formControlName="destinatario">
+          <option value="" disabled selected>Seleccione una opcion...</option>
+          <option *ngFor="let rol of roles" value="{{rol.nombreRol}}">{{rol.nombreRol}}</option>
+          
+        </select>
       </div>
 
       <div class="input-group mb-3" *ngIf="fechasSelected==true">
@@ -33,12 +37,16 @@
           <input type="date" class="form-control" id="hasta" name="hasta" formControlName="fechaEnd">
         </div>
       </div>
-      <div class="input-group mb-3">
-        <input type="text" class="form-control" placeholder="medio de publicacion" aria-label="Recipient's username"
-          aria-describedby="button-addon2" *ngIf="medioSelected==true" formControlName="medio">
+      <div class="input-group mb-3" *ngIf="medioSelected==true">
+        
+        <select class="form-select" formControlName="medio">
+          <option value="" disabled selected>Seleccione una opcion...</option>
+          <option *ngFor="let med of mediosDisponibles" value="{{med.nombre}}">{{med.nombre}}</option>
+          
+        </select>
       </div>
-      <div class="input-group mb-3">
-        <select class="form-select" *ngIf="tipoSelected==true" formControlName="tipo">
+      <div class="input-group mb-3" *ngIf="tipoSelected==true" >
+        <select class="form-select" formControlName="tipo">
           <option value="" disabled selected>Seleccione una opcion...</option>
           <option value="Texto">Texto</option>
           <option value="HTML">HTML</option>
@@ -48,21 +56,39 @@
         </select>
         
       </div>
-      <div class="input-group mb-3">
-        <input type="text" class="form-control" placeholder="Estado actual del anuncio"
-          aria-label="Recipient's username" aria-describedby="button-addon2" *ngIf="estadoSelected==true" formControlName="estado">
+      <div class="input-group mb-3" *ngIf="estadoSelected==true">
+
+
+        <select class="form-select" formControlName="estado">
+          <option value="" disabled selected>Seleccione una opcion...</option>
+          <option value="Borrador">Borrador</option>
+          <option value="Confeccionado">Confeccionado</option>
+          <option value="Autorizado">Autorizado</option>
+          <option value="Cancelado">Cancelado</option>
+          
+        </select>
 
       </div>
-      <div class="input-group mb-3">
-        <input type="text" class="form-control" placeholder="Redactor" aria-label="Recipient's username"
-          aria-describedby="button-addon2" *ngIf="redactorSelected==true" formControlName="redactor">
+      <div class="input-group mb-3" *ngIf="redactorSelected==true">
+
+        <select class="form-select" formControlName="redactor">
+          <option value="" disabled selected>Seleccione una opcion...</option>
+          <option *ngFor="let emp of empleados" value="{{emp._id}}">{{emp.apellido}} {{emp.nombre}} {{emp.dni}}</option>
+          
+        </select>
       </div>
+
+      
 
 
       <button class="btn btn-primary" (click)="filtrar()">Filtrar</button>
     </div>
+    <div class="cont">
+    <h4 class="t">Anuncios encontrados:</h4>
     <div class="result">
+      <br>
       <div class="card col-md-4 col-sm-6 col-12" *ngFor="let anuncio of anunciosAFiltrar">
+        <b>{{anuncio.titulo}}</b>
         <p>Tipo: {{anuncio.tipo}}</p>
         <p *ngIf="anuncio.tipo == 'Otro'">Texto del Anuncio: {{anuncio.recursos[0]}}</p>
         <img *ngIf="anuncio.tipo == 'Otro'" [src]="anuncio.recursos[1]" alt=""> 
@@ -70,6 +96,7 @@
         <br>
         <button class="btn btn-primary" (click)="redirect(anuncio._id)">Mas Informacion</button>
         <br>
+    </div>
     </div>
     </div>
   </div>
