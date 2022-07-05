@@ -47,7 +47,7 @@ export class EmpleadoService {
         rolesArray.push(unRol);
       });
     });
-
+    await new Promise(f => setTimeout(f, 80));
     var empleado = new Empleado();
     empleado.apellido = apellido;
     empleado.nombre = nombre;
@@ -61,7 +61,7 @@ export class EmpleadoService {
     await new Promise(f => setTimeout(f, 60));
     empleado.area = areaAux;
     this.body = JSON.stringify(empleado);
-    
+    console.log(empleado);
     this._http.post(url, this.body, httpOptions).subscribe((result) => {
     console.log(result);
     });

@@ -8,24 +8,25 @@ const AnuncioController = {};
 AnuncioController.crearAnuncio = async (req, res) => {
     var Anuncio = new anuncio(req.body);
     try {
-
         console.log(req.body);
         if (Anuncio.estado == "Confeccionado"){
             var mails ;
             //buscamos el jefe de area
             var a = await area.findById(Anuncio.area)
+            console.log("Si");
             
-            
-            for (let i = 0; i < a.encargado.length; i++) {
+            for (let i = 1; i < a.encargado.length; i++) {
                 var e = await empleado.findById(a.encargado[i])
-                if(i==0){
-                    
+                console.log(a.encargado);
+                if(i==1){
+                    console.log("xd")
                     mails = e.email;
                     console.log(mails)
                 }else{
                     mails = mails + ", " + e.email;
                 }
             }
+            console.log("Ok");
             console.log(mails);
             //transportador del mensaje (quien lo envia en este caso un mail temporal )
             let transporter = nodemailer.createTransport({
@@ -41,6 +42,7 @@ AnuncioController.crearAnuncio = async (req, res) => {
                 }
 
               });
+              console.log("Bueno");
 
               let info = await transporter.sendMail({//info del mensaje que se va a enviar
                 from: '"Nuevo anuncio Para Autorizar" <juanmcoro2003@gmail.com>', // sender address
@@ -53,16 +55,6 @@ AnuncioController.crearAnuncio = async (req, res) => {
               });
 
               console.log("Message sent: %s", info.messageId);}
-
-
-
-
-
-
-
-
-
-
         await Anuncio.save();
         res.json({
             'status': '1',
@@ -92,9 +84,9 @@ AnuncioController.editarAnuncio = async (req, res) => {
             var a = await area.findById(r.areaAsignada)
             
             
-            for (let i = 0; i < a.encargado.length; i++) {
+            for (let i = 1; i < a.encargado.length; i++) {
                 var e = await empleado.findById(a.encargado[i])
-                if(i==0){
+                if(i==1){
                     
                     mails = e.email;
                     console.log(mails)

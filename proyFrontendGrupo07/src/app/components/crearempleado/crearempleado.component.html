@@ -88,6 +88,7 @@
                             <th scope="col">Legajo</th>
                             <th scope="col">Area</th>
                             <th scope="col">Roles</th>
+                            <th scope="col">Es Encargado?</th>
                         </tr>
                     </thead>
 
@@ -105,6 +106,7 @@
                                     <li *ngFor="let rol of emp.roles">{{rol.nombreRol}}</li>
                                 </ul>
                             </td>
+                            <td><span *ngIf="emp.esEncargado==true">Si</span><span *ngIf="emp.esEncargado==false">No</span></td>
                         </tr>
                     </tbody>
                 </table>

@@ -1,6 +1,12 @@
 <body>
     <br>
-
+    <div *ngIf="existen==false">
+        <h1>&nbsp;&nbsp;No hay anuncios publicados en su area</h1>
+    </div>
+    <div *ngIf="logueado==false">
+        <h2>&nbsp;&nbsp;No has Iniciado Sesion! Inicia sesion para ver solamente los anuncios que son de tu interes!</h2>
+        <br>
+    </div>
     <div *ngIf="anuncioEnSlider==true">
         <div id="carouselExampleControls" class="carousel slide container" data-ride="carousel"
             style="background-color:black;border-style:solid;border-color: black;">
@@ -15,11 +21,11 @@
                 </div>
             </div>
 
-            <button class="sr-only carousel-control-prev" (click)="anterior()">
+            <button class="sr-only carousel-control-prev" *ngIf="muchos==true" (click)="anterior()">
                 <span class="carousel-control-prev-icon" aria-hidden="true"></span>
             </button>
 
-            <button class="sr-only carousel-control-next" (click)="siguiente()">
+            <button class="sr-only carousel-control-next" *ngIf="muchos==true" (click)="siguiente()">
                 <span class="carousel-control-next-icon" aria-hidden="true"></span>
             </button>
         </div>
