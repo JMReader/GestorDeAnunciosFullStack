@@ -44,24 +44,32 @@ export class CrearempleadoComponent implements OnInit {
 
 
   constructor(private es: EmpleadoService, private rs: RolService, private as: AreaService) {
-    this.as.getArea().subscribe(
-      (result) => {
-        result.forEach((element: any) => {
-          var unArea = new Area();
-          Object.assign(unArea, element);
-          this.areas.push(unArea);
-        });
-      });
-
-    this.es.getEmpleado().subscribe(
-      (result) => {
-        console.log(result);
-        result.forEach((element: any) => {
-          this.empleados.push(element);
-        });
-      });
-    console.log(this.empleados);
+    this.cargar();
+    
+    
   }
+
+  async cargar(){
+  this.as.getArea().subscribe(
+    (result) => {
+      result.forEach((element: any) => {
+        var unArea = new Area();
+        Object.assign(unArea, element);
+        this.areas.push(unArea);
+      });
+    });
+
+  this.es.getEmpleado().subscribe(
+    (result) => {
+      console.log(result);
+      result.forEach((element: any) => {
+        this.empleados.push(element);
+      });
+    });
+  console.log(this.empleados);
+  await new Promise(f => setTimeout(f, 100));
+}
+
 
   obtenerRolesSegunArea() {
     var area = this.empleadoForm.get('area')?.value;
