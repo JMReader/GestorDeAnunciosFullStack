@@ -5,6 +5,7 @@ import { Empleado } from 'src/app/models/empleado';
 import { AnunciosService } from 'src/app/services/anuncios.service';
 import { EmpleadoService } from 'src/app/services/empleado.service';
 
+
 @Component({
   selector: 'app-autorizaranuncio',
   templateUrl: './autorizaranuncio.component.html',
@@ -14,6 +15,7 @@ export class AutorizaranuncioComponent implements OnInit {
 
   anuncios: Array<Anuncio> = [];
   area!: string | null;
+  display: boolean = false;
   //anuncio: Anuncio = new Anuncio(); 
 
   constructor(private as :AnunciosService, private es : EmpleadoService) {
@@ -60,7 +62,7 @@ export class AutorizaranuncioComponent implements OnInit {
         console.log(error);
       });
     // Esto lo uso para esperar a que termine de buscar los empleados antes de seguir
-    await new Promise(f => setTimeout(f, 60));
+    await new Promise(f => setTimeout(f, 90));
     console.log(unEmpleado);
     console.log(this.anuncios);
     //Aqui filtro los anuncios que tienen el mismo area que el que esta conectado y el estado de confeccion
@@ -68,8 +70,10 @@ export class AutorizaranuncioComponent implements OnInit {
       //Pongo o.redactor.area.toString() porque, si bien es un objeto area, vuelve solo el id porque no tiene el populate
       //entonces al hacerlo string, puedo compararlo con el id del conectado
 
-      return o.redactor.area.toString() === unEmpleado.area._id  && o.estado === "Confeccion"});
+      return o.redactor.area.toString() === unEmpleado.area._id  && o.estado === "Confeccionado"});
     console.log(this.anuncios);
+    await new Promise(f => setTimeout(f, 90));
+    this.display = true;
   }
 
   async autorizar(anuncio: Anuncio){
@@ -80,7 +84,7 @@ export class AutorizaranuncioComponent implements OnInit {
       error => {
         console.log(error);
       });
-      await new Promise(f => setTimeout(f, 60));
+      await new Promise(f => setTimeout(f, 90));
     this.obtenerAnuncios();
   }
 

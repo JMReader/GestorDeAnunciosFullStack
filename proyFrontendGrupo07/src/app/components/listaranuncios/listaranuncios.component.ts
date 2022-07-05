@@ -12,6 +12,7 @@ export class ListaranunciosComponent implements OnInit {
   i: number=0;
   anunciosSlider: Array<Anuncio> = [];
   anuncioSlider: Anuncio = new Anuncio();
+  anunciosListado : Array<Anuncio> = [];
   bandTV: boolean=false;
 
   anuncios: Array<Anuncio> = [];
@@ -29,8 +30,8 @@ export class ListaranunciosComponent implements OnInit {
         Object.assign(unAnuncio, element);
         this.anuncios.push(unAnuncio);
 
-        for(var i = 0; i < unAnuncio.medio.length; i++){
-          if(unAnuncio.medio[i]=="TV"){
+        /*for(var i = 0; i < unAnuncio.medios.length; i++){
+          if(unAnuncio.tvSelected==true){
             this.bandTV=true;
           }
         }
@@ -38,16 +39,27 @@ export class ListaranunciosComponent implements OnInit {
           this.anunciosSlider.push(unAnuncio);
           this.bandTV=false;
         }
-
+*/
       });
-      this.iniciar();
+      //this.iniciar();
     },
       error => {
         console.log(error);
       });
       await new Promise(f => setTimeout(f, 80));
+      this.anuncios = this.anuncios.filter(o => o.estado == "Autorizado");
+      this.anuncios.forEach(element => {
+          if(element.tvSelected==true){
+            this.anunciosSlider.push(element);
+          }
+          else
+          {
+            this.anunciosListado.push(element);
+          }
+      });
+      this.iniciar();
     console.log("Anuncios: ");
-    console.log(this.anuncios);
+    console.log(this.anunciosSlider);
     
   }
 
