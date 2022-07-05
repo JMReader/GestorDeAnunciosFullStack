@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { Anuncio } from 'src/app/models/anuncio';
 import { Area } from 'src/app/models/area';
 import { Empleado } from 'src/app/models/empleado';
 import { AnunciosService } from 'src/app/services/anuncios.service';
 import { EmpleadoService } from 'src/app/services/empleado.service';
+import { LoginService } from 'src/app/services/login.service';
 
 @Component({
   selector: 'app-autorizaranuncio',
@@ -16,8 +18,14 @@ export class AutorizaranuncioComponent implements OnInit {
   area!: string | null;
   //anuncio: Anuncio = new Anuncio(); 
 
-  constructor(private as :AnunciosService, private es : EmpleadoService) {
-    this.obtenerAnuncios();
+  constructor(private as :AnunciosService, private es : EmpleadoService, public loginService: LoginService, private router: Router) {
+    if (this.loginService.userLoggedIn()) {
+      this.obtenerAnuncios();
+    }else{
+      alert("Acceso no autorizado: Debe haberse validado, además de ser un encargado");
+      this.router.navigate(['login']);
+    }
+    
    }
 
   async obtenerAnuncios() {
