@@ -7,6 +7,7 @@ export class Anuncio {
     _id!: string;
     titulo!: string;
     tvSelected!: boolean;
+    fbSelected!: boolean;
     tipo!: string;
     medios!: Array<Medio>;
     fechaCreacion!: string;
