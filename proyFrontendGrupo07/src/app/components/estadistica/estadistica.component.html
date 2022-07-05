@@ -1,16 +1,19 @@
 <div class="container-fluid overflow-hidden">
-    <div class="row">
-        <div class="col-md-2">
+    <div class="row justify-content-center text-center">
+        <div class="col-6">
             <button (click)="showData()" class="boton btn btn-primary">Mostrar Estadisticas</button>
-            
+
         </div>
-        <div class="col-md-8"></div>
-        <div class="col-md-2">
-            <button (click)="hideData()" class="boton btn btn-primary">Ocultar Estatidticas</button>
+        <div class="col-6 ">
+            <button (click)="hideData()" class="boton btn btn-primary">Ocultar Estadisticas</button>
         </div>
     </div>
+    
     <div class="row justify-content-center mt-5">
+
         <div class="col-md-10">
+            <h1 *ngIf="elemento == false">Ocultando Estadisticas</h1>
+
             <div *ngIf="elemento == true">
                 <div *ngIf="display==true">
                     <google-chart [data]="pieChart"></google-chart>
@@ -28,10 +31,9 @@
                 </div>
             </div>
         </div>
+
         <div class="col-md-2" id="filtro">
-            <div class="d-flex justify-content-center">
-                <button (click)="hideDataFilter()" class="boton btn btn-primary">Recargar</button>
-            </div>
+
             <div class="mb-3">
                 <label for="desde">Desde: </label>
                 <input type="date" class="form-control" id="desde" [(ngModel)]="desde" name="desde">
@@ -41,8 +43,14 @@
                 <label for="hasta">Hasta: </label>
                 <input type="date" class="form-control" id="hasta" [(ngModel)]="hasta" name="hasta">
             </div>
-            <div class="d-flex justify-content-center">
-                <button (click)="showDataFilter()" class="boton btn btn-primary">Filtrar</button>
+
+            <div class="row">
+                <div class="d-flex justify-content-center col-lg-6 col-md-12 col-6">
+                    <button (click)="hideDataFilter()" class="boton btn btn-primary">Recargar</button>
+                </div>
+                <div class="d-flex justify-content-center col-lg-6 col-md-12 col-6">
+                    <button (click)="showDataFilter()" class="boton btn btn-primary">Filtrar</button>
+                </div>
             </div>
         </div>
     </div>
