@@ -5,6 +5,7 @@ import { Empleado } from 'src/app/models/empleado';
 import { AnunciosService } from 'src/app/services/anuncios.service';
 import { EmpleadoService } from 'src/app/services/empleado.service';
 
+
 @Component({
   selector: 'app-autorizaranuncio',
   templateUrl: './autorizaranuncio.component.html',
@@ -14,6 +15,7 @@ export class AutorizaranuncioComponent implements OnInit {
 
   anuncios: Array<Anuncio> = [];
   area!: string | null;
+  display: boolean = false;
   //anuncio: Anuncio = new Anuncio(); 
 
   constructor(private as :AnunciosService, private es : EmpleadoService) {
@@ -70,6 +72,8 @@ export class AutorizaranuncioComponent implements OnInit {
 
       return o.redactor.area.toString() === unEmpleado.area._id  && o.estado === "Confeccionado"});
     console.log(this.anuncios);
+    await new Promise(f => setTimeout(f, 90));
+    this.display = true;
   }
 
   async autorizar(anuncio: Anuncio){
