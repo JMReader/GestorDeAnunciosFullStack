@@ -10,7 +10,7 @@
 
 
                     <div id="carouselExampleControls" class="carousel slide container" data-ride="carousel"
-                        style="background-color:black;border-style:solid;border-color: black;">
+                        style="background-color:black;border-style:solid;border-color: black;" *ngIf="anuncio.tipo == 'Imagen'">
                         <div class="carousel-inner ">
                             <div class="carousel-item active d-flex align-items-center text-center justify-content-center">
                                 <img class="d-block img-fluid" src="{{rec}}"
@@ -20,18 +20,46 @@
                             </div>
                         </div>
 
-                        <button class="sr-only carousel-control-prev" (click)="anterior()">
+                        <button *ngIf="muchos==true" class="sr-only carousel-control-prev" (click)="anterior()">
                             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                         </button>
 
-                        <button class="sr-only carousel-control-next" (click)="siguiente()">
+                        <button *ngIf="muchos==true" class="sr-only carousel-control-next" (click)="siguiente()">
                             <span class="carousel-control-next-icon" aria-hidden="true"></span>
                         </button>
                     </div>
 
 
-                    <!--<img *ngIf="anuncio.tipo == 'Imagen'" [src]="anuncio.recursos" alt=""> -->
-                    <p *ngIf="anuncio.tipo != 'Imagen'">{{anuncio.recursos[0]}}</p>
+                    <!--<img *ngIf="anuncio.tipo == 'Imagen'" [src]="anuncio.recursos" alt=""> 
+                        <img *ngIf="anuncio.tipo == 'Otro'" [src]="anuncio.recursos[1]" alt=""> -->
+
+                    <p *ngIf="anuncio.tipo == 'Otro'">Texto del Anuncio: {{anuncio.recursos[0]}}</p>
+                    
+                    
+                    <div id="carouselExampleControls" class="carousel slide container" data-ride="carousel"
+                        style="background-color:black;border-style:solid;border-color: black;" *ngIf="anuncio.tipo == 'Otro'">
+                        <div class="carousel-inner ">
+                            <div class="carousel-item active d-flex align-items-center text-center justify-content-center">
+                                <img class="d-block img-fluid" src="{{rec}}"
+                                    style="width: auto;height: 60vh;object-fit: scale-down;">
+                                <div class="carousel-caption d-block">
+                                </div>
+                            </div>
+                        </div>
+
+                        <button *ngIf="muchosOtro==true" class="sr-only carousel-control-prev" (click)="anteriorOtro()">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        </button>
+
+                        <button *ngIf="muchosOtro==true" class="sr-only carousel-control-next" (click)="siguienteOtro()">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        </button>
+                    </div>
+
+                    <!--<p *ngIf="anuncio.tipo != 'Imagen' && anuncio.tipo != 'Otro'"> {{anuncio.recursos}}</p>-->
+                    
+
+                    <p *ngIf="anuncio.tipo != 'Imagen' && anuncio.tipo != 'Otro'">Contenido del Anuncio: {{anuncio.recursos[0]}}</p>
                     <br>
                     <p>Autor: {{anuncio.redactor.nombre}} {{anuncio.redactor.apellido}} {{anuncio.redactor.dni}}</p>
                     <p>Medio/s:<li *ngIf="anuncio.tvSelected==true">TV</li>

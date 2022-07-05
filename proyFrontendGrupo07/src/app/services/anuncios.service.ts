@@ -59,7 +59,7 @@ export class AnunciosService {
     });
 
 
-    await new Promise(f => setTimeout(f, 60));
+    await new Promise(f => setTimeout(f, 90));
     anuncio.redactor = redactorAux;
     console.log(redactorAux)
     console.log(anuncio.redactor);
