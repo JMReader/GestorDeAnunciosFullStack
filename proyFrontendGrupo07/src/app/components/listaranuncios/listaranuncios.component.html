@@ -31,7 +31,7 @@
 
                     <img *ngFor="let rec of anuncio.recursos" [src]="rec" alt="">
                     <p>Recursos:  </p>-->
-                    <h3>Titulo: {{anuncio.titulo}}</h3>
+                    
                     <p>Tipo: {{anuncio.tipo}}</p>
                     <p *ngIf="anuncio.tipo == 'Otro'">Texto del Anuncio: {{anuncio.recursos[0]}}</p>
                     <img *ngIf="anuncio.tipo == 'Otro'" [src]="anuncio.recursos[1]" alt=""> 
