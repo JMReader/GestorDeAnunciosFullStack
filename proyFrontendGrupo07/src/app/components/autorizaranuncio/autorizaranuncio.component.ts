@@ -4,6 +4,7 @@ import { Anuncio } from 'src/app/models/anuncio';
 import { Area } from 'src/app/models/area';
 import { Empleado } from 'src/app/models/empleado';
 import { AnunciosService } from 'src/app/services/anuncios.service';
+import { CodigoQrService } from 'src/app/services/codigo-qr.service';
 import { EmpleadoService } from 'src/app/services/empleado.service';
 import { LoginService } from 'src/app/services/login.service';
 
@@ -21,15 +22,19 @@ export class AutorizaranuncioComponent implements OnInit {
   existen: boolean = true;
   //anuncio: Anuncio = new Anuncio(); 
 
-  constructor(private as :AnunciosService, private es : EmpleadoService, public loginService: LoginService, private router: Router) {
+  constructor(private as: AnunciosService, private es: EmpleadoService, public loginService: LoginService, private router: Router, private codigoQrService: CodigoQrService) {
     if (this.loginService.userLoggedIn()) {
       this.obtenerAnuncios();
-    }else{
+    } else {
       alert("Acceso no autorizado: Debe haberse validado, además de ser un encargado");
       this.router.navigate(['login']);
     }
-    
-   }
+
+  }
+
+
+
+
 
   async obtenerAnuncios() {
     this.display = false;
@@ -51,11 +56,11 @@ export class AutorizaranuncioComponent implements OnInit {
       error => {
         console.log(error);
       });
-      await new Promise(f => setTimeout(f, 200));
+    await new Promise(f => setTimeout(f, 200));
     console.log("Anuncios: ");
     console.log(this.anuncios);
     //Obtengo el id del usuario que esta logueado
-    var id= sessionStorage.getItem('_id')
+    var id = sessionStorage.getItem('_id')
     var unEmpleado = new Empleado();
     //Uso el get para obtener los empleados
     this.es.getEmpleado().subscribe((result) => {
@@ -63,10 +68,9 @@ export class AutorizaranuncioComponent implements OnInit {
       result.forEach((element: Empleado) => {
         //Busco solo el empleado que me interesa (mismo ID)
 
-        if (element._id==id) 
-        {
-          unEmpleado._id=element._id;
-          unEmpleado.area=element.area;
+        if (element._id == id) {
+          unEmpleado._id = element._id;
+          unEmpleado.area = element.area;
         }
       });
     },
@@ -79,42 +83,52 @@ export class AutorizaranuncioComponent implements OnInit {
     console.log(this.anuncios);
 
     //Aqui filtro los anuncios que tienen el mismo area que el que esta conectado y el estado de confeccion
-    this.anuncios=this.anuncios.filter(o => { 
+    this.anuncios = this.anuncios.filter(o => {
       //Pongo o.redactor.area.toString() porque, si bien es un objeto area, vuelve solo el id porque no tiene el populate
       //entonces al hacerlo string, puedo compararlo con el id del conectado
 
-      return o.redactor.area.toString() === unEmpleado.area._id  && o.estado === "Confeccionado"});
+      return o.redactor.area.toString() === unEmpleado.area._id && o.estado === "Confeccionado"
+    });
     console.log(this.anuncios);
     await new Promise(f => setTimeout(f, 50));
     console.log(this.anuncios);
     this.display = true;
-    if(this.anuncios.length == 0){
+    if (this.anuncios.length == 0) {
       this.existen = false;
 
     }
   }
 
-  async autorizar(anuncio: Anuncio){
+  async autorizar(anuncio: Anuncio) {
     anuncio.estado = "Autorizado";
-    this.as.updateAnuncio(anuncio,anuncio._id).subscribe((result) => {
-      console.log(result);
-    },
-      error => {
-        console.log(error);
-      });
-      await new Promise(f => setTimeout(f, 90));
+
+    this.codigoQrService.getCodigo(anuncio._id).subscribe(
+      (result) => {
+        console.log(result);
+        anuncio.codigoQr = result.url;
+        this.as.updateAnuncio(anuncio, anuncio._id).subscribe((result) => {
+          console.log(result);
+        },
+          error => {
+            console.log(error);
+          });
+      },
+      error => { alert("Error en la petición, debes colocar una palabra"); }
+    );
+    
+    await new Promise(f => setTimeout(f, 90));
     this.obtenerAnuncios();
   }
 
-  async cancelar(anuncio: Anuncio){
+  async cancelar(anuncio: Anuncio) {
     anuncio.estado = "Cancelado";
-    this.as.updateAnuncio(anuncio,anuncio._id).subscribe((result) => {
+    this.as.updateAnuncio(anuncio, anuncio._id).subscribe((result) => {
       console.log(result);
     },
       error => {
         console.log(error);
       });
-      await new Promise(f => setTimeout(f, 60));
+    await new Promise(f => setTimeout(f, 60));
     this.obtenerAnuncios();
   }
 

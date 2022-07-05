@@ -19,6 +19,7 @@ export class Anuncio {
     tiempoLectura!: string;
     redactor!: Empleado;
     area!: Area;
+    codigoQr!: string;
 
     constructor(){
         this.destinatarios = new Array<Rol>();
