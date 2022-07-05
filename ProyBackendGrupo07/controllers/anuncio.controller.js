@@ -47,8 +47,8 @@ AnuncioController.crearAnuncio = async (req, res) => {
                 to: mails, // list of receivers
                 subject: "Nuevo Anuncio", // Subject line
                 text: "tenes para actualizar un anuncio pa", // plain text body
-                html: "<b>Nuevo anuncio para autorizar</b> <br> <p>Hola encagado!!"
-                 + " alguien en tu area a subido un anuncio para revisar, ve a hacerlo antes de que sea tarde!!! </p>", // html body
+                html: "<b>Nuevo anuncio para autorizar</b> <br> <p>Hola encargado!!"
+                 + " alguien en tu area ha subido un anuncio para revisar, ve a hacerlo antes de que sea tarde!!! </p>", // html body
               });
 
               console.log("Message sent: %s", info.messageId);}
@@ -122,8 +122,8 @@ AnuncioController.editarAnuncio = async (req, res) => {
                 to: mails, // list of receivers
                 subject: "Nuevo Anuncio", // Subject line
                 text: "tenes para actualizar un anuncio pa", // plain text body
-                html: "<b>Nuevo anuncio para autorizar</b> <br> <p>Hola encagado!!"
-                 + " alguien en tu area a subido un anuncio para revisar, ve a hacerlo antes de que sea tarde!!! </p>", // html body
+                html: "<b>Nuevo anuncio para autorizar</b> <br> <p>Hola encargado!!"
+                 + " alguien en tu area ha subido un anuncio para revisar, ve a hacerlo antes de que sea tarde!!! </p>", // html body
               });
 
               console.log("Message sent: %s", info.messageId);}

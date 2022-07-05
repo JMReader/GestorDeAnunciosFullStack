@@ -23,6 +23,8 @@ export class AutorizaranuncioComponent implements OnInit {
    }
 
   async obtenerAnuncios() {
+    this.display = false;
+    await new Promise(f => setTimeout(f, 100));
     //Hago que el array de anuncios este vacio
     this.anuncios = new Array<Anuncio>();
     //Obtengo todos los anuncios
@@ -40,6 +42,7 @@ export class AutorizaranuncioComponent implements OnInit {
       error => {
         console.log(error);
       });
+      await new Promise(f => setTimeout(f, 200));
     console.log("Anuncios: ");
     console.log(this.anuncios);
     //Obtengo el id del usuario que esta logueado
@@ -62,9 +65,10 @@ export class AutorizaranuncioComponent implements OnInit {
         console.log(error);
       });
     // Esto lo uso para esperar a que termine de buscar los empleados antes de seguir
-    await new Promise(f => setTimeout(f, 90));
+    await new Promise(f => setTimeout(f, 150));
     console.log(unEmpleado);
     console.log(this.anuncios);
+
     //Aqui filtro los anuncios que tienen el mismo area que el que esta conectado y el estado de confeccion
     this.anuncios=this.anuncios.filter(o => { 
       //Pongo o.redactor.area.toString() porque, si bien es un objeto area, vuelve solo el id porque no tiene el populate
@@ -72,7 +76,8 @@ export class AutorizaranuncioComponent implements OnInit {
 
       return o.redactor.area.toString() === unEmpleado.area._id  && o.estado === "Confeccionado"});
     console.log(this.anuncios);
-    await new Promise(f => setTimeout(f, 90));
+    await new Promise(f => setTimeout(f, 50));
+    console.log(this.anuncios);
     this.display = true;
   }
 
