@@ -61,7 +61,7 @@ import { BusquedaComponent } from './components/busqueda/busqueda.component';
       provide: HTTP_INTERCEPTORS,
       useClass: TokenInterceptorService,
       multi: true
-    },DatePipe]
+    },DatePipe],
 
   bootstrap: [AppComponent]
 })
