@@ -43,3 +43,6 @@
     width: 60vw;
     flex-direction: column;
 }
+.boton{
+    width: 100%;
+}

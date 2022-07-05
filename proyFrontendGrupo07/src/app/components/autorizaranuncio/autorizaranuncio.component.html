@@ -21,8 +21,8 @@
                     <p>Area: {{anuncio.area.nombreArea}}</p>
                     <p>Destinatarios: <li *ngFor="let dest of anuncio.destinatarios">{{dest.nombreRol}}</li></p>
                     <p>Tiempo de Lectura: {{anuncio.tiempoLectura}}</p>
-                    <p>Fecha Creacion: {{anuncio.fechaCreacion}}</p>
-                    <p>Desde: {{anuncio.fechaEntrada}} <span *ngIf="anuncio.tvSelected==true"> Hasta: {{anuncio.fechaSalida}}</span></p>
+                    <p>Fecha Creacion: {{anuncio.fechaCreacion | date: 'dd/MM/yyyy' }}</p>
+                    <p>Desde: {{anuncio.fechaEntrada | date: 'dd/MM/yyyy'}} <span *ngIf="anuncio.tvSelected==true"> Hasta: {{anuncio.fechaSalida | date: 'dd/MM/yyyy'}}</span></p>
 
                     
                     
