@@ -2,26 +2,45 @@
     <br>
     <h1 class="text-center">Formulario de Anuncio</h1>
     <br>
-    <div class="row">
+    <div class="">
         <div class="col-10 offset-1">
             <form class="forms" [formGroup]="anunciosForm">
 
                 <div class="form-group">
                     <label for="tituloAnuncio" class="form-label">Titulo del Anuncio:</label>
-                    <input type="text" name="tituloAnuncio" id="tituloAnuncio" class="form-control" placeholder="Ingrese el titulo del anuncio" formControlName="tituloAnuncio" required>
+                    <input type="text" name="tituloAnuncio" id="tituloAnuncio" class="form-control"
+                        placeholder="Ingrese el titulo del anuncio" formControlName="tituloAnuncio" required>
                 </div>
                 <br>
-                <div class="form-group">
-                    <label for="medios" class="form-label">Medios:</label>
-                    <ng-multiselect-dropdown *ngIf="displayMedios==true" id="medios"
-                        [placeholder]="'Elige uno o varios Medios ...'" [settings]="settingsMedio"
-                        [data]="dataMedios" name="medioAnuncio" formControlName="medioAnuncio" (click)="cambio()">
-                    </ng-multiselect-dropdown>
+                <label for="medios" class="form-label">Medios:</label>
+                <div class="row">
+                    <div class="form-group col-9">
+                        <ng-multiselect-dropdown *ngIf="displayMedios==true" id="medios"
+                            [placeholder]="'Elige uno o varios Medios ...'" [settings]="settingsMedio"
+                            [data]="dataMedios" name="medioAnuncio" formControlName="medioAnuncio" (click)="cambio()">
+                        </ng-multiselect-dropdown>
+                    </div>
+                    <button class="btn btn-primary col-3" (click)="comprobarMedio()">Agregar Medio</button>
                 </div>
+
+                <div *ngIf="addMedio==true">
+                    <label for="newMedio" class="form-label">Nombre del Medio:</label>
+                    <div class="row">
+                        <div class="form-group col-9">
+                            <input type="text" name="newMedio" id="newMedio" class="form-control col-9"
+                                (ngModelChange)="emptyMedio()" placeholder="Ingrese el medio a Agregar"
+                                formControlName="objectMedio">
+                        </div>
+                        <button class="btn btn-secondary col-3" (click)="agregarMedio()"
+                            [disabled]="checkMedio">Añadir</button>
+                    </div>
+                </div>
+
                 <br>
                 <div class="form-group">
                     <label for="tipoAnuncio" class="form-label">Tipo Contenido:</label>
-                    <select name="tipoAnuncio" id="tipoAnuncio" class="form-select" formControlName="tipoAnuncio" (change)="tipoCambiado()" required>
+                    <select name="tipoAnuncio" id="tipoAnuncio" class="form-select" formControlName="tipoAnuncio"
+                        (change)="tipoCambiado()" required>
                         <option value="" disabled selected>Seleccione una opcion...</option>
                         <option value="Texto" [disabled]="tvSelected==true">Texto</option>
                         <option value="HTML" [disabled]="tvSelected==true">HTML</option>
@@ -29,29 +48,36 @@
                         <option value="Video" [disabled]="tvSelected==true">Video</option>
                         <option value="Otro" [disabled]="tvSelected==true">Otro</option>
                     </select>
-                    <label class="text-muted" [hidden]="tvSelected==false">Ciertas opciones se desactivaron ya que eligio como medio la opcion TV y esta solo admite imagenes</label>
+                    <label class="text-muted" [hidden]="tvSelected==false">Ciertas opciones se desactivaron ya que
+                        eligio como medio la opcion TV y esta solo admite imagenes</label>
                 </div>
                 <br>
-                <div class="form-group" *ngIf="textoSelected==true || HTMLSelected==true || videoSelected==true || otroSelected==true" >
-                    <label for="textoAnuncio" class="form-label" *ngIf="textoSelected==true || otroSelected==true">Texto para el Anuncio:</label> 
-                    <label for="textoAnuncio" class="form-label" *ngIf="HTMLSelected==true">Codigo HTML para el Anuncio:</label> 
-                    <label for="textoAnuncio" class="form-label" *ngIf="videoSelected==true">URL del video para el Anuncio:</label>
-                    <textarea class="form-control" rows="5" name="textoAnuncio"
-                    formControlName="textoAnuncio" placeholder="Ingrese el Texto del Anuncio" *ngIf="textoSelected==true || otroSelected==true"></textarea>
-                    <textarea class="form-control" rows="5" name="htmlAnuncio"
-                    formControlName="htmlAnuncio" placeholder="Ingrese el Codigo del Anuncio" *ngIf="HTMLSelected==true"></textarea>
-                    <input type="text" class="form-control" name="videoAnuncio" formControlName="videoAnuncio" *ngIf="videoSelected==true" placeholder="Ingrese la URL del video para el Anuncio">    
+                <div class="form-group"
+                    *ngIf="textoSelected==true || HTMLSelected==true || videoSelected==true || otroSelected==true">
+                    <label for="textoAnuncio" class="form-label" *ngIf="textoSelected==true || otroSelected==true">Texto
+                        para el Anuncio:</label>
+                    <label for="textoAnuncio" class="form-label" *ngIf="HTMLSelected==true">Codigo HTML para el
+                        Anuncio:</label>
+                    <label for="textoAnuncio" class="form-label" *ngIf="videoSelected==true">URL del video para el
+                        Anuncio:</label>
+                    <textarea class="form-control" rows="5" name="textoAnuncio" formControlName="textoAnuncio"
+                        placeholder="Ingrese el Texto del Anuncio"
+                        *ngIf="textoSelected==true || otroSelected==true"></textarea>
+                    <textarea class="form-control" rows="5" name="htmlAnuncio" formControlName="htmlAnuncio"
+                        placeholder="Ingrese el Codigo del Anuncio" *ngIf="HTMLSelected==true"></textarea>
+                    <input type="text" class="form-control" name="videoAnuncio" formControlName="videoAnuncio"
+                        *ngIf="videoSelected==true" placeholder="Ingrese la URL del video para el Anuncio">
                     <br>
                 </div>
-                
+
                 <div class="form-group" *ngIf="imagenSelected==true || otroSelected==true">
                     <label for="recursosAnuncio">Imagenes del Anuncio:</label>
                     <input type="file" accept="image/x-png,image/gif,image/jpeg" (onFileChanged)="onFileChanges($event)"
                         multiple alife-file-to-base64 class="form-control" id="recursosAnuncio"
                         placeholder="Ingrese Archivos del Anuncio" name="recursosAnuncio">
-                        <br>
+                    <br>
                 </div>
-                
+
 
                 <div class="form-group">
                     <label for="fechaInicio" class="form-label">Fecha de Inicio:</label>
@@ -65,7 +91,7 @@
                         formControlName="fechaFin" id="fechaFin">
                     <br>
                 </div>
-                
+
                 <div class="form-group">
                     <label for="destinatariosAnuncio" class="form-label">Destinatarios:</label>
                     <ng-multiselect-dropdown id="destinatariosAnuncio"
@@ -85,9 +111,10 @@
                 </div>
                 <br>
                 <div>
-                    <button [disabled]="!anunciosForm.valid || comprobarArchivo()" type="submit" class="boton btn btn-primary"
-                        (click)="crearAnuncio();">Enviar anuncio</button>
-                    <button type="submit" class="boton btn btn-dark" (click)="borradorAnuncio();anunciosForm.reset()">Guardar como Borrador</button>
+                    <button [disabled]="!anunciosForm.valid || comprobarArchivo()" type="submit"
+                        class="boton btn btn-primary" (click)="crearAnuncio();">Enviar anuncio</button>
+                    <button type="submit" class="boton btn btn-dark"
+                        (click)="borradorAnuncio();anunciosForm.reset()">Guardar como Borrador</button>
                 </div>
                 <br>
             </form>

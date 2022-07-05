@@ -34,6 +34,8 @@ export class CrearanuncioComponent implements OnInit {
   videoSelected: boolean = false;
   otroSelected: boolean = false;
   archivoCargado: boolean = false;
+  addMedio: boolean = false;
+  checkMedio: boolean = true;
   area!: string;
   ArrayRecursos = new  Array<string>(); 
   //DROPDOWN DESTINATARIOS
@@ -65,6 +67,7 @@ export class CrearanuncioComponent implements OnInit {
     estadoAnuncio: new FormControl(),
     destinatariosAnuncio: new FormControl([], Validators.required),
     lecturaAnuncio: new FormControl(),
+    objectMedio: new FormControl()
   });
  
 
@@ -101,7 +104,6 @@ export class CrearanuncioComponent implements OnInit {
     unMedio = new Medio();*/
     unMedio.nombre = "TV";
     unMedio._id ="TV";
-    unMedio.usuario=""
     this.mediosDisponibles.push(unMedio);
     this.ms.getMedios().subscribe(
       (result) => {
@@ -120,7 +122,7 @@ export class CrearanuncioComponent implements OnInit {
     this.mediosDisponibles.forEach(element => {
       var elemento = new ElementForList();
       elemento.item_id = element._id;
-      elemento.item_text = element.nombre +" "+element.usuario;
+      elemento.item_text = element.nombre;
       this.dataMedios.push(elemento);
     });
     console.log(this.dataDestinatario);
@@ -490,6 +492,36 @@ export class CrearanuncioComponent implements OnInit {
     }
     else{
       return false;
+    }
+  }
+
+  comprobarMedio(){
+    this.addMedio=true;
+  }
+
+  agregarMedio(){
+    var unMedio = new Medio();
+
+    unMedio.nombre = this.anunciosForm.get('objectMedio')?.value;
+    this.addMedio = false;
+
+    this.ms.pushMedio(unMedio).subscribe(
+      (result) => {
+        console.log(result);
+      }
+    )
+    this.anunciosForm.get('objectMedio')?.patchValue(null);;
+    this.cargarMedios();
+  }
+
+  emptyMedio(){
+    this.checkMedio =false;
+    let medioBlanco: string = this.anunciosForm.get('objectMedio')?.value; 
+    if( /\S/.test(medioBlanco)==false){
+      this.checkMedio = true;
+    }
+    if(/^\s/.test(medioBlanco)==true){
+      this.checkMedio = true;
     }
   }
 
