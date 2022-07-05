@@ -2,7 +2,7 @@
     <br>
     <h1 class="text-center">Formulario de Anuncio</h1>
     <br>
-    <div class="row">
+    <div class="">
         <div class="col-10 offset-1">
             <form class="forms" [formGroup]="anunciosForm">
 
@@ -12,13 +12,31 @@
                         placeholder="Ingrese el titulo del anuncio" formControlName="tituloAnuncio" required>
                 </div>
                 <br>
-                <div class="form-group">
-                    <label for="medios" class="form-label">Medios:</label>
-                    <ng-multiselect-dropdown *ngIf="displayMedios==true" id="medios"
-                        [placeholder]="'Elige uno o varios Medios ...'" [settings]="settingsMedio" [data]="dataMedios"
-                        name="medioAnuncio" formControlName="medioAnuncio" (click)="cambio()">
-                    </ng-multiselect-dropdown>
+
+                <label for="medios" class="form-label">Medios:</label>
+                <div class="row">
+                    <div class="form-group col-9">
+                        <ng-multiselect-dropdown *ngIf="displayMedios==true" id="medios"
+                            [placeholder]="'Elige uno o varios Medios ...'" [settings]="settingsMedio"
+                            [data]="dataMedios" name="medioAnuncio" formControlName="medioAnuncio" (click)="cambio()">
+                        </ng-multiselect-dropdown>
+                    </div>
+                    <button class="btn btn-primary col-3" (click)="comprobarMedio()">Agregar Medio</button>
                 </div>
+
+                <div *ngIf="addMedio==true">
+                    <label for="newMedio" class="form-label">Nombre del Medio:</label>
+                    <div class="row">
+                        <div class="form-group col-9">
+                            <input type="text" name="newMedio" id="newMedio" class="form-control col-9"
+                                (ngModelChange)="emptyMedio()" placeholder="Ingrese el medio a Agregar"
+                                formControlName="objectMedio">
+                        </div>
+                        <button class="btn btn-secondary col-3" (click)="agregarMedio()"
+                            [disabled]="checkMedio">Añadir</button>
+                    </div>
+                </div>
+
                 <br>
                 <div class="form-group">
                     <label for="tipoAnuncio" class="form-label">Tipo Contenido:</label>
