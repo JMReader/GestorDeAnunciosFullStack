@@ -302,6 +302,7 @@ export class CrearanuncioComponent implements OnInit {
       });
 
     this.anuncio.tvSelected=this.tvSelected;
+    this.anuncio.fbSelected=this.fbSelected;
     this.anuncio.medios = mediosSeleccionados;
     this.anuncio.fechaEntrada = this.anunciosForm.get('fechaInicio')?.value;
     this.anuncio.estado = "Borrador";
