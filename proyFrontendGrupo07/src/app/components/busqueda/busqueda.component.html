@@ -1,54 +1,77 @@
+<form [formGroup]="filtroForm">
+  <div class="form-group f">
+    <label for="consultas" class="form-label">Filtros:</label>
+    <ng-multiselect-dropdown *ngIf="display==true" id="consultas"
+      [placeholder]="'Elige uno o varios filtros de busqueda'" [settings]="settingsFiltros" [data]="dataFiltros"
+      name="medioAnuncio" formControlName="filtros" (click)="cambioFiltro()">
+    </ng-multiselect-dropdown>
+  </div>
+  <br><br>
+  <div class="cont-f">
 
 
-<div class="form-group f">
-  <label for="consultas" class="form-label">Filtros:</label>
-<ng-multiselect-dropdown *ngIf="display==true"  id="consultas"
-[placeholder]="'Elige uno o varios filtros de busqueda'" [settings]="settingsFiltros" [data]="dataFiltros"
-name="medioAnuncio" formControlName="filtros" (click)="cambioFiltro()">
-</ng-multiselect-dropdown>
-</div>
-<br><br>
-<div class="cont-f">
+    <div class="busquedas">
+
+      <div class="input-group mb-3">
+        <input type="text" class="form-control" placeholder="titulo" aria-label="Recipient's username"
+          aria-describedby="button-addon2" *ngIf="tituloSelected==true" formControlName="titulo">
+
+      </div>
+      <div class="input-group mb-3">
+        <input type="text" class="form-control" placeholder="destinatario" aria-label="Recipient's username"
+          aria-describedby="button-addon2" *ngIf="destinatarioSelected==true" formControlName="destinatario">
+      </div>
+
+      <div class="input-group mb-3" *ngIf="fechasSelected==true">
+        <div class="mb-3 m">
+          <label for="desde">Desde: </label>
+          <input type="date" class="form-control" id="desde" name="desde" formControlName="fechaStart">
+        </div>
+
+        <div class="mb-3">
+          <label for="hasta">Hasta: </label>
+          <input type="date" class="form-control" id="hasta" name="hasta" formControlName="fechaEnd">
+        </div>
+      </div>
+      <div class="input-group mb-3">
+        <input type="text" class="form-control" placeholder="medio de publicacion" aria-label="Recipient's username"
+          aria-describedby="button-addon2" *ngIf="medioSelected==true" formControlName="medio">
+      </div>
+      <div class="input-group mb-3">
+        <select class="form-select" *ngIf="tipoSelected==true" formControlName="tipo">
+          <option value="" disabled selected>Seleccione una opcion...</option>
+          <option value="Texto">Texto</option>
+          <option value="HTML">HTML</option>
+          <option value="Imagen">Imagen</option>
+          <option value="Video">Video</option>
+          <option value="Otro">Otro</option>
+        </select>
+        
+      </div>
+      <div class="input-group mb-3">
+        <input type="text" class="form-control" placeholder="Estado actual del anuncio"
+          aria-label="Recipient's username" aria-describedby="button-addon2" *ngIf="estadoSelected==true" formControlName="estado">
+
+      </div>
+      <div class="input-group mb-3">
+        <input type="text" class="form-control" placeholder="Redactor" aria-label="Recipient's username"
+          aria-describedby="button-addon2" *ngIf="redactorSelected==true" formControlName="redactor">
+      </div>
 
 
-<div class="busquedas">
-  <div class="input-group mb-3">
-      <input type="text" class="form-control" placeholder="titulo" aria-label="Recipient's username" aria-describedby="button-addon2" formControlName="titulo">
-      
+      <button class="btn btn-primary" (click)="filtrar()">Filtrar</button>
     </div>
-    <div class="input-group mb-3">
-      <input type="text" class="form-control" placeholder="destinatario" aria-label="Recipient's username" aria-describedby="button-addon2" formControlName="destinatarios">
+    <div class="result">
+      <div class="card col-md-4 col-sm-6 col-12" *ngFor="let anuncio of anunciosAFiltrar">
+        <p>Tipo: {{anuncio.tipo}}</p>
+        <p *ngIf="anuncio.tipo == 'Otro'">Texto del Anuncio: {{anuncio.recursos[0]}}</p>
+        <img *ngIf="anuncio.tipo == 'Otro'" [src]="anuncio.recursos[1]" alt=""> 
+        <p *ngIf="anuncio.tipo != 'Imagen' && anuncio.tipo != 'Otro'">Contenido del Anuncio: {{anuncio.recursos[0]}}</p>
+        <br>
+        <button class="btn btn-primary" (click)="redirect(anuncio._id)">Mas Informacion</button>
+        <br>
     </div>
-    <div class="input-group mb-3">
-      <div class="mb-3 m">
-        <label for="desde">Desde: </label>
-        <input type="date" class="form-control" id="desde"  name="desde" formControlName="fechaStart">
     </div>
+  </div>
 
-    <div class="mb-3">
-        <label for="hasta">Hasta: </label>
-        <input type="date" class="form-control" id="hasta"  name="hasta" formControlName="fechaend">
-    </div>
-    </div>
-    <div class="input-group mb-3">
-      <input type="text" class="form-control" placeholder="medio de publicacion" aria-label="Recipient's username" aria-describedby="button-addon2" formControlName="medios">
-    </div>
-    <div class="input-group mb-3">
-      <input type="text" class="form-control" placeholder="Tipo de anuncio" aria-label="Recipient's username" aria-describedby="button-addon2" formControlName="tipo">
-    </div>
-    <div class="input-group mb-3">
-      <input type="text" class="form-control" placeholder="Estado actual del anuncio" aria-label="Recipient's username" aria-describedby="button-addon2" formControlName="estado">
- 
-    </div>
-    <div class="input-group mb-3">
-      <input type="text" class="form-control" placeholder="Redactor" aria-label="Recipient's username" aria-describedby="button-addon2" formControlName="redactor">
-    </div>
-
-
-
-</div>
-<div class="result">
-h
-</div>
-</div>
-
+</form>
