@@ -117,7 +117,6 @@ export class AutorizaranuncioComponent implements OnInit {
     );
     
     await new Promise(f => setTimeout(f, 90));
-
     this.obtenerAnuncios();
   }
 

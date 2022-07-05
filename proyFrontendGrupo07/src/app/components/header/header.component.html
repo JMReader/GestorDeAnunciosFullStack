@@ -27,7 +27,7 @@
             <li class="nav-item" [hidden]="!loginService.userLoggedIn()||!loginService.esEncargado()"><a
                     class="nav-link" [routerLink]="['empleado/crear']">Crear Empleado</a></li>
 
-            <li class="nav-item" [hidden]="!loginService.userLoggedIn()"><a class="nav-link"
+            <li class="nav-item" [hidden]="!loginService.userLoggedIn()||!loginService.esEncargado()"><a class="nav-link"
                     [routerLink]="['area/crear']">Crear Area</a></li>
 
             <li class="nav-item" [hidden]="!loginService.userLoggedIn()||!loginService.esEncargado()"><a
