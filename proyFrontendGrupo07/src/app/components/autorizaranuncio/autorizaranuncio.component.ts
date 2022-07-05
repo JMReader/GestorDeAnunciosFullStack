@@ -7,6 +7,7 @@ import { AnunciosService } from 'src/app/services/anuncios.service';
 import { EmpleadoService } from 'src/app/services/empleado.service';
 import { LoginService } from 'src/app/services/login.service';
 
+
 @Component({
   selector: 'app-autorizaranuncio',
   templateUrl: './autorizaranuncio.component.html',
@@ -16,6 +17,7 @@ export class AutorizaranuncioComponent implements OnInit {
 
   anuncios: Array<Anuncio> = [];
   area!: string | null;
+  display: boolean = false;
   //anuncio: Anuncio = new Anuncio(); 
 
   constructor(private as :AnunciosService, private es : EmpleadoService, public loginService: LoginService, private router: Router) {
@@ -29,6 +31,8 @@ export class AutorizaranuncioComponent implements OnInit {
    }
 
   async obtenerAnuncios() {
+    this.display = false;
+    await new Promise(f => setTimeout(f, 100));
     //Hago que el array de anuncios este vacio
     this.anuncios = new Array<Anuncio>();
     //Obtengo todos los anuncios
@@ -46,6 +50,7 @@ export class AutorizaranuncioComponent implements OnInit {
       error => {
         console.log(error);
       });
+      await new Promise(f => setTimeout(f, 200));
     console.log("Anuncios: ");
     console.log(this.anuncios);
     //Obtengo el id del usuario que esta logueado
@@ -68,20 +73,36 @@ export class AutorizaranuncioComponent implements OnInit {
         console.log(error);
       });
     // Esto lo uso para esperar a que termine de buscar los empleados antes de seguir
-    await new Promise(f => setTimeout(f, 60));
+    await new Promise(f => setTimeout(f, 150));
     console.log(unEmpleado);
     console.log(this.anuncios);
+
     //Aqui filtro los anuncios que tienen el mismo area que el que esta conectado y el estado de confeccion
     this.anuncios=this.anuncios.filter(o => { 
       //Pongo o.redactor.area.toString() porque, si bien es un objeto area, vuelve solo el id porque no tiene el populate
       //entonces al hacerlo string, puedo compararlo con el id del conectado
 
-      return o.redactor.area.toString() === unEmpleado.area._id  && o.estado === "Confeccion"});
+      return o.redactor.area.toString() === unEmpleado.area._id  && o.estado === "Confeccionado"});
     console.log(this.anuncios);
+    await new Promise(f => setTimeout(f, 50));
+    console.log(this.anuncios);
+    this.display = true;
   }
 
   async autorizar(anuncio: Anuncio){
     anuncio.estado = "Autorizado";
+    this.as.updateAnuncio(anuncio,anuncio._id).subscribe((result) => {
+      console.log(result);
+    },
+      error => {
+        console.log(error);
+      });
+      await new Promise(f => setTimeout(f, 90));
+    this.obtenerAnuncios();
+  }
+
+  async cancelar(anuncio: Anuncio){
+    anuncio.estado = "Cancelado";
     this.as.updateAnuncio(anuncio,anuncio._id).subscribe((result) => {
       console.log(result);
     },

@@ -1,10 +1,12 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { AnuncioComponent } from './components/anuncio/anuncio.component';
 import { AutorizaranuncioComponent } from './components/autorizaranuncio/autorizaranuncio.component';
 import { CrearanuncioComponent } from './components/crearanuncio/crearanuncio.component';
 import { CrearareaComponent } from './components/creararea/creararea.component';
 import { CrearempleadoComponent } from './components/crearempleado/crearempleado.component';
 import { CrearrolComponent } from './components/crearrol/crearrol.component';
+import { EstadisticaComponent } from './components/estadistica/estadistica.component';
 import { ListaranunciosComponent } from './components/listaranuncios/listaranuncios.component';
 import { LoginComponent } from './components/login/login.component';
 
@@ -14,6 +16,7 @@ const routes: Routes = [
 { path: 'anuncios/crear', component: CrearanuncioComponent },
 { path: 'anuncios/ver', component: ListaranunciosComponent  },
 { path: 'anuncios/autorizar', component: AutorizaranuncioComponent },
+{ path: 'anuncios/descripcion', component: AnuncioComponent },
 /*{ path: 'anuncios/buscar', component:  },
 
 { path: 'anuncios/programa', component:  },
@@ -21,6 +24,8 @@ const routes: Routes = [
 { path: 'empleado/crear', component: CrearempleadoComponent },
 
 { path: 'area/crear', component: CrearareaComponent },
+
+{ path: 'estadisticas', component: EstadisticaComponent },
 
 { path: 'rol/crear', component: CrearrolComponent }];
 

@@ -16,8 +16,16 @@ import { FacebookModule } from 'ngx-facebook';
 import { CrearareaComponent } from './components/creararea/creararea.component';
 import { CrearrolComponent } from './components/crearrol/crearrol.component';
 import { AutorizaranuncioComponent } from './components/autorizaranuncio/autorizaranuncio.component';
+
 import { LoginService } from './services/login.service';
 import { TokenInterceptorService } from './services/token-interceptor.service';
+
+import { DatePipe } from '@angular/common'
+import { EstadisticaComponent } from './components/estadistica/estadistica.component';
+import { Ng2GoogleChartsModule } from 'ng2-google-charts';
+import { AnuncioComponent } from './components/anuncio/anuncio.component';
+import { BusquedaComponent } from './components/busqueda/busqueda.component';
+
 
 @NgModule({
   declarations: [
@@ -30,7 +38,10 @@ import { TokenInterceptorService } from './services/token-interceptor.service';
     CrearempleadoComponent,
     CrearareaComponent,
     CrearrolComponent,
-    AutorizaranuncioComponent
+    AutorizaranuncioComponent,
+    EstadisticaComponent,
+    AnuncioComponent,
+    BusquedaComponent
 
   ],
   imports: [
@@ -41,14 +52,17 @@ import { TokenInterceptorService } from './services/token-interceptor.service';
     HttpClientModule,
     ReactiveFormsModule,
     NgMultiSelectDropDownModule.forRoot(),
-    FacebookModule.forRoot()
+    FacebookModule.forRoot(),
+    Ng2GoogleChartsModule
   ],
+
   providers: [LoginService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: TokenInterceptorService,
       multi: true
-    }],
+    },DatePipe]
+
   bootstrap: [AppComponent]
 })
 export class AppModule { }

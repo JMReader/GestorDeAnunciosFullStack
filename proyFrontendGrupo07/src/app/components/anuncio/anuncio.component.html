@@ -1,0 +1,102 @@
+<body>
+    <br>
+    <div class="container-fluid row">
+        <div class="container-fluid" *ngIf="display==true">
+            <div class="row gx-6">
+                <div class="card col-md-12">
+                    <br>
+                    <h3>Titulo: {{anuncio.titulo}}</h3>
+                    <div id="carouselExampleControls" class="carousel slide container" data-ride="carousel"
+                        style="background-color:black;border-style:solid;border-color: black;"
+                        *ngIf="anuncio.tipo == 'Imagen'">
+                        <div class="carousel-inner ">
+                            <div
+                                class="carousel-item active d-flex align-items-center text-center justify-content-center">
+                                <img class="d-block img-fluid" src="{{rec}}"
+                                    style="width: auto;height: 60vh;object-fit: scale-down;">
+                                <div class="carousel-caption d-block">
+                                </div>
+                            </div>
+                        </div>
+                        <button *ngIf="muchos==true" class="sr-only carousel-control-prev" (click)="anterior()">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        </button>
+                        <button *ngIf="muchos==true" class="sr-only carousel-control-next" (click)="siguiente()">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        </button>
+                    </div>
+                    <img *ngIf="anuncio.tipo == 'Otro'" [src]="anuncio.recursos[1]" alt="">
+                    <p *ngIf="anuncio.tipo == 'Otro'">Texto del Anuncio: {{anuncio.recursos[0]}}</p>
+                    <p *ngIf="anuncio.tipo != 'Imagen' && anuncio.tipo != 'Otro'">Contenido del Anuncio:
+                        {{anuncio.recursos[0]}}</p>
+                    <br>
+                    <div id="carouselExampleControls" class="carousel slide container" data-ride="carousel"
+                        style="background-color:black;border-style:solid;border-color: black;"
+                        *ngIf="anuncio.tipo == 'Otro'">
+                        <div class="carousel-inner ">
+                            <div
+                                class="carousel-item active d-flex align-items-center text-center justify-content-center">
+                                <img class="d-block img-fluid" src="{{rec}}"
+                                    style="width: auto;height: 60vh;object-fit: scale-down;">
+                                <div class="carousel-caption d-block">
+                                </div>
+                            </div>
+                        </div>
+
+                        <button *ngIf="muchosOtro==true" class="sr-only carousel-control-prev" (click)="anteriorOtro()">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        </button>
+
+                        <button *ngIf="muchosOtro==true" class="sr-only carousel-control-next"
+                            (click)="siguienteOtro()">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        </button>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th scope="col">Titulo</th>
+                                    <th scope="col">Autor</th>
+                                    <th scope="col">Tipo</th>
+                                    <th scope="col">Medio/s</th>
+                                    <th scope="col">Area</th>
+                                    <th scope="col">Destinatarios</th>
+                                    <th scope="col">Tiempo de Lectura</th>
+                                    <th scope="col">Fecha Creacion</th>
+                                    <th scope="col">Desde</th>
+                                    <th scope="col">Hasta</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <th scope="row">{{anuncio.titulo}}</th>
+                                    <td>
+                                        <li>Nombre: {{anuncio.redactor.nombre}}</li>
+                                        <li>Apellido: {{anuncio.redactor.apellido}}</li>
+                                        <li>DNI: {{anuncio.redactor.dni}}</li>
+                                    </td>
+                                    <td>{{anuncio.tipo}}</td>
+                                    <td>
+                                        <li *ngIf="anuncio.tvSelected==true">TV</li>
+                                        <li *ngFor="let medio of anuncio.medios">{{medio.nombre}}</li>
+                                    </td>
+                                    <td>{{anuncio.area.nombreArea}}</td>
+                                    <td>
+                                        <li *ngFor="let dest of anuncio.destinatarios">{{dest.nombreRol}}
+                                    </td>
+                                    <td>{{anuncio.tiempoLectura}}</td>
+                                    <td>{{anuncio.fechaCreacion | date: 'dd/MM/yyyy'}}</td>
+                                    <td>{{anuncio.fechaEntrada | date: 'dd/MM/yyyy'}}</td>
+                                    <td><span *ngIf="anuncio.tvSelected==true">{{anuncio.fechaSalida | date:
+                                            'dd/MM/yyyy'}}</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <br>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>

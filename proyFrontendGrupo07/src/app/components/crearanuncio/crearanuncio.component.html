@@ -7,46 +7,101 @@
             <form class="forms" [formGroup]="anunciosForm">
 
                 <div class="form-group">
-                    <label for="textoAnuncio" class="form-label">Ingrese el texto del Anuncio</label>
-                    <textarea name="textoAnuncio" id="textoAnuncio" class="form-control" placeholder="Mucho texto..."
-                        rows="5" formControlName="textoAnuncio"></textarea>
+                    <label for="tituloAnuncio" class="form-label">Titulo del Anuncio:</label>
+                    <input type="text" name="tituloAnuncio" id="tituloAnuncio" class="form-control"
+                        placeholder="Ingrese el titulo del anuncio" formControlName="tituloAnuncio" required>
                 </div>
                 <br>
                 <div class="form-group">
-                    <label for="tipoAnuncio" class="form-label">Tipo Contenido</label>
-                    <select name="tipoAnuncio" id="tipoAnuncio" class="form-select" formControlName="tipoAnuncio">
-                        <option value="{{item}}" *ngFor="let item of tipos">{{item}}</option>
+                    <label for="medios" class="form-label">Medios:</label>
+                    <ng-multiselect-dropdown *ngIf="displayMedios==true" id="medios"
+                        [placeholder]="'Elige uno o varios Medios ...'" [settings]="settingsMedio" [data]="dataMedios"
+                        name="medioAnuncio" formControlName="medioAnuncio" (click)="cambio()">
+                    </ng-multiselect-dropdown>
+                </div>
+                <br>
+                <div class="form-group">
+                    <label for="tipoAnuncio" class="form-label">Tipo Contenido:</label>
+                    <select name="tipoAnuncio" id="tipoAnuncio" class="form-select" formControlName="tipoAnuncio"
+                        (change)="tipoCambiado()" required>
+                        <option value="" disabled selected>Seleccione una opcion...</option>
+                        <option value="Texto" [disabled]="tvSelected==true">Texto</option>
+                        <option value="HTML" [disabled]="tvSelected==true">HTML</option>
+                        <option value="Imagen">Imagen</option>
+                        <option value="Video" [disabled]="tvSelected==true">Video</option>
+                        <option value="Otro" [disabled]="tvSelected==true">Otro</option>
                     </select>
+                    <label class="text-muted" [hidden]="tvSelected==false">Ciertas opciones se desactivaron ya que
+                        eligio como medio la opcion TV y esta solo admite imagenes</label>
                 </div>
                 <br>
-                <p>Medios de Publicacion:</p>
-                <div *ngFor="let medios of mediosDisponibles; let i=index" class="form-check" required>
-                    <label required>
-                        <input class="form-check-input" type="checkbox" [value]="medios"
-                            (change)="onCheckChange($event)">
-                        {{medios}}
-                    </label>
+                <div class="form-group"
+                    *ngIf="textoSelected==true || HTMLSelected==true || videoSelected==true || otroSelected==true">
+                    <label for="textoAnuncio" class="form-label" *ngIf="textoSelected==true || otroSelected==true">Texto
+                        para el Anuncio:</label>
+                    <label for="textoAnuncio" class="form-label" *ngIf="HTMLSelected==true">Codigo HTML para el
+                        Anuncio:</label>
+                    <label for="textoAnuncio" class="form-label" *ngIf="videoSelected==true">URL del video para el
+                        Anuncio:</label>
+                    <textarea class="form-control" rows="5" name="textoAnuncio" formControlName="textoAnuncio"
+                        placeholder="Ingrese el Texto del Anuncio"
+                        *ngIf="textoSelected==true || otroSelected==true"></textarea>
+                    <textarea class="form-control" rows="5" name="htmlAnuncio" formControlName="htmlAnuncio"
+                        placeholder="Ingrese el Codigo del Anuncio" *ngIf="HTMLSelected==true"></textarea>
+                    <input type="text" class="form-control" name="videoAnuncio" formControlName="videoAnuncio"
+                        *ngIf="videoSelected==true" placeholder="Ingrese la URL del video para el Anuncio">
+                    <br>
                 </div>
-                <br>
+
+                <div class="form-group fbForm" *ngIf="fbSelected==true">
+                    <h4>Facebook Options</h4>
+                    <div class="form-check" *ngIf="fbEstado==true">
+                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" (click)="cambiar()">
+                        <label class="form-check-label" for="flexRadioDefault1">
+                            Estado simple
+                        </label>
+                    </div>
+                    <div class="form-check" *ngIf="fbEstado==false">
+                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2"
+                            (click)="cambiar()">
+                        <label class="form-check-label" for="flexRadioDefault2">
+                            Imagen con descripción
+                        </label>
+                    </div>
+                    <!-- <button class="btn btn-primary" (click)="cambiar()" *ngIf="Fbestado==false">poster estado</button>
+                    <button class="btn btn-primary" (click)="cambiar()" *ngIf="Fbestado==true">posterfoto con
+                        descripcion </button> -->
+                    <input type="text" class="form-control" name="textoFB" formControlName="textoFB"
+                        placeholder="Ingrese texto para enviar a Facebook">
+                        <br>
+                    <input type="url" class="form-control" name="urlFB" formControlName="urlFB"
+                        placeholder="Ingrese la URL de la imagen para enviar a Facebook" *ngIf="fbEstado==false">
+                </div>
+
+                <div class="form-group" *ngIf="imagenSelected==true || otroSelected==true">
+                    <label for="recursosAnuncio">Imagenes del Anuncio:</label>
+                    <input type="file" accept="image/x-png,image/gif,image/jpeg" (onFileChanged)="onFileChanges($event)"
+                        multiple alife-file-to-base64 class="form-control" id="recursosAnuncio"
+                        placeholder="Ingrese Archivos del Anuncio" name="recursosAnuncio">
+                    <br>
+                </div>
+
+
                 <div class="form-group">
-                    <label for="vigenciaAnuncio" class="form-label">Fecha de Vigencia</label>
-                    <input type="date" class="form-control" placeholder="Fecha Vigencia" name="vigenciaAnuncio"
-                        formControlName="vigenciaAnuncio" id="vigenciaAnuncio">
+                    <label for="fechaInicio" class="form-label">Fecha de Inicio:</label>
+                    <input type="date" class="form-control" placeholder="Ingrese la fecha de Inicio" name="fechaInicio"
+                        formControlName="fechaInicio" id="fechaInicio" required>
                 </div>
                 <br>
-                <div class="form-group">
-                    <label for="estadoAnuncio" class="form-label">Estado Anuncio</label>
-                    <select name="estadoAnuncio" id="estadoAnuncio" class="form-select" formControlName="estadoAnuncio">
-                        <option value="Edicion">Edicion</option>
-                        <option value="Confeccion">Confeccionado</option>
-                        <!--imagino que el redactor podrá tener el anuncio como en edición o confeccionado y el encargado lo autoriza o lo cancela-->
-                        <!--<option value="Autorizado">Autorizado</option>
-                <option value="Cancelado">Cancelado</option>-->
-                    </select>
+                <div class="form-group" *ngIf="tvSelected == true">
+                    <label for="fechaFin" class="form-label">Fecha de Fin:</label>
+                    <input type="date" class="form-control" placeholder="Ingrese la fecha de Final" name="fechaFin"
+                        formControlName="fechaFin" id="fechaFin">
+                    <br>
                 </div>
-                <br>
+
                 <div class="form-group">
-                    <label for="destinatariosAnuncio" class="form-label">Destinatarios</label>
+                    <label for="destinatariosAnuncio" class="form-label">Destinatarios:</label>
                     <ng-multiselect-dropdown id="destinatariosAnuncio"
                         [placeholder]="'Elige uno o varios Destinatarios ...'" [settings]="settingsDestinatario"
                         [data]="dataDestinatario" name="destinatariosAnuncio" formControlName="destinatariosAnuncio">
@@ -54,16 +109,9 @@
                 </div>
                 <br>
                 <div class="form-group">
-                    <label for="recursosAnuncio">Recursos del Anuncio</label>
-                    <input type="file" accept="image/x-png,image/gif,image/jpeg" (onFileChanged)="onFileChanges($event)"
-                        multiple alife-file-to-base64 class="form-control" id="recursosAnuncio"
-                        placeholder="Ingrese Archivos del Anuncio" name="recursosAnuncio" required>
-                </div>
-                <br>
-                <div class="form-group">
-                    <label for="lecturaAnuncio" class="form-label">Tiempo Lectura</label>
+                    <label for="lecturaAnuncio" class="form-label">Tiempo Lectura:</label>
                     <select name="lecturaAnuncio" id="lecturaAnuncio" class="form-select"
-                        formControlName="lecturaAnuncio">
+                        formControlName="lecturaAnuncio" required>
                         <option value="Corto">Corto</option>
                         <option value="Medio">Medio</option>
                         <option value="Largo">Largo</option>
@@ -71,8 +119,10 @@
                 </div>
                 <br>
                 <div>
-                    <button [disabled]="!anunciosForm.valid" type="submit" class="boton btn btn-primary"
-                        (click)="crearAnuncio();anunciosForm.reset()">Registrar</button>
+                    <button [disabled]="!anunciosForm.valid || comprobarArchivo()" type="submit"
+                        class="boton btn btn-primary" (click)="crearAnuncio();">Enviar anuncio</button>
+                    <button type="submit" class="boton btn btn-dark"
+                        (click)="borradorAnuncio();anunciosForm.reset()">Guardar como Borrador</button>
                 </div>
                 <br>
             </form>

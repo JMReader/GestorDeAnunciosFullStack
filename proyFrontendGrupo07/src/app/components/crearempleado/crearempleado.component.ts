@@ -45,6 +45,7 @@ export class CrearempleadoComponent implements OnInit {
   });
 
 
+
   constructor(private es: EmpleadoService, private rs: RolService, private as: AreaService,public loginService: LoginService, private router: Router) {
     if (this.loginService.userLoggedIn() && this.loginService.esEncargado()) {
       this.as.getArea().subscribe(
@@ -69,6 +70,35 @@ export class CrearempleadoComponent implements OnInit {
       this.router.navigate(['login']);
     }
   }
+
+//  constructor(private es: EmpleadoService, private rs: RolService, private as: AreaService) {
+//    this.cargar();
+    
+    
+//  }
+
+//  async cargar(){
+//  this.as.getArea().subscribe(
+//    (result) => {
+//      result.forEach((element: any) => {
+//        var unArea = new Area();
+//        Object.assign(unArea, element);
+//        this.areas.push(unArea);
+//      });
+//    });
+
+//  this.es.getEmpleado().subscribe(
+//    (result) => {
+//      console.log(result);
+//      result.forEach((element: any) => {
+//        this.empleados.push(element);
+//      });
+//    });
+//  console.log(this.empleados);
+//  await new Promise(f => setTimeout(f, 100));
+//}
+
+
 
   obtenerRolesSegunArea() {
     var area = this.empleadoForm.get('area')?.value;
@@ -97,7 +127,8 @@ export class CrearempleadoComponent implements OnInit {
     var legajo = this.empleadoForm.get('legajo')?.value;
     var area = this.empleadoForm.get('area')?.value;
     var roles = this.empleadoForm.get('roles')?.value;
-    this.es.guardarEmpleado(apellido, nombre, dni, email, username, password, legajo, area, roles);
+    var encargado = this.empleadoForm.get('encargado')?.value;
+    this.es.guardarEmpleado(apellido, nombre, dni, email, username, password, legajo, area, roles, encargado);
     await new Promise(f => setTimeout(f, 80));
     this.empleados = new Array();
     this.es.getEmpleado().subscribe(

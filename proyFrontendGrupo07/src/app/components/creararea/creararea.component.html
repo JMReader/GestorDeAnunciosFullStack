@@ -23,7 +23,7 @@
                     <thead>
                         <tr>
                             <th scope="col">Nombre Area</th>
-                            <th scope="col">Encargado</th>
+                            <th scope="col">Encargados</th>
                         </tr>
                     </thead>
 
@@ -31,14 +31,13 @@
                         <tr *ngFor="let area of areas">
                             <td>{{area.nombreArea}}</td>
                             <td>
-                                <ul *ngIf="area.encargado==null">
-                                    <p class="null">No hay un encargado asignado</p>
+                                <ul *ngIf="area.encargado.length==0">
+                                    <p class="null">No hay ningun Encargado asignado</p>
                                 </ul>
 
                                 <ul *ngIf="area.encargado!=null">
-                                    <li>Apellido: {{area.encargado.apellido}}</li>
-                                    <li>Nombre: {{area.encargado.nombre}}</li>
-                                    <li>DNI: {{area.encargado.dni}}</li>
+                                    <li *ngFor="let encargado of area.encargado">
+                                    <p>Apellido: {{encargado.apellido}} ; Nombre: {{encargado.nombre}} ; DNI: {{encargado.dni}}</p></li>
                                 </ul>
                             </td>
                         </tr>

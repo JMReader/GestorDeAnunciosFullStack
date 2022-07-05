@@ -1,17 +1,31 @@
 <body>
     <br>
     <div class=" container-fluid row">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="card col-md-3 offset-md-1 col-sm-5 offset-sm-1 col-12" *ngFor="let anuncio of anuncios">
-                    <img [src]="anuncio.recursos" alt="">
+        <div class="container-fluid" *ngIf="display==true">
+            <div class="row gx-6">
+                <div class="card col-md-4" *ngFor="let anuncio of anuncios">
+                    <br>
+                    <h3>Titulo: {{anuncio.titulo}}</h3> 
                     <p>Tipo: {{anuncio.tipo}}</p>
-                    <p>Medio: {{anuncio.medio}}</p>
-                    <p>Tiempo de Lectura:{{anuncio.tiempoLectura}}</p>
-                    <p>Desde {{anuncio.fechaEntrada}} hasta {{anuncio.fechaSalida}}</p>
-                    <p>Autor: {{anuncio.redactor.nombre}}</p>
-                    <h5>{{anuncio.texto}}</h5> 
+                    <img *ngIf="anuncio.tipo == 'Imagen'" [src]="anuncio.recursos[0]" alt="">
+                    <p *ngIf="anuncio.tipo == 'Otro'">Texto del Anuncio: {{anuncio.recursos[0]}}</p>
+                    
+                    <img *ngIf="anuncio.tipo == 'Otro'" [src]="anuncio.recursos[1]" alt="">
+                    <p *ngIf="anuncio.tipo != 'Imagen' && anuncio.tipo != 'Otro'">Contenido del Anuncio: {{anuncio.recursos}}</p>
+                    
+                    <p>Autor: {{anuncio.redactor.nombre}} {{anuncio.redactor.apellido}} {{anuncio.redactor.dni}}</p>
+                    <p>Medio/s:<li *ngIf="anuncio.tvSelected==true">TV</li><li *ngFor="let medio of anuncio.medios">{{medio.nombre}}</li> </p>
+                    <p>Area: {{anuncio.area.nombreArea}}</p>
+                    <p>Destinatarios: <li *ngFor="let dest of anuncio.destinatarios">{{dest.nombreRol}}</li></p>
+                    <p>Tiempo de Lectura: {{anuncio.tiempoLectura}}</p>
+                    <p>Fecha Creacion: {{anuncio.fechaCreacion}}</p>
+                    <p>Desde: {{anuncio.fechaEntrada}} <span *ngIf="anuncio.tvSelected==true"> Hasta: {{anuncio.fechaSalida}}</span></p>
+
+                    
+                    
                     <button class="btn btn-primary" (click)="autorizar(anuncio)">Autorizar</button>
+                    <button class="btn btn-secondary" (click)="cancelar(anuncio)">Cancelar</button>
+                    <br>
                 </div>
                 <div class="d-block">
                     <br>
