@@ -8,6 +8,60 @@ const AnuncioController = {};
 AnuncioController.crearAnuncio = async (req, res) => {
     var Anuncio = new anuncio(req.body);
     try {
+
+        console.log(req.body);
+        if (Anuncio.estado == "Confeccionado"){
+            var mails ;
+            //buscamos el jefe de area
+            var a = await area.findById(Anuncio.area)
+            
+            
+            for (let i = 0; i < a.encargado.length; i++) {
+                var e = await empleado.findById(a.encargado[i])
+                if(i==0){
+                    
+                    mails = e.email;
+                    console.log(mails)
+                }else{
+                    mails = mails + ", " + e.email;
+                }
+            }
+            console.log(mails);
+            //transportador del mensaje (quien lo envia en este caso un mail temporal )
+            let transporter = nodemailer.createTransport({
+                host: "smtp.gmail.com",
+                port: 465,
+                secure: true, // true for 465, false for other ports
+                auth: {
+                  user: "juanmcoro2003@gmail.com", // Mail del qie se va a enviar el mensaje
+                  pass: "lizpxnvjjtbtaiqd", // contraseña de app
+                },
+                tls: {
+                    rejectUnauthorized: false
+                }
+
+              });
+
+              let info = await transporter.sendMail({//info del mensaje que se va a enviar
+                from: '"Nuevo anuncio Para Autorizar" <juanmcoro2003@gmail.com>', // sender address
+                to: mails, // list of receivers
+                subject: "Nuevo Anuncio", // Subject line
+                text: "tenes para actualizar un anuncio pa", // plain text body
+                html: "<b>Nuevo anuncio para autorizar</b> <br> <p>Hola encagado!!"
+                 + " alguien en tu area a subido un anuncio para revisar, ve a hacerlo antes de que sea tarde!!! </p>", // html body
+              });
+
+              console.log("Message sent: %s", info.messageId);}
+
+
+
+
+
+
+
+
+
+
         await Anuncio.save();
         res.json({
             'status': '1',
@@ -29,7 +83,7 @@ AnuncioController.editarAnuncio = async (req, res) => {
         //console.log(nuevoAnuncio)
         //console.log(req.params.id)
         //si el anuncio es confeccionado procederemos a enviar un mail al encargado del area
-        if (nuevoAnuncio.estado == "confeccionado"){
+        if (nuevoAnuncio.estado == "Confeccionado"){
             var mails ;
             //buscamos el jefe de area
             var r = await rol.findById(nuevoAnuncio.destinatarios[0])
@@ -65,7 +119,7 @@ AnuncioController.editarAnuncio = async (req, res) => {
 
               let info = await transporter.sendMail({//info del mensaje que se va a enviar
                 from: '"Nuevo anuncio Para Autorizar" <juanmcoro2003@gmail.com>', // sender address
-                to: e.email, // list of receivers
+                to: mails, // list of receivers
                 subject: "Nuevo Anuncio", // Subject line
                 text: "tenes para actualizar un anuncio pa", // plain text body
                 html: "<b>Nuevo anuncio para autorizar</b> <br> <p>Hola encagado!!"
