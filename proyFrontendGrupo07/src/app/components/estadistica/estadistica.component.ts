@@ -8,6 +8,7 @@ import { Rol } from 'src/app/models/rol';
 import { RolService } from 'src/app/services/rol.service';
 import { EmpleadoService } from 'src/app/services/empleado.service';
 import { Empleado } from 'src/app/models/empleado';
+import { ThisReceiver } from '@angular/compiler';
 
 @Component({
   selector: 'app-estadistica',
@@ -16,14 +17,18 @@ import { Empleado } from 'src/app/models/empleado';
 })
 export class EstadisticaComponent implements OnInit {
 
-  areas: Array<Area> = [];
-  cont: number = 0;
+  //utilizado para obtener estadisticas por areas y roles
+  areas: Array<Area> = []; //
+  anun: Array<Anuncio> = [];
+  roles: Array<Rol> = [];
+  anuncios!: Array<Anuncio>;
+  elemento!: boolean;
+  elemento2!:boolean;
   display: boolean = false;
   display2: boolean = false;
-  elemento!: boolean;
-
-  roles: Array<Rol> = [];
-  empleados: Array<Empleado> = [];
+  desde!: string;
+  hasta!: string;
+  
 
   constructor(private anuncioService: AnunciosService, private areaService: AreaService,
     private rolService: RolService, private empleadoService: EmpleadoService) {
@@ -49,28 +54,43 @@ export class EstadisticaComponent implements OnInit {
       },
       error => { alert("Error en la petición"); }
     )
+
+    this.anun = new Array();
+    this.anuncioService.getAnuncios().subscribe(
+      (result) => {
+        var anuncio = new Anuncio();
+        result.forEach((element: any) => {
+          Object.assign(anuncio, element)
+          this.anun.push(anuncio);
+          anuncio = new Anuncio();
+        });
+        console.log(this.anun, 'anuncios')
+
+      },
+      error => { alert("Error en la petición"); }
+    )
+
     await new Promise(f => setTimeout(f, 50));
-    var cont: number;
-    this.areas.forEach(async element => {
 
-      this.anuncioService.getFiltroArea(element._id).subscribe(
-        async (result) => {
-          console.log(result, 'resultado')
-          cont = result.length;
-          console.log(element._id, 'id')
-          console.log(cont, 'contador anuncio')
-
-          console.log(element.nombreArea)
-          console.log(cont)
-          this.pieChart.dataTable.push([element.nombreArea, cont])
-          this.BarChart.dataTable.push([element.nombreArea, cont])
-          console.log(cont, 'cantidad')
-          await new Promise(f => setTimeout(f, 50));
-        }
-      )
+    var num = 0;
+    this.areas.forEach(async area => {
+      console.log(area)
       await new Promise(f => setTimeout(f, 80));
-      this.display = true;
+      this.anun.forEach(anun => {
+        console.log(area.nombreArea, 'area', anun.area.nombreArea, 'anun')
+        if (area.nombreArea == anun.area.nombreArea) {
+          num++;
+
+        }
+      });
+      console.log(num, area.nombreArea, 'resultados')
+      this.pieChart.dataTable.push([area.nombreArea, num])
+      this.BarChart.dataTable.push([area.nombreArea, num])
+      num = 0;
     });
+
+    await new Promise(f => setTimeout(f, 80));
+    this.display = true;
   }
 
   pieChart: GoogleChartInterface = {
@@ -97,44 +117,57 @@ export class EstadisticaComponent implements OnInit {
   }
 
   async obtenerRoles() {
-    this.empleados = new Array();
-    this.empleadoService.getEmpleado().subscribe(
+    this.roles = new Array();
+    this.rolService.getRoles().subscribe(
       (result) => {
-        var emp = new Empleado();
+        var rol = new Rol();
         result.forEach((element: any) => {
-          Object.assign(emp, element)
-          this.empleados.push(emp);
-          emp = new Empleado();
+          Object.assign(rol, element)
+          this.roles.push(rol);
+          rol = new Rol();
         });
-        console.log(this.empleados, 'empleados obtenidos')
+        console.log(this.roles, 'roles')
+
       },
       error => { alert("Error en la petición"); }
     )
 
-    await new Promise(f => setTimeout(f, 50));
-    var contA: number;
+    this.anun = new Array();
+    this.anuncioService.getAnuncios().subscribe(
+      (result) => {
+        var anuncio = new Anuncio();
+        result.forEach((element: any) => {
+          Object.assign(anuncio, element)
+          this.anun.push(anuncio);
+          anuncio = new Anuncio();
+        });
+        console.log(this.anun, 'anuncios')
 
-    this.empleados.forEach(async element => {
+      },
+      error => { alert("Error en la petición"); }
+    )
 
-      this.anuncioService.getFiltroRedactor(element._id).subscribe(
-        async (result) => {
-          console.log(result, 'anuncio obtenido por redactor')
-          contA = result.length;
-          console.log(contA, 'cantidad anuncio por redactor')
+    await new Promise(f => setTimeout(f, 80));
 
-          for (let i in element.roles) {
-            //this.roles.push(element.roles[i].nombreRol)
-            //this.roles.push(element.roles[i])
-            this.pieChartRol.dataTable.push([element.roles[i].nombreRol, contA])
-            this.BarChartRol.dataTable.push([element.roles[i].nombreRol, contA])
-            await new Promise(f => setTimeout(f, 50));
-          }
+    var num = 0;
+    this.roles.forEach(async rol => {
+      console.log(rol)
+      await new Promise(f => setTimeout(f, 80));
+      this.anun.forEach(anun => {
+        console.log(rol._id, 'rol', anun.redactor._id, 'redac')
+        if (rol.areaAsignada.nombreArea == anun.area.nombreArea) {
+          num++;
+
         }
-      )
+      });
 
+      this.pieChartRol.dataTable.push([rol.nombreRol, num])
+      this.BarChartRol.dataTable.push([rol.nombreRol, num])
+      num = 0;
     });
-    await new Promise(f => setTimeout(f, 50));
-    this.display2 = true;
+
+    await new Promise(f => setTimeout(f, 80));
+    this.display = true;
   }
 
   pieChartRol: GoogleChartInterface = {
@@ -152,5 +185,154 @@ export class EstadisticaComponent implements OnInit {
     ],
     options: { 'title': 'Anuncios por rol' },
   };
+
+  async filtroPorFecha() {
+    this.areas = new Array();
+    this.areaService.getArea().subscribe(
+      (result) => {
+        var area = new Area();
+        result.forEach((element: any) => {
+          Object.assign(area, element)
+          this.areas.push(area);
+          area = new Area();
+        });
+        console.log(this.areas, 'areas')
+
+      },
+      error => { alert("Error en la petición"); }
+    )
+
+    await new Promise(f => setTimeout(f, 50));
+
+    this.anuncios = new Array();
+    this.anuncioService.getFiltrofechas(this.desde, this.hasta).subscribe(
+      (result) => {
+        // this.anuncios = result;
+        var anun = new Anuncio();
+        result.forEach((element: any) => {
+          Object.assign(anun, element)
+          this.anuncios.push(anun);
+          anun = new Anuncio();
+        });
+        console.log(this.anuncios, 'anuncios')
+      }
+    )
+
+    var num = 0;
+    this.areas.forEach(async area => {
+      console.log(area)
+      await new Promise(f => setTimeout(f, 80));
+      this.anuncios.forEach(anun => {
+        console.log(area.nombreArea, 'area', anun.area.nombreArea, 'anun')
+        if (area.nombreArea == anun.area.nombreArea) {
+          num++;
+
+        }
+      });
+
+      console.log(num, area.nombreArea, 'resultados')
+      this.pieChartFiltroArea.dataTable.push([area.nombreArea, num])
+      this.BarChartFiltroArea.dataTable.push([area.nombreArea, num])
+      num = 0;
+    });
+
+    await new Promise(f => setTimeout(f, 80));
+    this.display2 = true;
+  }
+
+  pieChartFiltroArea: GoogleChartInterface = {
+    chartType: GoogleChartType.PieChart,
+    dataTable: [
+      ['Areas', 'Anuncios']
+    ],
+    options: { 'title': 'Anuncios por area' },
+  };
+
+  BarChartFiltroArea: GoogleChartInterface = {
+    chartType: GoogleChartType.ColumnChart,
+    dataTable: [
+      ['Areas', 'Anuncios']
+    ],
+    options: { 'title': 'Anuncios por area' },
+  };
+
+  async filtroPorFechaRol() {
+    this.roles = new Array();
+    this.rolService.getRoles().subscribe(
+      (result) => {
+        var rol = new Rol();
+        result.forEach((element: any) => {
+          Object.assign(rol, element)
+          this.roles.push(rol);
+          rol = new Rol();
+        });
+        console.log(this.roles, 'roles')
+
+      },
+      error => { alert("Error en la petición"); }
+    )
+
+    await new Promise(f => setTimeout(f, 50));
+
+    this.anun = new Array(); //antes deica this.anuncios
+    this.anuncioService.getFiltrofechas(this.desde, this.hasta).subscribe(
+      (result) => {
+        // this.anuncios = result;
+        var an = new Anuncio();
+        result.forEach((element: any) => {
+          Object.assign(an, element)
+          this.anun.push(an);
+          an = new Anuncio();
+        });
+        console.log(this.anun, 'anuncios')
+      }
+    )
+
+    var num = 0;
+    this.roles.forEach(async rol => {
+      console.log(rol)
+      await new Promise(f => setTimeout(f, 80));
+      this.anun.forEach(anun => {
+        console.log(rol._id, 'rol', anun.redactor._id, 'redac')
+        if (rol.areaAsignada.nombreArea == anun.area.nombreArea) {
+          num++;
+        }
+      });
+
+      this.pieChartFiltroRol.dataTable.push([rol.nombreRol, num])
+      this.BarChartFiltroRol.dataTable.push([rol.nombreRol, num])
+      num = 0;
+    });
+
+    await new Promise(f => setTimeout(f, 80));
+    this.display2 = true;
+  }
+
+  pieChartFiltroRol: GoogleChartInterface = {
+    chartType: GoogleChartType.PieChart,
+    dataTable: [
+      ['Rol', 'Anuncios']
+    ],
+    options: { 'title': 'Anuncios por rol' },
+  };
+
+  BarChartFiltroRol: GoogleChartInterface = {
+    chartType: GoogleChartType.ColumnChart,
+    dataTable: [
+      ['Rol', 'Anuncios']
+    ],
+    options: { 'title': 'Anuncios por rol' },
+  };
+
+  showDataFilter() {
+    this.elemento2 = true;
+    this.filtroPorFecha();
+    this.filtroPorFechaRol();
+  }
+
+  hideDataFilter() {
+    this.elemento2 = false;
+    window.location.reload()
+  }
 
 }

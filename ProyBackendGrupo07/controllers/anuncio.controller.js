@@ -239,7 +239,12 @@ AnuncioController.CreadosEntrefechas= async (req, res) => {
         var hasta = req.query.hasta
         console.log(req.query.hasta);
         var desde = req.query.desde
-        const anun = await anuncio.find({fechaCreacion: {"$gte" : desde, "$lte" : hasta}})
+        //const anun = await anuncio.find({fechaCreacion: {"$gte" : desde, "$lte" : hasta}})
+        const anun = await anuncio.find(
+            {$and: [
+                {fechaCreacion: {$gte: new Date(desde), $lt: new Date(hasta)}}
+            ]}
+        ).populate('area').populate('redactor')
         res.json(anun)
     } catch (error) {
         console.log(error)
