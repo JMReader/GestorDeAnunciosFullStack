@@ -4,5 +4,20 @@
     align-items: center;
     justify-content: center;
     width: 30vw;
+    padding-left: 5vw;
    margin-left: 12px;
+   margin-bottom: 18px;
+}
+.m{
+    margin: 0 12px;
+    
+}
+.cont-f {
+    display: flex;
+
+}
+.result{
+    background-color: black;
+    width: 60vw;
+    margin-left: 2vw;
 }

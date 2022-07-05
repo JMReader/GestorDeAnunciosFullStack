@@ -11,7 +11,7 @@ import { AnunciosService } from 'src/app/services/anuncios.service';
   styleUrls: ['./busqueda.component.css']
 })
 export class BusquedaComponent implements OnInit {
-
+  display : boolean = false;
   filtrosDisponibles: Array<string> = [];
   anuncios = new Array<Anuncio>();
   //DROPDOWN FILTRO
@@ -37,7 +37,8 @@ export class BusquedaComponent implements OnInit {
 
 
   constructor(private as: AnunciosService) { 
-
+this.obtenerAnuncios();
+this.cargarFiltros();
   }
 
   obtenerAnuncios(){
@@ -79,7 +80,7 @@ export class BusquedaComponent implements OnInit {
     await new Promise(f => setTimeout(f, 90));
     console.log(this.dataFiltros);
     
-    //this.displayMedios=true;
+    this.display=true;
   }
 
   cambioFiltro(){
