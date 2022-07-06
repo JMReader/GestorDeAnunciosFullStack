@@ -13,7 +13,6 @@ AnuncioController.crearAnuncio = async (req, res) => {
             var mails;
             //buscamos el jefe de area
             var a = await area.findById(Anuncio.area)
-
 //por si falla   
  //           for (let i = 1; i < a.encargado.length; i++) {
   //              var e = await empleado.findById(a.encargado[i])
@@ -21,13 +20,9 @@ AnuncioController.crearAnuncio = async (req, res) => {
       //          if(i==1){
 //por si falla
 
-
-
             for (let i = 0; i < a.encargado.length; i++) {
                 var e = await empleado.findById(a.encargado[i])
                 if (i == 0) {
-
-
                     mails = e.email;
                     console.log(mails)
                 } else {
@@ -43,7 +38,7 @@ AnuncioController.crearAnuncio = async (req, res) => {
                 secure: true, // true for 465, false for other ports
                 auth: {
                     user: "juanmcoro2003@gmail.com", // Mail del qie se va a enviar el mensaje
-                    pass: "lizpxnvjjtbtaiqd", // contraseña de app
+                    pass: "lizpxnvjjtbtaiqd", // contraseña de applicacion que nos da google, (debemos tener la oauth 2)
                 },
                 tls: {
                     rejectUnauthorized: false
@@ -52,27 +47,17 @@ AnuncioController.crearAnuncio = async (req, res) => {
             });
 
             let info = await transporter.sendMail({//info del mensaje que se va a enviar
-                from: '"Nuevo anuncio Para Autorizar" <juanmcoro2003@gmail.com>', // sender address
-                to: mails, // list of receivers
+                from: '"Anuncios Paloma" <juanmcoro2003@gmail.com>', // sender address
+                to: mails, // variable con todos los mails de los destinatarios
                 subject: "Nuevo Anuncio", // Subject line
                 text: "Tenes para actualizar un anuncio", // plain text body
                 html: " <b>Nuevo anuncio para autorizar!!</b> <br>  <p>Hola encagado!!"
-                    + " alguien en tu area a subido un anuncio para revisar, ve a hacerlo antes de que sea tarde!!! </p>"
+                    + " alguien en tu area a subido un anuncio para revisar de titulo <b>"+ Anuncio.titulo +"</b>, ve a hacerlo antes de que sea tarde!!! </p>"
                     + "<br> <img style='height: 228px; width: 390px; margin-left:114px;'  src='https://cdn.discordapp.com/attachments/987427041001504849/993760187552890880/unknown.png'> <br> ", // html body
             });
 
             console.log("Message sent: %s", info.messageId);
         }
-
-
-
-
-
-
-
-
-
-
         await Anuncio.save();
         res.json({
             'status': '1',
@@ -98,23 +83,15 @@ AnuncioController.editarAnuncio = async (req, res) => {
             var mails;
             //buscamos el jefe de area
             var r = await rol.findById(nuevoAnuncio.destinatarios[0])
-
-            var a = await area.findById(r.areaAsignada)
-
-            
+            var a = await area.findById(r.areaAsignada)   
     /*Por si falla        
             for (let i = 1; i < a.encargado.length; i++) {
                 var e = await empleado.findById(a.encargado[i])
                 if(i==1){
    */                 
-
-
-
             for (let i = 0; i < a.encargado.length; i++) {
                 var e = await empleado.findById(a.encargado[i])
                 if (i == 0) {
-
-
                     mails = e.email;
                     console.log(mails)
                 } else {
@@ -134,16 +111,16 @@ AnuncioController.editarAnuncio = async (req, res) => {
                 tls: {
                     rejectUnauthorized: false
                 }
-
             });
 
             let info = await transporter.sendMail({//info del mensaje que se va a enviar
-                from: '"Nuevo anuncio Para Autorizar" <juanmcoro2003@gmail.com>', // sender address
-                to: mails, // list of receivers
+                from: '"Anuncios Paloma" <juanmcoro2003@gmail.com>', // sender address
+                to: mails, // variable con todos los mails de los destinatarios
                 subject: "Nuevo Anuncio", // Subject line
                 text: "Tenes para actualizar un anuncio", // plain text body
-                html: "<b>Nuevo anuncio para autorizar</b> <br> <p>Hola encargado!!"
-                    + " alguien en tu area ha subido un anuncio para revisar, ve a hacerlo antes de que sea tarde!!! </p>", // html body
+                html: " <b>Nuevo anuncio para autorizar!!</b> <br>  <p>Hola encagado!!"
+                    + " alguien en tu area a subido un anuncio para revisar de titulo <b>"+ Anuncio.titulo +"</b>, ve a hacerlo antes de que sea tarde!!! </p>"
+                    + "<br> <img style='height: 228px; width: 390px; margin-left:114px;'  src='https://cdn.discordapp.com/attachments/987427041001504849/993760187552890880/unknown.png'> <br> ", // html body
             });
 
             console.log("Message sent: %s", info.messageId);

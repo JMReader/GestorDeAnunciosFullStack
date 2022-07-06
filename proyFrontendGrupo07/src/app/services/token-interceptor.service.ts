@@ -13,6 +13,7 @@ export class TokenInterceptorService implements HttpInterceptor {
 
   /*Este service interceptará llamadas HTTP desde angular (frontend) a la API(bakcend) y
   agregará a la petición información del token que hemos obtenido en el proceso de login.*/
+  //grande mesconi
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     const tokenizeReq = req.clone({

@@ -33,7 +33,7 @@ export class FbService {
     this.fb.api('/110966101664631/feed', apiMethod,
       {
         "message": mensaje,
-        "access_token":"EAAGOAWeiyfIBADc2mBJUmgi48dEJ5VZAMF5DsmIQm3nfLZApuiPs2HZBH5hquA6zZBaXQ5dZCi3ohjsprFZA3UsAy5ZCe9Pq345d6c04cCKYB5KVa5N6wZA8qLSvhpbqWXjTsb5zwhxTmj1mVZA1hGISY42ywEK3jYQTCdhSGsTPDFJ1GS5XLYOFfLOqHFmqEZBsSaWGm6TjuChgZDZD"
+        "access_token":"EAAGOAWeiyfIBAEg1wqQQHQeVjmLsYe6cHzqQw3ydoZAS5LvkWiovkhUJ2OZAB1wvbbSNyRTYhXJ88O9OVlu1loI8EeGRHwy41GJv9jiQCVMenH2MzUWx7ZB7d2Wgkhc86qJgnvktPuZBtWKAiUesBAShxbDku2bRcSbAqd2CoeX6noK3koRoWGZBwevb7v29hy3XOW8snnwZDZD"
       }
 
     )
@@ -47,7 +47,7 @@ export class FbService {
       {
         "name": descripcion, //puede ser opcional solo subir la imagen o agrgarle una descripcion
         "url": url,
-        "access_token":"EAAGOAWeiyfIBADc2mBJUmgi48dEJ5VZAMF5DsmIQm3nfLZApuiPs2HZBH5hquA6zZBaXQ5dZCi3ohjsprFZA3UsAy5ZCe9Pq345d6c04cCKYB5KVa5N6wZA8qLSvhpbqWXjTsb5zwhxTmj1mVZA1hGISY42ywEK3jYQTCdhSGsTPDFJ1GS5XLYOFfLOqHFmqEZBsSaWGm6TjuChgZDZD"
+        "access_token":"EAAGOAWeiyfIBAEg1wqQQHQeVjmLsYe6cHzqQw3ydoZAS5LvkWiovkhUJ2OZAB1wvbbSNyRTYhXJ88O9OVlu1loI8EeGRHwy41GJv9jiQCVMenH2MzUWx7ZB7d2Wgkhc86qJgnvktPuZBtWKAiUesBAShxbDku2bRcSbAqd2CoeX6noK3koRoWGZBwevb7v29hy3XOW8snnwZDZD"
       }
 
     )

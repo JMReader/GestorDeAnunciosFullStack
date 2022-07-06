@@ -1,4 +1,4 @@
-div {
+/* div {
     background-color: black;
     color: white;
     text-align: center;
@@ -21,11 +21,16 @@ nav a {
 nav a:hover {
     transition-duration: 0.50s;
     background-color: #3e09ff;
-    /*color: black;*/
-
 }
 
 nav a.active {
     background-color: #3e09ff;
     color: white;
+} */
+.titu{
+    color: #e3d1ad;
+    margin-top: 10px;
+}
+.n{
+    color: #e3d1ad;
 }

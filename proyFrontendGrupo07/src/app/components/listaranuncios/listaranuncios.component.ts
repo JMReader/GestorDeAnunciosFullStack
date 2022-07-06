@@ -30,6 +30,8 @@ export class ListaranunciosComponent implements OnInit {
   async obtenerAnuncios() {
     var area = JSON.parse(sessionStorage.getItem("area")!);
     var roles = JSON.parse(sessionStorage.getItem("roles")!);
+    var encargado = sessionStorage.getItem("esEncargado")!;
+    console.log(encargado);
     if (area != null) {
       this.anunciosSlider = new Array<Anuncio>();
       this.as.getAnuncios().subscribe((result) => {
@@ -49,6 +51,8 @@ export class ListaranunciosComponent implements OnInit {
       console.log(this.anuncios);
       var anunciosAux = new Array<Anuncio>();
       var coincide: boolean = false;
+
+      if(encargado != "true"){
       this.anuncios.forEach(async anuncio => {
         await new Promise(f => setTimeout(f, 200));
         anuncio.destinatarios.forEach(async destinatario => {
@@ -68,6 +72,7 @@ export class ListaranunciosComponent implements OnInit {
       console.log(this.anuncios);
       await new Promise(f => setTimeout(f, 40));
       this.anuncios = anunciosAux;
+    }
       this.anunciosListado = new Array<Anuncio>();
       if (this.anuncios.length == 0) {
         this.existen = false;

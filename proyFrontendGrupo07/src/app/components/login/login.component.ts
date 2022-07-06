@@ -42,7 +42,7 @@ export class LoginComponent implements OnInit {
           //para recuperar se usa var roles = JSON.parse(sessionStorage.getItem("roles"));
           sessionStorage.setItem("area", JSON.stringify(user.area));
           sessionStorage.setItem("esEncargado", user.esEncargado);
-          sessionStorage.setItem("token", result.token);
+          sessionStorage.setItem("token", result.token);//cookies--cache
           //redirigimos a home o a pagina que llamo
           this.router.navigateByUrl(this.returnUrl);
         } else {

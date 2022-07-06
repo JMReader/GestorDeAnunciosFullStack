@@ -63,7 +63,7 @@ empCtrl.loginUsuario = async (req, res) => {
                 msg: "Usuario no encontrado"
             })
         } else {
-            const unToken = jwt.sign({id: user._id}, "secretkey");
+            const unToken = jwt.sign({id: user._id}, "secretkey");// creo un token y guardo el user id en el campo secretkey y recien tendra acceso 
             res.json({
                 status: 1,
                 msg: "Usuario encontrado", 

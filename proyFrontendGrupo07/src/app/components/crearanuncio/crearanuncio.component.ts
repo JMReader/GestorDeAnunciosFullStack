@@ -27,6 +27,7 @@ export class CrearanuncioComponent implements OnInit {
   mediosDisponibles!: Array<Medio>;
   recursos!: string;
   redactor!: string;
+  //todos los booleanos que nos dice que seleccionamos y que no (activa los validadores :p)
   display: boolean = false;
   displayMedios: boolean = false;
   tvSelected: boolean = false;
@@ -41,8 +42,11 @@ export class CrearanuncioComponent implements OnInit {
   addMedio: boolean = false;
   checkMedio: boolean = true;
   area!: string;
+
   ArrayRecursos = new  Array<string>(); 
   //DROPDOWN DESTINATARIOS
+  /*ng multi slect dropdown, usa 2 valores,
+  / data y settings en el settings configuramos como vamos a mostrar nuestro dropdown*/
   dataDestinatario: Array<ElementForList> = new Array<ElementForList>();//{ item_id: number, item_text: string }
   settingsDestinatario: IDropdownSettings = {
     idField: 'item_id',
@@ -60,6 +64,7 @@ export class CrearanuncioComponent implements OnInit {
   };
   //[settings]="settingsMedio" [data]="dataMedios"
   anunciosForm = new FormGroup({
+    //campos que podemos llegar a utilizar en el form :p
     tituloAnuncio: new FormControl(),
     tipoAnuncio: new FormControl(),
     textoAnuncio: new FormControl(),
@@ -100,15 +105,7 @@ export class CrearanuncioComponent implements OnInit {
   async cargarMedios() {
     this.mediosDisponibles = new Array<Medio>();
     var unMedio = new Medio();
-    // unMedio.nombre = "Twitter";
-    // unMedio._id ="Twitter";
-    // unMedio.usuario=""
-    // this.mediosDisponibles.push(unMedio);
-    // unMedio = new Medio();
-    // unMedio.nombre = "YouTube";
-    // unMedio._id ="YouTube";
-    // unMedio.usuario=""
-    // this.mediosDisponibles.push(unMedio);
+//estos medios vienen pre cargados en el programa porque son opciones mas complejas 
     unMedio.nombre = "Facebook";
     unMedio._id ="Facebook";
     this.mediosDisponibles.push(unMedio);
@@ -116,32 +113,36 @@ export class CrearanuncioComponent implements OnInit {
     unMedio.nombre = "TV";
     unMedio._id ="TV";
     this.mediosDisponibles.push(unMedio);
+
     this.ms.getMedios().subscribe(
-      (result) => {
+     (result) => {
         result.forEach((element: any) => {
           var unMedio = new Medio();
           Object.assign(unMedio, element);
           this.mediosDisponibles.push(unMedio);
         });
       });
+
     await new Promise(f => setTimeout(f, 90));
     console.log("medios")
     console.log(this.mediosDisponibles);
-    this.anunciosForm.get('medioAnuncio')?.setValue([]);
+    this.anunciosForm.get('medioAnuncio')?.setValue([]);//seleccionamos un array vacio para llenarlo 
     this.dataMedios = new Array<ElementForList>();
 
     this.mediosDisponibles.forEach(element => {
       var elemento = new ElementForList();
       elemento.item_id = element._id;
       elemento.item_text = element.nombre;
-      this.dataMedios.push(elemento);
+      this.dataMedios.push(elemento);//esta data es la que usa el multi select drop down 
     });
+
     console.log(this.dataDestinatario);
     await new Promise(f => setTimeout(f, 90));
     this.displayMedios=true;
   }
 
-  async cargarDestinatarios() { //obtengo el string con el array de roles, lo transformo en JSON, luego lo recorro y lo guardo destinatarios
+  async cargarDestinatarios() { //busca destinatarios en la bdd y la muestra en un ng multi select
+    //obtengo el string con el array de roles, lo transformo en JSON, luego lo recorro y lo guardo destinatarios
     //buscar area del logeado
     var area = JSON.parse(sessionStorage.getItem("area")!);
 
@@ -189,21 +190,9 @@ export class CrearanuncioComponent implements OnInit {
     }
   }
 
-  postearFb(){
-    if(this.fbSelected == true){
-      if (this.fbEstado == true) {
-        var texto = this.anunciosForm.get('textoFB')?.value;
-        this.fbService.postearFb(texto)
-        console.log("xd")
-      } else {
-        var texto = this.anunciosForm.get('textoFB')?.value;
-        var url = this.anunciosForm.get('urlFB')?.value;
-        this.fbService.postearImgFb(url,texto)
-      }
-    }
-  }
 
   crearAnuncio() {
+
     if(this.fbSelected == true){
       if (this.fbEstado == true) {
         var texto = this.anunciosForm.get('textoFB')?.value;
@@ -358,7 +347,7 @@ export class CrearanuncioComponent implements OnInit {
   }
 
 //Comprobado
-  onFileChanges(files: any) {
+  onFileChanges(files: any) { // cuando se agrega un file la variable archivo cambiado se pasaa true 
     this.ArrayRecursos = new Array<string>();
     console.log("File has changed:", files);
     files.forEach((file: any) => {
@@ -370,17 +359,20 @@ export class CrearanuncioComponent implements OnInit {
   }
 
   async cambio(){
+    //comprueba cada click de un multi select, para saber si hubo un cambio importante en la pagina 
     var medios = this.anunciosForm.get('medioAnuncio')?.value;
     console.log(medios);
     var tv = false;
     medios.forEach((element: any) => {
+      //por ejemplo si en el multi select dropdwon fue seleccionado tv 
+      // solo nos deja cargar imagenes al tv 
       if (element.item_text === "TV" && element.item_id === "TV")
       {
         tv=true;
         this.anunciosForm.get('tipoAnuncio')?.setValue("Imagen");
-        this.anunciosForm.get('tipoAnuncio')?.disable();
-        this.tipoCambiado();
-        this.anunciosForm.get('fechaFin')?.setValidators(Validators.required);
+        this.anunciosForm.get('tipoAnuncio')?.disable();//desactiva el input de tipo ya que en tv solo pueden ir imagenes
+        this.tipoCambiado(); 
+        this.anunciosForm.get('fechaFin')?.setValidators(Validators.required);// y nos crea la validacion de que debamos ingresar la fecha fin 
       }
     });
 
@@ -409,7 +401,9 @@ export class CrearanuncioComponent implements OnInit {
     console.log("fbSelected: " + this.fbSelected);
   }
 //revisar
-  tipoCambiado(){
+  tipoCambiado(){ 
+    //comprueba el valor del tipo y dependiendo del tipo de anuncio elegido cambia dinamicamente el form :)
+    //genera las validaciones visibles
     var tipo = this.anunciosForm.get('tipoAnuncio')?.value;
     console.log("tipoAnuncio: " + tipo);
     this.ArrayRecursos = new Array<string>();
@@ -431,7 +425,7 @@ export class CrearanuncioComponent implements OnInit {
       this.anunciosForm.get('htmlAnuncio')?.setValue(null);
       this.anunciosForm.get('htmlAnuncio')?.markAsPristine;
       this.anunciosForm.get('videoAnuncio')?.setValue(null);
-      this.anunciosForm.get('videoAnuncio')?.markAsPristine;
+      this.anunciosForm.get('videoAnuncio')?.markAsPristine;//marca los controles como "nuevos"
       this.anunciosForm.get('textoAnuncio')?.setValue(null);
       this.anunciosForm.get('textoAnuncio')?.markAsPristine;
       

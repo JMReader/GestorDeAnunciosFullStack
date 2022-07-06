@@ -78,20 +78,24 @@ export class EstadisticaComponent implements OnInit {
       error => { alert("Error en la petición"); }
     )
 
-    await new Promise(f => setTimeout(f, 50));
+    await new Promise(f => setTimeout(f, 50));// google va tan rapido que no da el tiempo de espera, por eso el await
 
     var num = 0;
     this.areas.forEach(async area => {
       console.log(area)
       await new Promise(f => setTimeout(f, 80));
+      //recorremos los anuncios cargados
       this.anun.forEach(anun => {
         console.log(area.nombreArea, 'area', anun.area.nombreArea, 'anun')
         if (area.nombreArea == anun.area.nombreArea) {
+          /*si el areaa del anuncio coincide con 
+          /el area que esta siendo iterada se suma al contador */
           num++;
 
         }
       });
       console.log(num, area.nombreArea, 'resultados')
+      //enviamos la info al data table para luego mostrarla en el grafico :+1:
       this.pieChart.dataTable.push([area.nombreArea, num])
       this.BarChart.dataTable.push([area.nombreArea, num])
       num = 0;
@@ -139,7 +143,7 @@ export class EstadisticaComponent implements OnInit {
       },
       error => { alert("Error en la petición"); }
     )
-
+    await new Promise(f => setTimeout(f, 80));
     this.anun = new Array();
     this.anuncioService.getAnuncios().subscribe(
       (result) => {
@@ -155,7 +159,7 @@ export class EstadisticaComponent implements OnInit {
       error => { alert("Error en la petición"); }
     )
 
-    await new Promise(f => setTimeout(f, 80));
+    await new Promise(f => setTimeout(f, 100));
 
     var num = 0;
     this.roles.forEach(async rol => {
@@ -174,7 +178,7 @@ export class EstadisticaComponent implements OnInit {
       num = 0;
     });
 
-    await new Promise(f => setTimeout(f, 80));
+    await new Promise(f => setTimeout(f, 500));
     this.display = true;
   }
 
@@ -226,6 +230,8 @@ export class EstadisticaComponent implements OnInit {
       }
     )
 
+    await new Promise(f => setTimeout(f, 200));
+
     var num = 0;
     this.areas.forEach(async area => {
       console.log(area)
@@ -244,7 +250,7 @@ export class EstadisticaComponent implements OnInit {
       num = 0;
     });
 
-    await new Promise(f => setTimeout(f, 80));
+    await new Promise(f => setTimeout(f, 500));
     this.display2 = true;
   }
 
@@ -296,6 +302,8 @@ export class EstadisticaComponent implements OnInit {
       }
     )
 
+    await new Promise(f => setTimeout(f, 200));
+    
     var num = 0;
     this.roles.forEach(async rol => {
       console.log(rol)
@@ -310,9 +318,10 @@ export class EstadisticaComponent implements OnInit {
       this.pieChartFiltroRol.dataTable.push([rol.nombreRol, num])
       this.BarChartFiltroRol.dataTable.push([rol.nombreRol, num])
       num = 0;
+  
     });
 
-    await new Promise(f => setTimeout(f, 80));
+    await new Promise(f => setTimeout(f, 500));
     this.display2 = true;
   }
 
