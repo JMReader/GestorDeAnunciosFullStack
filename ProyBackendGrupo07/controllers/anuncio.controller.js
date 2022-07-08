@@ -185,6 +185,34 @@ AnuncioController.filtrarRedactor = async (req, res) => {
 }
 //buscar porr medio 
 AnuncioController.filtrarMedio = async (req, res) => {
+     if(req.params.medio== "Facebook"){
+        try {
+  
+            //el in busca dentro de un array el valor que especifiquemos :))
+            const anuncios = await anuncio.find({ fbSelected: true });
+            res.status(200).json(anuncios);
+        } catch (error) {
+            console.log(error)
+            res.status(400).json({
+                status: '0',
+                msg: 'Error al filtrar los anuncios'
+            })
+        }
+
+     }else if (req.params.medio== "TV"){
+        try {
+            //el in busca dentro de un array el valor que especifiquemos :))
+            const anuncios = await anuncio.find({ tvSelected: true });
+            res.status(200).json(anuncios);
+        } catch (error) {
+            console.log(error)
+            res.status(400).json({
+                status: '0',
+                msg: 'Error al filtrar los anuncios'
+            })
+        }
+     }else{
+  
 
     try {
         const med = req.params.medio;
@@ -197,7 +225,7 @@ AnuncioController.filtrarMedio = async (req, res) => {
             status: '0',
             msg: 'Error al filtrar los anuncios'
         })
-    }
+    }}
 }
 
 //buscar por tipo de cont
