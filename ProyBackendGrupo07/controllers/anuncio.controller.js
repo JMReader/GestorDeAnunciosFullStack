@@ -189,7 +189,7 @@ AnuncioController.filtrarMedio = async (req, res) => {
     try {
         const med = req.params.medio;
         //el in busca dentro de un array el valor que especifiquemos :))
-        const anuncios = await anuncio.find({ medio: { $in: [med] } });
+        const anuncios = await anuncio.find({ medios: { $in: [med] } });
         res.status(200).json(anuncios);
     } catch (error) {
         console.log(error)
@@ -275,7 +275,7 @@ AnuncioController.filtrarTexto = async (req, res) => {
     try {
         const txt = req.params.texto;
 
-        const anuncios = await anuncio.find({ texto: { $regex: txt } })
+        const anuncios = await anuncio.find({ titulo: { $regex: txt } })
         res.status(200).json(anuncios);
     } catch (error) {
         console.log(error)
@@ -317,7 +317,7 @@ AnuncioController.filtrarPorTodo = async (req, res) => {
             }
             case "Medio": {
                 const medio = req.query.medio;
-                query["medio"] = { $in: [medio] };
+                query["medios"] = { $in: [medio] };
                 break;
             }
             case "Titulo": {

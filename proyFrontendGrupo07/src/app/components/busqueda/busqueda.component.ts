@@ -19,7 +19,7 @@ import { RolService } from 'src/app/services/rol.service';
   styleUrls: ['./busqueda.component.css']
 })
 export class BusquedaComponent implements OnInit {
-  display : boolean = false;
+  display: boolean = false;
   filtrosDisponibles: Array<string> = [];
   anuncios = new Array<Anuncio>();
   destinatarioSelected: boolean = false;
@@ -54,29 +54,29 @@ export class BusquedaComponent implements OnInit {
     estado: new FormControl(),
     redactor: new FormControl(),
   })
-  anunciosAFiltrar= new Array<Anuncio>();
+  anunciosAFiltrar = new Array<Anuncio>();
   displayMedios: boolean = false;
-  displayCard: boolean =false;
+  displayCard: boolean = false;
 
 
-  constructor(private es: EmpleadoService,private as: AnunciosService, private rout: Router, private ms: MedioService , private rs: RolService) { 
-  //this.obtenerAnuncios();
-  this.cargarFiltros();
-  this.cargarMedios()
-  this.listarRoles()
-  this.obtenerEmpleados();
+  constructor(private es: EmpleadoService, private as: AnunciosService, private rout: Router, private ms: MedioService, private rs: RolService) {
+    //this.obtenerAnuncios();
+    this.cargarFiltros();
+    this.cargarMedios()
+    this.listarRoles()
+    this.obtenerEmpleados();
   }
-  
-obtenerEmpleados(){
-  this.es.getEmpleado().subscribe(
-    (result) => {
-      console.log(result);
-      result.forEach((element: any) => {
-        this.empleados.push(element);
+
+  obtenerEmpleados() {
+    this.es.getEmpleado().subscribe(
+      (result) => {
+        console.log(result);
+        result.forEach((element: any) => {
+          this.empleados.push(element);
+        });
       });
-    });
-  console.log(this.empleados);
-}
+    console.log(this.empleados);
+  }
 
   async obtenerAnuncios() {
     this.anuncios = new Array<Anuncio>();
@@ -118,60 +118,60 @@ obtenerEmpleados(){
     await new Promise(f => setTimeout(f, 90));
     console.log(this.dataFiltros);
 
-    this.display=true;
+    this.display = true;
   }
 
-/*
-async cambio(){
-    var medios = this.anunciosForm.get('medioAnuncio')?.value;
-    console.log(medios);
-    var tv = false;
-    medios.forEach((element: any) => {
-      if (element.item_text === "TV" && element.item_id === "TV")
-      {
-        tv=true;
-        this.anunciosForm.get('tipoAnuncio')?.setValue("Imagen");
-        this.anunciosForm.get('tipoAnuncio')?.disable();
-        this.tipoCambiado();
-        this.anunciosForm.get('fechaFin')?.setValidators(Validators.required);
+  /*
+  async cambio(){
+      var medios = this.anunciosForm.get('medioAnuncio')?.value;
+      console.log(medios);
+      var tv = false;
+      medios.forEach((element: any) => {
+        if (element.item_text === "TV" && element.item_id === "TV")
+        {
+          tv=true;
+          this.anunciosForm.get('tipoAnuncio')?.setValue("Imagen");
+          this.anunciosForm.get('tipoAnuncio')?.disable();
+          this.tipoCambiado();
+          this.anunciosForm.get('fechaFin')?.setValidators(Validators.required);
+        }
+      });
+  
+      await new Promise(f => setTimeout(f, 50));
+  
+      var fb = false;
+      medios.forEach((element: any) => {
+        if (element.item_text === "Facebook" && element.item_id === "Facebook")
+        {
+          fb=true;
+          console.log(fb);
+        }
+      });
+  
+      await new Promise(f => setTimeout(f, 50));
+  
+      this.tvSelected = tv;
+      this.fbSelected= fb;
+      console.log(this.fbEstado)
+      if (this.tvSelected == false){
+        this.anunciosForm.get('tipoAnuncio')?.enable();
+        this.anunciosForm.get('fechaFin')?.setValidators(Validators.nullValidator);
+        this.anunciosForm.get('fechaFin')?.setValue(null);
       }
-    });
-
-    await new Promise(f => setTimeout(f, 50));
-
-    var fb = false;
-    medios.forEach((element: any) => {
-      if (element.item_text === "Facebook" && element.item_id === "Facebook")
-      {
-        fb=true;
-        console.log(fb);
-      }
-    });
-
-    await new Promise(f => setTimeout(f, 50));
-
-    this.tvSelected = tv;
-    this.fbSelected= fb;
-    console.log(this.fbEstado)
-    if (this.tvSelected == false){
-      this.anunciosForm.get('tipoAnuncio')?.enable();
-      this.anunciosForm.get('fechaFin')?.setValidators(Validators.nullValidator);
-      this.anunciosForm.get('fechaFin')?.setValue(null);
+      //console.log("tvSelected: " + this.tvSelected);
+      console.log("fbSelected: " + this.fbSelected);
     }
-    //console.log("tvSelected: " + this.tvSelected);
-    console.log("fbSelected: " + this.fbSelected);
-  }
-*/
+  */
 
 
   async cambioFiltro() {
-    var filtrosElegidos = this.filtroForm.get('filtros')?.value;var fecha:boolean = false; 
-    var medio:boolean = false;
-    var titulo:boolean = false;
-    var tipo:boolean = false;
-    var estado:boolean = false;
-    var redactor:boolean = false;
-    var destinatario:boolean = false;
+    var filtrosElegidos = this.filtroForm.get('filtros')?.value; var fecha: boolean = false;
+    var medio: boolean = false;
+    var titulo: boolean = false;
+    var tipo: boolean = false;
+    var estado: boolean = false;
+    var redactor: boolean = false;
+    var destinatario: boolean = false;
     filtrosElegidos.forEach(async (element: any) => {
       switch (element.item_id) {
         case "Fechas": {
@@ -180,43 +180,43 @@ async cambio(){
 
           this.filtroForm.get('fechaEnd')?.setValidators(Validators.required);
           this.filtroForm.get('fechaEnd')?.setValue(null);
-          fecha=true;
+          fecha = true;
           break;
         }
         case "Medio": {
           this.filtroForm.get('medio')?.setValidators(Validators.required);
           this.filtroForm.get('medio')?.setValue(null);
-          medio=true;
+          medio = true;
           break;
         }
         case "Titulo": {
           this.filtroForm.get('titulo')?.setValidators(Validators.required);
           this.filtroForm.get('titulo')?.setValue(null);
-          titulo=true;
+          titulo = true;
           break;
         }
         case "Tipo": {
           this.filtroForm.get('tipo')?.setValidators(Validators.required);
           this.filtroForm.get('tipo')?.setValue(null);
-          tipo=true;
+          tipo = true;
           break;
         }
         case "Estado": {
           this.filtroForm.get('estado')?.setValidators(Validators.required);
           this.filtroForm.get('estado')?.setValue(null);
-          estado=true;
+          estado = true;
           break;
         }
         case "Redactor": {
           this.filtroForm.get('redactor')?.setValidators(Validators.required);
           this.filtroForm.get('redactor')?.setValue(null);
-          redactor=true;
+          redactor = true;
           break;
         }
         case "Destinatario": {
           this.filtroForm.get('destinatario')?.setValidators(Validators.required);
           this.filtroForm.get('destinatario')?.setValue(null);
-          destinatario=true;
+          destinatario = true;
           break;
         }
       }
@@ -224,13 +224,44 @@ async cambio(){
     });
 
     await new Promise(f => setTimeout(f, 60));
-    this.fechasSelected=fecha;
+    this.fechasSelected = fecha;
     this.medioSelected = medio;
     this.tituloSelected = titulo;
     this.tipoSelected = tipo;
     this.estadoSelected = estado;
     this.redactorSelected = redactor;
     this.destinatarioSelected = destinatario;
+
+    if (this.fechasSelected == false) {
+      this.filtroForm.get('fechaStart')?.setValidators(Validators.nullValidator);
+      this.filtroForm.get('fechaStart')?.setValue(null);
+      this.filtroForm.get('fechaEnd')?.setValidators(Validators.nullValidator);
+      this.filtroForm.get('fechaEnd')?.setValue(null);
+    }
+    if (this.medioSelected == false) {
+      this.filtroForm.get('medio')?.setValidators(Validators.nullValidator);
+      this.filtroForm.get('medio')?.setValue(null);
+    }
+    if (this.tituloSelected == false) {
+      this.filtroForm.get('titulo')?.setValidators(Validators.nullValidator);
+      this.filtroForm.get('titulo')?.setValue(null);
+    }
+    if (this.tipoSelected == false) {
+      this.filtroForm.get('tipo')?.setValidators(Validators.nullValidator);
+      this.filtroForm.get('tipo')?.setValue(null);
+    }
+    if (this.estadoSelected == false) {
+      this.filtroForm.get('estado')?.setValidators(Validators.nullValidator);
+      this.filtroForm.get('estado')?.setValue(null);
+    }
+    if (this.redactorSelected == false) {
+      this.filtroForm.get('redactor')?.setValidators(Validators.nullValidator);
+      this.filtroForm.get('redactor')?.setValue(null);
+    }
+    if (this.destinatarioSelected == false) {
+      this.filtroForm.get('destinatario')?.setValidators(Validators.nullValidator);
+      this.filtroForm.get('destinatario')?.setValue(null);
+    }
   }
 
   listarRoles() {
@@ -246,15 +277,15 @@ async cambio(){
   }
 
   async cargarMedios() {
-    this.displayMedios=false;
+    this.displayMedios = false;
     this.mediosDisponibles = new Array<Medio>();
     var unMedio = new Medio();
     unMedio.nombre = "Facebook";
-    unMedio._id ="Facebook";
+    unMedio._id = "Facebook";
     this.mediosDisponibles.push(unMedio);
     unMedio = new Medio();
     unMedio.nombre = "TV";
-    unMedio._id ="TV";
+    unMedio._id = "TV";
     this.mediosDisponibles.push(unMedio);
     this.ms.getMedios().subscribe(
       (result) => {
@@ -268,12 +299,12 @@ async cambio(){
     console.log("medios")
     console.log(this.mediosDisponibles);
     this.filtroForm.get('medio')?.setValue("");
-    
+
     await new Promise(f => setTimeout(f, 90));
-    this.displayMedios=true;
+    this.displayMedios = true;
   }
 
-  async filtrar() {
+  /*async filtrar() {
     this.displayCard=false;
     
     var filtrosElegidos = this.filtroForm.get('filtros')?.value;
@@ -376,23 +407,23 @@ async cambio(){
     await new Promise(f => setTimeout(f, 200));
     console.log(this.anunciosAFiltrar);
     this.displayCard=true;
-  }
+  }*/
 
   async filtrarBackend() {
 
-    this.displayCard=false;
-    
+    this.displayCard = false;
+
     var filtrosElegidos = this.filtroForm.get('filtros')?.value;
     this.anunciosAFiltrar = this.anuncios;
-    
+
     var fechaInicio = "";
-    var fechaFin ="";
-    var medioElegido ="";
-    var titulo ="";
-    var tipo ="";
-    var estado ="";
-    var redactor ="";
-    var destinatario ="";
+    var fechaFin = "";
+    var medioElegido = "";
+    var titulo = "";
+    var tipo = "";
+    var estado = "";
+    var redactor = "";
+    var destinatario = "";
 
     filtrosElegidos.forEach(async (element: any) => {
       await new Promise(f => setTimeout(f, 90));
@@ -438,15 +469,16 @@ async cambio(){
     });
     var filtrosEnviar = new Array<string>();
 
-    filtrosElegidos.forEach((element :ElementForList) => {
+    filtrosElegidos.forEach((element: ElementForList) => {
       var filtro = element.item_text;
       filtrosEnviar.push(filtro);
     });
     this.anunciosAFiltrar = new Array<Anuncio>();
     await new Promise(f => setTimeout(f, 200));
 
-
-    this.as.getSuperFiltrar(filtrosEnviar, fechaInicio,fechaFin,medioElegido,titulo,tipo,estado,redactor,destinatario).subscribe(result => {
+    if (filtrosEnviar.length > 1)
+{
+    this.as.getSuperFiltrar(filtrosEnviar, fechaInicio, fechaFin, medioElegido, titulo, tipo, estado, redactor, destinatario).subscribe(result => {
       console.log(result);
       result.forEach((element: any) => {
         var unAnuncio = new Anuncio();
@@ -457,12 +489,102 @@ async cambio(){
 
     await new Promise(f => setTimeout(f, 200));
     console.log(this.anunciosAFiltrar);
-
-    this.displayCard=true;
+  }
+  else{
+    switch(filtrosEnviar[0]){
+      case "Fechas": {
+        this.as.getFiltrofechas(fechaInicio,fechaFin).subscribe(result => {
+          console.log(result);
+          result.forEach((element: any) => {
+            var unAnuncio = new Anuncio();
+            Object.assign(unAnuncio, element);
+            this.anunciosAFiltrar.push(unAnuncio);
+          });
+        });
+        await new Promise(f => setTimeout(f, 80));
+        break;
+      }
+      case "Medio": {
+        console.log("Medio "+medioElegido);
+        this.as.getFiltroMedio(medioElegido).subscribe(result => {//REVISAR, MEDIO PUEDE NO FUNKAR
+          console.log(result);
+          result.forEach((element: any) => {
+            var unAnuncio = new Anuncio();
+            Object.assign(unAnuncio, element);
+            this.anunciosAFiltrar.push(unAnuncio);
+          });
+        });    
+        await new Promise(f => setTimeout(f, 80));
+        break;
+      }
+      case "Titulo": {
+        this.as.getFiltrotxt(titulo).subscribe(result => {
+          console.log(result);
+          result.forEach((element: any) => {
+            var unAnuncio = new Anuncio();
+            Object.assign(unAnuncio, element);
+            this.anunciosAFiltrar.push(unAnuncio);
+          });
+        });
+        await new Promise(f => setTimeout(f, 80));
+        break;
+      }
+      case "Tipo": {
+        this.as.getFiltroTipoContenido(tipo).subscribe(result => {
+          console.log(result);
+          result.forEach((element: any) => {
+            var unAnuncio = new Anuncio();
+            Object.assign(unAnuncio, element);
+            this.anunciosAFiltrar.push(unAnuncio);
+          });
+        });
+        await new Promise(f => setTimeout(f, 80));
+        break;
+      }
+      case "Estado": {
+        this.as.getFiltroEstado(estado).subscribe(result => {
+          console.log(result);
+          result.forEach((element: any) => {
+            var unAnuncio = new Anuncio();
+            Object.assign(unAnuncio, element);
+            this.anunciosAFiltrar.push(unAnuncio);
+          });
+        });
+        await new Promise(f => setTimeout(f, 80));
+        break;
+      }
+      case "Redactor": {
+        this.as.getFiltroRedactor(redactor).subscribe(result => {
+          console.log(result);
+          result.forEach((element: any) => {
+            var unAnuncio = new Anuncio();
+            Object.assign(unAnuncio, element);
+            this.anunciosAFiltrar.push(unAnuncio);
+          });
+        });
+        await new Promise(f => setTimeout(f, 80));
+        break;
+      }
+      case "Destinatario": {
+        this.as.getFiltroDestinatario(destinatario).subscribe(result => {
+          console.log(result);
+          result.forEach((element: any) => {
+            var unAnuncio = new Anuncio();
+            Object.assign(unAnuncio, element);
+            this.anunciosAFiltrar.push(unAnuncio);
+          });
+        });
+        await new Promise(f => setTimeout(f, 80));
+        break;
+      }
+    }
   }
 
-  redirect(link:string){
-    this.rout.navigateByUrl('anuncios/descripcion?id='+link);
+    this.displayCard = true;
+  }
+
+  redirect(link: string) {
+    this.rout.navigateByUrl('anuncios/descripcion?id=' + link);
   }
 
   ngOnInit(): void {
