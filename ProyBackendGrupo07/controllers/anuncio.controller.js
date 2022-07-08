@@ -302,7 +302,8 @@ AnuncioController.obtenerPorArea = async (req, res) => {
 }
 
 AnuncioController.filtrarPorTodo = async (req, res) => {
-    const filtros = req.query.filtros;
+    var filtros = req.query.filtros;
+    console.log(filtros);
     var anuncios;
     var query = {};
     console.log(filtros);
@@ -316,7 +317,7 @@ AnuncioController.filtrarPorTodo = async (req, res) => {
             }
             case "Medio": {
                 const medio = req.query.medio;
-                query["medio"] = { $in: [med] };
+                query["medio"] = { $in: [medio] };
                 break;
             }
             case "Titulo": {

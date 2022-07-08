@@ -186,7 +186,8 @@ export class AnunciosService {
         'Content-Type': 'application/json',
       })
     }
-    var url = this.url + '/omegafiltro/'
+    console.log(filtros);
+    var url = this.url + '/filtro/todo'
     return this._http.get(url, options)
   }
 

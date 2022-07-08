@@ -60,7 +60,7 @@ export class BusquedaComponent implements OnInit {
 
 
   constructor(private es: EmpleadoService,private as: AnunciosService, private rout: Router, private ms: MedioService , private rs: RolService) { 
-  this.obtenerAnuncios();
+  //this.obtenerAnuncios();
   this.cargarFiltros();
   this.cargarMedios()
   this.listarRoles()
@@ -275,6 +275,7 @@ async cambio(){
 
   async filtrar() {
     this.displayCard=false;
+    
     var filtrosElegidos = this.filtroForm.get('filtros')?.value;
     console.log(filtrosElegidos);
     this.anunciosAFiltrar = this.anuncios;
@@ -380,6 +381,7 @@ async cambio(){
   async filtrarBackend() {
 
     this.displayCard=false;
+    
     var filtrosElegidos = this.filtroForm.get('filtros')?.value;
     this.anunciosAFiltrar = this.anuncios;
     
@@ -434,8 +436,17 @@ async cambio(){
       }
       await new Promise(f => setTimeout(f, 80));
     });
+    var filtrosEnviar = new Array<string>();
 
-    this.as.getSuperFiltrar(filtrosElegidos, fechaInicio,fechaFin,medioElegido,titulo,tipo,estado,redactor,destinatario).subscribe(result => {
+    filtrosElegidos.forEach((element :ElementForList) => {
+      var filtro = element.item_text;
+      filtrosEnviar.push(filtro);
+    });
+    this.anunciosAFiltrar = new Array<Anuncio>();
+    await new Promise(f => setTimeout(f, 200));
+
+
+    this.as.getSuperFiltrar(filtrosEnviar, fechaInicio,fechaFin,medioElegido,titulo,tipo,estado,redactor,destinatario).subscribe(result => {
       console.log(result);
       result.forEach((element: any) => {
         var unAnuncio = new Anuncio();
