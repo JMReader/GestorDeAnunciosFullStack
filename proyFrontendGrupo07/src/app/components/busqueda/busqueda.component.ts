@@ -377,6 +377,79 @@ async cambio(){
     this.displayCard=true;
   }
 
+  async filtrarBackend() {
+
+    this.displayCard=false;
+    var filtrosElegidos = this.filtroForm.get('filtros')?.value;
+    this.anunciosAFiltrar = this.anuncios;
+    
+    var fechaInicio = "";
+    var fechaFin ="";
+    var medioElegido ="";
+    var titulo ="";
+    var tipo ="";
+    var estado ="";
+    var redactor ="";
+    var destinatario ="";
+
+    filtrosElegidos.forEach(async (element: any) => {
+      await new Promise(f => setTimeout(f, 90));
+      switch (element.item_id) {
+        case "Fechas": {
+          fechaInicio = this.filtroForm.get('fechaStart')?.value;
+          fechaFin = this.filtroForm.get('fechaEnd')?.value;
+          await new Promise(f => setTimeout(f, 80));
+          break;
+        }
+        case "Medio": {
+          medioElegido = this.filtroForm.get('medio')?.value;
+          await new Promise(f => setTimeout(f, 80));
+          break;
+        }
+        case "Titulo": {
+          titulo = this.filtroForm.get('titulo')?.value;
+          await new Promise(f => setTimeout(f, 80));
+          break;
+        }
+        case "Tipo": {
+          tipo = this.filtroForm.get('tipo')?.value;
+          await new Promise(f => setTimeout(f, 80));
+          break;
+        }
+        case "Estado": {
+          estado = this.filtroForm.get('estado')?.value;
+          await new Promise(f => setTimeout(f, 80));
+          break;
+        }
+        case "Redactor": {
+          redactor = this.filtroForm.get('redactor')?.value;//valor ID
+          await new Promise(f => setTimeout(f, 80));
+          break;
+        }
+        case "Destinatario": {
+          destinatario = this.filtroForm.get('destinatario')?.value;//valor ID
+          await new Promise(f => setTimeout(f, 80));
+          break;
+        }
+      }
+      await new Promise(f => setTimeout(f, 80));
+    });
+
+    this.as.getSuperFiltrar(filtrosElegidos, fechaInicio,fechaFin,medioElegido,titulo,tipo,estado,redactor,destinatario).subscribe(result => {
+      console.log(result);
+      result.forEach((element: any) => {
+        var unAnuncio = new Anuncio();
+        Object.assign(unAnuncio, element);
+        this.anunciosAFiltrar.push(unAnuncio);
+      });
+    });
+
+    await new Promise(f => setTimeout(f, 200));
+    console.log(this.anunciosAFiltrar);
+
+    this.displayCard=true;
+  }
+
   redirect(link:string){
     this.rout.navigateByUrl('anuncios/descripcion?id='+link);
   }
