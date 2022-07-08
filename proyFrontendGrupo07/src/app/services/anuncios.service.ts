@@ -5,6 +5,7 @@ import { Anuncio } from '../models/anuncio';
 import { Area } from '../models/area';
 import { ElementForList } from '../models/element-for-list';
 import { Empleado } from '../models/empleado';
+import { Medio } from '../models/medio';
 import { Rol } from '../models/rol';
 import { AreaService } from './area.service';
 import { EmpleadoService } from './empleado.service';
@@ -164,6 +165,28 @@ export class AnunciosService {
       })
     }
     var url = this.url + '/filtro/fechas'
+    return this._http.get(url, options)
+  }
+
+  public getSuperFiltrar(filtros:Array<string>,desde:string, hasta:string, medio:string,titulo:string,tipo:string,estado:string,redactor:string,destinatario:string): Observable<any> {
+    const options = {
+      method: 'GET',
+      params: {
+        "filtros":filtros,
+        "desde": desde,
+        "hasta": hasta,
+        "medio": medio,
+        "titulo": titulo,
+        "tipo": tipo,
+        "estado": estado,
+        "redactor": redactor,
+        "destinatario": destinatario
+      },
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      })
+    }
+    var url = this.url + '/omegafiltro/'
     return this._http.get(url, options)
   }
 
