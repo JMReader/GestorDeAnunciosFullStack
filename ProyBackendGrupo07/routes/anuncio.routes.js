@@ -17,4 +17,5 @@ router.get('/filtro/destinatario/:destinatario', AnuncioController.filtrarDestin
 router.get('/filtro/medio/:medio', AnuncioController.filtrarMedio);
 router.get('/filtro/tipo/:contenido', AnuncioController.filtrarContenido);
 router.get('/filtro/area/:area', AnuncioController.obtenerPorArea);
+router.get('/filtro/todo', AnuncioController.filtrarPorTodo);
 module.exports = router;

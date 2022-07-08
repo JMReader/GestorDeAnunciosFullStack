@@ -13,12 +13,12 @@ AnuncioController.crearAnuncio = async (req, res) => {
             var mails;
             //buscamos el jefe de area
             var a = await area.findById(Anuncio.area)
-//por si falla   
- //           for (let i = 1; i < a.encargado.length; i++) {
-  //              var e = await empleado.findById(a.encargado[i])
-    //            console.log(a.encargado);
-      //          if(i==1){
-//por si falla
+            //por si falla   
+            //           for (let i = 1; i < a.encargado.length; i++) {
+            //              var e = await empleado.findById(a.encargado[i])
+            //            console.log(a.encargado);
+            //          if(i==1){
+            //por si falla
 
             for (let i = 0; i < a.encargado.length; i++) {
                 var e = await empleado.findById(a.encargado[i])
@@ -52,7 +52,7 @@ AnuncioController.crearAnuncio = async (req, res) => {
                 subject: "Nuevo Anuncio", // Subject line
                 text: "Tenes para actualizar un anuncio", // plain text body
                 html: " <b>Nuevo anuncio para autorizar!!</b> <br>  <p>Hola encagado!!"
-                    + " alguien en tu area a subido un anuncio para revisar de titulo <b>"+ Anuncio.titulo +"</b>, ve a hacerlo antes de que sea tarde!!! </p>"
+                    + " alguien en tu area a subido un anuncio para revisar de titulo <b>" + Anuncio.titulo + "</b>, ve a hacerlo antes de que sea tarde!!! </p>"
                     + "<br> <img style='height: 228px; width: 390px; margin-left:114px;'  src='https://cdn.discordapp.com/attachments/987427041001504849/993760187552890880/unknown.png'> <br> ", // html body
             });
 
@@ -83,12 +83,12 @@ AnuncioController.editarAnuncio = async (req, res) => {
             var mails;
             //buscamos el jefe de area
             var r = await rol.findById(nuevoAnuncio.destinatarios[0])
-            var a = await area.findById(r.areaAsignada)   
-    /*Por si falla        
-            for (let i = 1; i < a.encargado.length; i++) {
-                var e = await empleado.findById(a.encargado[i])
-                if(i==1){
-   */                 
+            var a = await area.findById(r.areaAsignada)
+            /*Por si falla        
+                    for (let i = 1; i < a.encargado.length; i++) {
+                        var e = await empleado.findById(a.encargado[i])
+                        if(i==1){
+           */
             for (let i = 0; i < a.encargado.length; i++) {
                 var e = await empleado.findById(a.encargado[i])
                 if (i == 0) {
@@ -119,7 +119,7 @@ AnuncioController.editarAnuncio = async (req, res) => {
                 subject: "Nuevo Anuncio", // Subject line
                 text: "Tenes para actualizar un anuncio", // plain text body
                 html: " <b>Nuevo anuncio para autorizar!!</b> <br>  <p>Hola encagado!!"
-                    + " alguien en tu area a subido un anuncio para revisar de titulo <b>"+ Anuncio.titulo +"</b>, ve a hacerlo antes de que sea tarde!!! </p>"
+                    + " alguien en tu area a subido un anuncio para revisar de titulo <b>" + Anuncio.titulo + "</b>, ve a hacerlo antes de que sea tarde!!! </p>"
                     + "<br> <img style='height: 228px; width: 390px; margin-left:114px;'  src='https://cdn.discordapp.com/attachments/987427041001504849/993760187552890880/unknown.png'> <br> ", // html body
             });
 
@@ -299,6 +299,55 @@ AnuncioController.obtenerPorArea = async (req, res) => {
             msg: 'Error al filtrar los anuncios'
         })
     }
+}
+
+AnuncioController.filtrarPorTodo = async (req, res) => {
+    const filtros = req.query.filtros;
+    var anuncios;
+    var query = {};
+    console.log(filtros);
+     filtros.forEach(async element => {
+        switch (element) {
+            case "Fechas": {
+                const hasta = req.query.hasta;
+                const desde = req.query.desde;
+                    query["fechaCreacion"] = { $gte: new Date(desde), $lt: new Date(hasta) };
+                break;
+            }
+            case "Medio": {
+                const medio = req.query.medio;
+                query["medio"] = { $in: [med] };
+                break;
+            }
+            case "Titulo": {
+                const titulo = req.query.titulo;
+                query["titulo"] = { $regex: titulo };
+                break;
+            }
+            case "Tipo": {
+                const tipo = req.query.tipo;
+                query["tipo"] = tipo;
+                break;
+            }
+            case "Estado": {
+                const estado = req.query.estado;
+                query["estado"] = estado;
+                break;
+            }
+            case "Redactor": {
+                const redactor = req.query.redactor;
+                query["redactor"] = redactor;
+                break;
+            }
+            case "Destinatario": {
+                const desti = req.query.destinatario;
+                query["destinatarios"] = { $in: [desti] } ;
+                break;
+            }
+        }
+    });
+    anuncios = await anuncio.find(query);
+    res.json(anuncios)
 }
 
 module.exports = AnuncioController;
