@@ -24,7 +24,7 @@
         <label class="form-label" for="destinatario">Filtrar por destinatario:</label>
         <select class="form-select" formControlName="destinatario">
           <option value="" disabled selected>Seleccione una opcion...</option>
-          <option *ngFor="let rol of roles" value="{{rol.nombreRol}}">{{rol.nombreRol}} {{rol.areaAsignada.nombreArea}}</option>
+          <option *ngFor="let rol of roles" value="{{rol._id}}">{{rol.nombreRol}} {{rol.areaAsignada.nombreArea}}</option>
           
         </select>
       </div>
@@ -46,7 +46,7 @@
         <label class="form-label" for="medio">Filtrar por medio:</label>
         <select class="form-select" formControlName="medio">
           <option value="" disabled selected>Seleccione una opcion...</option>
-          <option *ngFor="let med of mediosDisponibles" value="{{med.nombre}}">{{med.nombre}}</option>
+          <option *ngFor="let med of mediosDisponibles" value="{{med._id}}">{{med.nombre}}</option>
           
         </select>
       </div>
@@ -87,7 +87,7 @@
       
 
 
-      <button class="btn btn-primary boton"  [disabled]="!filtroForm.valid" (click)="filtrar()">Filtrar</button>
+      <button class="btn btn-primary boton"  [disabled]="!filtroForm.valid" (click)="filtrarBackend()">Filtrar</button>
     </div>
     <div class="cont">
     <h4 class="t">Anuncios encontrados:</h4>
