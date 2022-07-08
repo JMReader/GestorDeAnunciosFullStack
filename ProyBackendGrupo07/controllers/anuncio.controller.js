@@ -185,9 +185,9 @@ AnuncioController.filtrarRedactor = async (req, res) => {
 }
 //buscar porr medio 
 AnuncioController.filtrarMedio = async (req, res) => {
-     if(req.params.medio== "Facebook"){
+    if (req.params.medio == "Facebook") {
         try {
-  
+
             //el in busca dentro de un array el valor que especifiquemos :))
             const anuncios = await anuncio.find({ fbSelected: true });
             res.status(200).json(anuncios);
@@ -199,7 +199,7 @@ AnuncioController.filtrarMedio = async (req, res) => {
             })
         }
 
-     }else if (req.params.medio== "TV"){
+    } else if (req.params.medio == "TV") {
         try {
             //el in busca dentro de un array el valor que especifiquemos :))
             const anuncios = await anuncio.find({ tvSelected: true });
@@ -211,21 +211,22 @@ AnuncioController.filtrarMedio = async (req, res) => {
                 msg: 'Error al filtrar los anuncios'
             })
         }
-     }else{
-  
+    } else {
 
-    try {
-        const med = req.params.medio;
-        //el in busca dentro de un array el valor que especifiquemos :))
-        const anuncios = await anuncio.find({ medios: { $in: [med] } });
-        res.status(200).json(anuncios);
-    } catch (error) {
-        console.log(error)
-        res.status(400).json({
-            status: '0',
-            msg: 'Error al filtrar los anuncios'
-        })
-    }}
+
+        try {
+            const med = req.params.medio;
+            //el in busca dentro de un array el valor que especifiquemos :))
+            const anuncios = await anuncio.find({ medios: { $in: [med] } });
+            res.status(200).json(anuncios);
+        } catch (error) {
+            console.log(error)
+            res.status(400).json({
+                status: '0',
+                msg: 'Error al filtrar los anuncios'
+            })
+        }
+    }
 }
 
 //buscar por tipo de cont
@@ -335,17 +336,24 @@ AnuncioController.filtrarPorTodo = async (req, res) => {
     var anuncios;
     var query = {};
     console.log(filtros);
-     filtros.forEach(async element => {
+    filtros.forEach(async element => {
         switch (element) {
             case "Fechas": {
                 const hasta = req.query.hasta;
                 const desde = req.query.desde;
-                    query["fechaCreacion"] = { $gte: new Date(desde), $lt: new Date(hasta) };
+                query["fechaCreacion"] = { $gte: new Date(desde), $lt: new Date(hasta) };
                 break;
             }
             case "Medio": {
                 const medio = req.query.medio;
-                query["medios"] = { $in: [medio] };
+
+                if (medio == "Facebook") {
+                    query["fbSelected"] = true;
+                } else if (medio == "TV") {
+                    query["tvSelected"] =  true;
+                } else {
+                    query["medios"] = { $in: [medio] };
+                }
                 break;
             }
             case "Titulo": {
@@ -370,7 +378,7 @@ AnuncioController.filtrarPorTodo = async (req, res) => {
             }
             case "Destinatario": {
                 const desti = req.query.destinatario;
-                query["destinatarios"] = { $in: [desti] } ;
+                query["destinatarios"] = { $in: [desti] };
                 break;
             }
         }
