@@ -52,33 +52,34 @@ export class ListaranunciosComponent implements OnInit {
       var anunciosAux = new Array<Anuncio>();
       var coincide: boolean = false;
 
-      if(encargado != "true"){
-      this.anuncios.forEach(async anuncio => {
-        await new Promise(f => setTimeout(f, 200));
-        anuncio.destinatarios.forEach(async destinatario => {
-          await new Promise(f => setTimeout(f, 60));
-          roles.forEach((empleadoRol: Rol) => {
-            if (destinatario.nombreRol === empleadoRol.nombreRol) {
-              coincide = true;
-              anunciosAux.push(anuncio);
-            }
+      if (encargado != "true") {
+        this.anuncios.forEach(async anuncio => {
+          await new Promise(f => setTimeout(f, 200));
+          anuncio.destinatarios.forEach(async destinatario => {
+            await new Promise(f => setTimeout(f, 60));
+            roles.forEach((empleadoRol: Rol) => {
+              if (destinatario.nombreRol === empleadoRol.nombreRol) {
+                if (anunciosAux.includes(anuncio) == false) {
+                  coincide = true;
+                  anunciosAux.push(anuncio);
+                }
+              }
+            });
           });
         });
-      });
-      await new Promise(f => setTimeout(f, 400));
-      console.log("Anuncios AUX")
-      console.log(anunciosAux);
-      console.log("Anuncios")
-      console.log(this.anuncios);
-      await new Promise(f => setTimeout(f, 40));
-      this.anuncios = anunciosAux;
-    }
+        await new Promise(f => setTimeout(f, 400));
+        console.log("Anuncios AUX")
+        console.log(anunciosAux);
+        console.log("Anuncios")
+        console.log(this.anuncios);
+        await new Promise(f => setTimeout(f, 40));
+        this.anuncios = anunciosAux;
+      }
       this.anunciosListado = new Array<Anuncio>();
       if (this.anuncios.length == 0) {
         this.existen = false;
       }
       this.anuncios.forEach(element => {
-        
         if (element.tvSelected == true) {//|| element.tipo=="Imagen"
           this.anunciosSlider.push(element);
           this.anuncioEnSlider = true;
@@ -135,6 +136,7 @@ export class ListaranunciosComponent implements OnInit {
     if (this.i < this.anunciosSlider.length) {
       this.anuncioSlider = this.anunciosSlider[this.i];
     }
+    setInterval(() => this.siguiente(),8000);
   }
 
   siguiente() {
@@ -162,7 +164,7 @@ export class ListaranunciosComponent implements OnInit {
   redirect(link: string) {
     this.rout.navigateByUrl('anuncios/descripcion?id=' + link);
   }
-
+  
   ngOnInit(): void {
   }
 
